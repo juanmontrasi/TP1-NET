@@ -1366,6 +1366,8 @@ namespace proyecto_academia {
             
             private global::System.Data.DataColumn columnanio_calendario;
             
+            private global::System.Data.DataColumn columncupo;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public dt_CursoDataTable() {
@@ -1433,6 +1435,14 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn cupoColumn {
+                get {
+                    return this.columncupo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1468,13 +1478,14 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public dt_CursoRow Adddt_CursoRow(dt_MateriaRow parentdt_MateriaRowBydt_Materia_dt_Curso, dt_ComisionesRow parentdt_ComisionesRowBydt_Comisiones_dt_Curso, string anio_calendario) {
+            public dt_CursoRow Adddt_CursoRow(dt_MateriaRow parentdt_MateriaRowBydt_Materia_dt_Curso, dt_ComisionesRow parentdt_ComisionesRowBydt_Comisiones_dt_Curso, string anio_calendario, int cupo) {
                 dt_CursoRow rowdt_CursoRow = ((dt_CursoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null,
                         null,
-                        anio_calendario};
+                        anio_calendario,
+                        cupo};
                 if ((parentdt_MateriaRowBydt_Materia_dt_Curso != null)) {
                     columnValuesArray[1] = parentdt_MateriaRowBydt_Materia_dt_Curso[0];
                 }
@@ -1514,6 +1525,7 @@ namespace proyecto_academia {
                 this.columnid_materia = base.Columns["id_materia"];
                 this.columnid_comision = base.Columns["id_comision"];
                 this.columnanio_calendario = base.Columns["anio_calendario"];
+                this.columncupo = base.Columns["cupo"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1527,6 +1539,8 @@ namespace proyecto_academia {
                 base.Columns.Add(this.columnid_comision);
                 this.columnanio_calendario = new global::System.Data.DataColumn("anio_calendario", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnanio_calendario);
+                this.columncupo = new global::System.Data.DataColumn("cupo", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columncupo);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("dt_CursoKey1", new global::System.Data.DataColumn[] {
                                 this.columnid_curso}, true));
                 this.columnid_curso.AutoIncrement = true;
@@ -4052,6 +4066,22 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public int cupo {
+                get {
+                    try {
+                        return ((int)(this[this.tabledt_Curso.cupoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'cupo\' de la tabla \'dt_Curso\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledt_Curso.cupoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public dt_MateriaRow dt_MateriaRow {
                 get {
                     return ((dt_MateriaRow)(this.GetParentRow(this.Table.ParentRelations["dt_Materia_dt_Curso"])));
@@ -4106,6 +4136,18 @@ namespace proyecto_academia {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void Setanio_calendarioNull() {
                 this[this.tabledt_Curso.anio_calendarioColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IscupoNull() {
+                return this.IsNull(this.tabledt_Curso.cupoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetcupoNull() {
+                this[this.tabledt_Curso.cupoColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

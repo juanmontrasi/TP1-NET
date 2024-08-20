@@ -1,4 +1,12 @@
-﻿using proyecto_academia;
-using System;
-using System.Data;
+﻿using System;
 
+namespace proyecto_academia
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Aplicación de consola para proyecto_academia.");
+        }
+    }
+}
