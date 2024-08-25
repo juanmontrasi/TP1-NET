@@ -22,6 +22,7 @@ namespace UI_Escritorio
             if (this.txtUsuario.Text == "Admin" && this.txtPass.Text == "admin")
             {
                 this.DialogResult = DialogResult.OK;
+                this.Close();
             }
             else
             {
@@ -30,14 +31,7 @@ namespace UI_Escritorio
             }
         }
 
-        private void FormMain_Shown(object sender, EventArgs e)
-        {
-            FormLogin appLogin = new FormLogin();
-            if (appLogin.ShowDialog() != DialogResult.OK)
-            {
-                this.Dispose();
-            }
-        }
+        
         private void LnkOlvidaPass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MessageBox.Show("Es Ud. un usuario muy descuidado, haga memoria", "Olvidé mi contraseña",

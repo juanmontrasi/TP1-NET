@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
+/* Uso de interfaz IDesignTimeDbContextFactory<T> que crea instancias de DbContext para hacer migraciones a nuestra base de datos */
+
 namespace proyecto_academia.Context
 {
     public class AcademiaDbContextFactory : IDesignTimeDbContextFactory<AcademiaDbContext>

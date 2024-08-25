@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-
+/* Contexto para la base de datos usando entity framework para definir tablas, atributos, claves primarias, etc */
 namespace proyecto_academia.Context
 {
     public class AcademiaDbContext : DbContext
