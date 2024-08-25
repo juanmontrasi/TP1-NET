@@ -1,0 +1,6 @@
+Forma de Importar la Base de Datos:
+Abre SQL Server Management Studio (SSMS).
+Conéctate a tu servidor SQL Server.
+Crea una nueva consulta (New Query).
+Copia y pega el contenido del archivo .sql en la ventana de consulta.
+Ejecuta la consulta para crear la base de datos y las tablas.
