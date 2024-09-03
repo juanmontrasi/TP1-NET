@@ -10,16 +10,21 @@ namespace UI_Escritorio
             InitializeComponent();
         }
 
-        private void UsuarioToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Aquí puedes agregar el código que deseas ejecutar cuando se hace clic en "Usuario".
-            
-        }
+
 
         private void FormMain_Shown(object sender, EventArgs e)
         {
             // Código que se ejecutará cuando el formulario principal se muestre.
-            
+
+        }
+
+        private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAlumnos formAlumnos = new FormAlumnos();
+            formAlumnos.FormBorderStyle = FormBorderStyle.None; // Quita los bordes y los botones de control
+            formAlumnos.WindowState = FormWindowState.Maximized;
+            formAlumnos.MdiParent = this; // Para que se muestre dentro del FormMain si es MDI
+            formAlumnos.Show();
         }
     }
 }
