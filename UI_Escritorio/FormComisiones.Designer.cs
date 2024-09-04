@@ -1,6 +1,6 @@
 ﻿namespace UI_Escritorio
 {
-    partial class FormAlumnos
+    partial class FormComisiones
     {
         /// <summary>
         /// Required designer variable.
@@ -28,50 +28,50 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tlAlumnos = new TableLayoutPanel();
-            dgvAlumnos = new DataGridView();
+            tlComisiones = new TableLayoutPanel();
+            dgvComisiones = new DataGridView();
             btnListar = new Button();
             btnBorrar = new Button();
             btnEditar = new Button();
             btnNuevo = new Button();
-            tlAlumnos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvAlumnos).BeginInit();
+            tlComisiones.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvComisiones).BeginInit();
             SuspendLayout();
             // 
-            // tlAlumnos
+            // tlComisiones
             // 
-            tlAlumnos.ColumnCount = 5;
-            tlAlumnos.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tlAlumnos.ColumnStyles.Add(new ColumnStyle());
-            tlAlumnos.ColumnStyles.Add(new ColumnStyle());
-            tlAlumnos.ColumnStyles.Add(new ColumnStyle());
-            tlAlumnos.ColumnStyles.Add(new ColumnStyle());
-            tlAlumnos.Controls.Add(dgvAlumnos, 0, 0);
-            tlAlumnos.Controls.Add(btnListar, 1, 1);
-            tlAlumnos.Controls.Add(btnBorrar, 2, 1);
-            tlAlumnos.Controls.Add(btnEditar, 3, 1);
-            tlAlumnos.Controls.Add(btnNuevo, 4, 1);
-            tlAlumnos.Dock = DockStyle.Fill;
-            tlAlumnos.Location = new Point(0, 0);
-            tlAlumnos.Margin = new Padding(3, 2, 3, 2);
-            tlAlumnos.Name = "tlAlumnos";
-            tlAlumnos.RowCount = 2;
-            tlAlumnos.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlAlumnos.RowStyles.Add(new RowStyle());
-            tlAlumnos.Size = new Size(700, 338);
-            tlAlumnos.TabIndex = 0;
+            tlComisiones.ColumnCount = 5;
+            tlComisiones.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlComisiones.ColumnStyles.Add(new ColumnStyle());
+            tlComisiones.ColumnStyles.Add(new ColumnStyle());
+            tlComisiones.ColumnStyles.Add(new ColumnStyle());
+            tlComisiones.ColumnStyles.Add(new ColumnStyle());
+            tlComisiones.Controls.Add(dgvComisiones, 0, 0);
+            tlComisiones.Controls.Add(btnListar, 1, 1);
+            tlComisiones.Controls.Add(btnBorrar, 2, 1);
+            tlComisiones.Controls.Add(btnEditar, 3, 1);
+            tlComisiones.Controls.Add(btnNuevo, 4, 1);
+            tlComisiones.Dock = DockStyle.Fill;
+            tlComisiones.Location = new Point(0, 0);
+            tlComisiones.Margin = new Padding(3, 2, 3, 2);
+            tlComisiones.Name = "tlComisiones";
+            tlComisiones.RowCount = 2;
+            tlComisiones.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlComisiones.RowStyles.Add(new RowStyle());
+            tlComisiones.Size = new Size(700, 338);
+            tlComisiones.TabIndex = 0;
             // 
-            // dgvAlumnos
+            // dgvComisiones
             // 
-            dgvAlumnos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            tlAlumnos.SetColumnSpan(dgvAlumnos, 5);
-            dgvAlumnos.Dock = DockStyle.Fill;
-            dgvAlumnos.Location = new Point(3, 2);
-            dgvAlumnos.Margin = new Padding(3, 2, 3, 2);
-            dgvAlumnos.Name = "dgvAlumnos";
-            dgvAlumnos.RowHeadersWidth = 51;
-            dgvAlumnos.Size = new Size(694, 308);
-            dgvAlumnos.TabIndex = 0;
+            dgvComisiones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tlComisiones.SetColumnSpan(dgvComisiones, 5);
+            dgvComisiones.Dock = DockStyle.Fill;
+            dgvComisiones.Location = new Point(3, 2);
+            dgvComisiones.Margin = new Padding(3, 2, 3, 2);
+            dgvComisiones.Name = "dgvComisiones";
+            dgvComisiones.RowHeadersWidth = 51;
+            dgvComisiones.Size = new Size(694, 308);
+            dgvComisiones.TabIndex = 0;
             // 
             // btnListar
             // 
@@ -117,31 +117,28 @@
             btnNuevo.UseVisualStyleBackColor = true;
             btnNuevo.Click += btnNuevo_Click;
             // 
-            // FormAlumnos
+            // FormComisiones
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(700, 338);
             ControlBox = false;
-            Controls.Add(tlAlumnos);
+            Controls.Add(tlComisiones);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 2, 3, 2);
-            Name = "FormAlumnos";
-            tlAlumnos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvAlumnos).EndInit();
+            Name = "FormComisiones";
+            tlComisiones.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvComisiones).EndInit();
             ResumeLayout(false);
         }
 
-
-
-
         #endregion
 
-        private TableLayoutPanel tlAlumnos;
+        private TableLayoutPanel tlComisiones;
         private Button btnListar;
         private Button btnEditar;
         private Button btnBorrar;
         private Button btnNuevo;
-        private DataGridView dgvAlumnos;
+        private DataGridView dgvComisiones;
     }
 }

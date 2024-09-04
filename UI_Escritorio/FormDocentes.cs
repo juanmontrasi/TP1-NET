@@ -10,13 +10,12 @@ using System.Windows.Forms;
 
 namespace UI_Escritorio
 {
-    public partial class FormAlumnos : Form
+    public partial class FormDocentes : Form
     {
-        public FormAlumnos()
+        public FormDocentes()
         {
             InitializeComponent();
         }
-
         private void btnListar_Click(object sender, EventArgs e)
         {
 
