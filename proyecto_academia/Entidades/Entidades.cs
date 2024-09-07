@@ -13,7 +13,7 @@ namespace Entidades
         public string Mail { get; set; }
         public string Direccion { get; set; }
         public string FechaNacimiento { get; set; }
-        public int Tipo_Persona { get; set; }
+        public string Tipo_Persona { get; set; }
         public int Legajo { get; set; }
 
         // Relaciones
@@ -27,7 +27,7 @@ namespace Entidades
     {
         public int IdUsuario { get; set; }
         public int IdPersona { get; set; }
-        public string Rol { get; set; } // Puede ser "Estudiante" o "Profesor"
+        public IEnumerable<string> Rol { get; set; } // Puede ser "Estudiante" o "Profesor"
         public string Nombre_Usuario { get; set; }
         public string Clave { get; set; }
         public int Habilitado { get; set; }

@@ -37,15 +37,16 @@
             tlEspecialidades.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvEspecialidades).BeginInit();
             SuspendLayout();
+
             // 
             // tlEspecialidades
             // 
             tlEspecialidades.ColumnCount = 5;
             tlEspecialidades.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tlEspecialidades.ColumnStyles.Add(new ColumnStyle());
-            tlEspecialidades.ColumnStyles.Add(new ColumnStyle());
-            tlEspecialidades.ColumnStyles.Add(new ColumnStyle());
-            tlEspecialidades.ColumnStyles.Add(new ColumnStyle());
+            tlEspecialidades.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlEspecialidades.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlEspecialidades.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlEspecialidades.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             tlEspecialidades.Controls.Add(dgvEspecialidades, 0, 0);
             tlEspecialidades.Controls.Add(btnListar, 1, 1);
             tlEspecialidades.Controls.Add(btnBorrar, 2, 1);
@@ -57,21 +58,26 @@
             tlEspecialidades.Name = "tlEspecialidades";
             tlEspecialidades.RowCount = 2;
             tlEspecialidades.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlEspecialidades.RowStyles.Add(new RowStyle());
+            tlEspecialidades.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             tlEspecialidades.Size = new Size(700, 338);
             tlEspecialidades.TabIndex = 0;
+
             // 
             // dgvEspecialidades
             // 
+            dgvEspecialidades.AllowUserToOrderColumns = true;
             dgvEspecialidades.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tlEspecialidades.SetColumnSpan(dgvEspecialidades, 5);
             dgvEspecialidades.Dock = DockStyle.Fill;
             dgvEspecialidades.Location = new Point(3, 2);
             dgvEspecialidades.Margin = new Padding(3, 2, 3, 2);
             dgvEspecialidades.Name = "dgvEspecialidades";
+            dgvEspecialidades.ReadOnly = true;
             dgvEspecialidades.RowHeadersWidth = 51;
+            dgvEspecialidades.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvEspecialidades.Size = new Size(694, 308);
             dgvEspecialidades.TabIndex = 0;
+
             // 
             // btnListar
             // 
@@ -83,6 +89,7 @@
             btnListar.Text = "Listar";
             btnListar.UseVisualStyleBackColor = true;
             btnListar.Click += btnListar_Click;
+
             // 
             // btnBorrar
             // 
@@ -94,6 +101,7 @@
             btnBorrar.Text = "Borrar";
             btnBorrar.UseVisualStyleBackColor = true;
             btnBorrar.Click += btnBorrar_Click;
+
             // 
             // btnEditar
             // 
@@ -105,6 +113,7 @@
             btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = true;
             btnEditar.Click += btnEditar_Click;
+
             // 
             // btnNuevo
             // 
@@ -116,6 +125,7 @@
             btnNuevo.Text = "Agregar";
             btnNuevo.UseVisualStyleBackColor = true;
             btnNuevo.Click += btnNuevo_Click;
+
             // 
             // FormEspecialidades
             // 
@@ -127,6 +137,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormEspecialidades";
+            Load += Especialidades_Load;
             tlEspecialidades.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvEspecialidades).EndInit();
             ResumeLayout(false);

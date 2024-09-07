@@ -1,4 +1,6 @@
-
+using Entidades;
+using MySqlX.XDevAPI;
+using proyecto_academia.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,48 @@ if (app.Environment.IsDevelopment())
     //Falta configurar de manera correcta        
     app.UseHttpLogging();
 }
-
 app.UseHttpsRedirection();
+app.MapGet("/especialidades/{id}", (int id) =>
+{
+    EspecialidadesServicecs especialidadesServicecs = new EspecialidadesServicecs();
+
+    return especialidadesServicecs.Get(id);
+})
+.WithName("GetEspecialidad")
+.WithOpenApi();
+app.MapGet("/especialidades", () =>
+{
+    EspecialidadesServicecs especialidadService = new EspecialidadesServicecs();
+
+    return especialidadService.GetAll();
+})
+.WithName("GetAllEspecialidades")
+.WithOpenApi();
+
+app.MapPost("/especialidades", (Especialidad especialidad) =>
+{
+    EspecialidadesServicecs especialidadesServicecs = new EspecialidadesServicecs();
+
+    especialidadesServicecs.Add(especialidad);
+})
+.WithName("AddEspecialidad")
+.WithOpenApi();
+
+app.MapPut("/especialidades", (Especialidad especialidad) =>
+{
+    EspecialidadesServicecs especialidadService = new EspecialidadesServicecs();
+
+    especialidadService.Update(especialidad);
+})
+.WithName("UpdateEspecialidad")
+.WithOpenApi();
+
+app.MapDelete("/especialidades/{id}", (int id) =>
+{
+    EspecialidadesServicecs especialidadService = new EspecialidadesServicecs();
+
+    especialidadService.Delete(id);
+})
+.WithName("DeleteEspecialidad")
+.WithOpenApi();
 app.Run();

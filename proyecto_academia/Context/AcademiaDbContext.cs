@@ -5,6 +5,10 @@ namespace proyecto_academia.Context
 {
     public class AcademiaDbContext : DbContext
     {
+        public AcademiaDbContext()
+        {
+        }
+
         public AcademiaDbContext(DbContextOptions<AcademiaDbContext> options)
             : base(options)
         {
@@ -15,8 +19,6 @@ namespace proyecto_academia.Context
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=Academia;Trusted_Connection=True;TrustServerCertificate=True;");
-
-
             }
         }
 
