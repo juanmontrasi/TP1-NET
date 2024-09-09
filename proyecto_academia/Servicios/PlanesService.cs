@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using proyecto_academia.Context;
+
 
 namespace proyecto_academia.Servicios
 {
@@ -15,8 +15,15 @@ namespace proyecto_academia.Servicios
         {
             using var context = new AcademiaDbContext();
 
-            context.Planes.Add(plan);
-            context.SaveChanges();
+            if (context.Especialidades.Any(e => e.IdEspecialidad == plan.IdEspecialidad))
+            {
+                context.Planes.Add(plan);
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("ID de Especialidad no válido.");
+            }
         }
         public void Delete(int id)
         {

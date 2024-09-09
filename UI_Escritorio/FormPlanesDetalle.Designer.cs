@@ -34,6 +34,8 @@
             aceptarButton = new Button();
             cancelarButton = new Button();
             errorProvider = new ErrorProvider(components);
+            comboBoxEspecialidades = new ComboBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
@@ -51,7 +53,7 @@
             nombreLabel.Location = new Point(24, 21);
             nombreLabel.Margin = new Padding(2, 0, 2, 0);
             nombreLabel.Name = "nombreLabel";
-            nombreLabel.Size = new Size(119, 15);
+            nombreLabel.Size = new Size(77, 15);
             nombreLabel.TabIndex = 1;
             nombreLabel.Text = "Nombre Plan";
             // 
@@ -81,11 +83,31 @@
             // 
             errorProvider.ContainerControl = this;
             // 
-            // FormEspecialidadDetalle
+            // comboBoxEspecialidades
+            // 
+            comboBoxEspecialidades.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEspecialidades.FormattingEnabled = true;
+            comboBoxEspecialidades.Location = new Point(176, 45);
+            comboBoxEspecialidades.Name = "comboBoxEspecialidades";
+            comboBoxEspecialidades.Size = new Size(200, 23);
+            comboBoxEspecialidades.TabIndex = 6;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(24, 48);
+            label1.Name = "label1";
+            label1.Size = new Size(131, 15);
+            label1.TabIndex = 7;
+            label1.Text = "Seleccione Especialidad";
+            // 
+            // FormPlanesDetalle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(431, 211);
+            Controls.Add(label1);
+            Controls.Add(comboBoxEspecialidades);
             Controls.Add(cancelarButton);
             Controls.Add(aceptarButton);
             Controls.Add(nombreLabel);
@@ -93,7 +115,7 @@
             Margin = new Padding(2, 1, 2, 1);
             Name = "FormPlanesDetalle";
             Text = "Planes";
-            Load += new System.EventHandler(this.PlanesDetalle_Load);
+            Load += PlanesDetalle_Load;
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -106,5 +128,8 @@
         private Button aceptarButton;
         private Button cancelarButton;
         private ErrorProvider errorProvider;
+        private DataGridView dgvPlanes;
+        private ComboBox comboBoxEspecialidades;
+        private Label label1;
     }
 }

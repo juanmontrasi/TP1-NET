@@ -30,6 +30,7 @@ namespace UI_Escritorio
 
         public async void PlanesDetalle_Load(object sender, EventArgs e)
         {
+            await CargarEspecialidades();
 
         }
         public FormPlanesDetalle()
@@ -45,7 +46,7 @@ namespace UI_Escritorio
                 if (plan != null)
                 {
                     this.Plan.Nombre_Plan = nombreTextBox.Text;
-
+                    this.Plan.IdEspecialidad = (int)comboBoxEspecialidades.SelectedValue;
                     if (this.EditMode)
                     {
                         await PlanesApi.UpdateAsync(this.Plan);
@@ -89,6 +90,34 @@ namespace UI_Escritorio
             }
 
             return isValid;
+        }
+        private async Task CargarEspecialidades()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                
+                string apiUrl = "https://localhost:7111/especialidades"; 
+
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync(apiUrl);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var especialidades = await response.Content.ReadAsAsync<List<Especialidad>>();
+                        comboBoxEspecialidades.DataSource = especialidades;
+                        comboBoxEspecialidades.DisplayMember = "Nombre_Especialidad"; 
+                        comboBoxEspecialidades.ValueMember = "IdEspecialidad"; 
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al cargar especialidades: " + response.ReasonPhrase);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al conectar con el servidor: " + ex.Message);
+                }
+            }
         }
     }
 }

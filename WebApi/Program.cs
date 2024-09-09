@@ -64,4 +64,48 @@ app.MapDelete("/especialidades/{id}", (int id) =>
 })
 .WithName("DeleteEspecialidad")
 .WithOpenApi();
+
+app.UseHttpsRedirection();
+app.MapGet("/planes/{id}", (int id) =>
+{
+    PlanesServices planesService = new PlanesServices();
+
+    return planesService.Get(id);
+})
+.WithName("GetPlan")
+.WithOpenApi();
+app.MapGet("/planes", () =>
+{
+    PlanesServices planService = new PlanesServices();
+
+    return planService.GetAll();
+})
+.WithName("GetAllPlanes")
+.WithOpenApi();
+
+app.MapPost("/planes", (Plan plan) =>
+{
+    PlanesServices planesService = new PlanesServices();
+
+    planesService.Add(plan);
+})
+.WithName("AddPlan")
+.WithOpenApi();
+
+app.MapPut("/planes", (Plan plan) =>
+{
+    PlanesServices planesService = new PlanesServices();
+
+    planesService.Update(plan);
+})
+.WithName("UpdatePlan")
+.WithOpenApi();
+
+app.MapDelete("/planes/{id}", (int id) =>
+{
+    PlanesServices planService = new PlanesServices();
+
+    planService.Delete(id);
+});
 app.Run();
+
