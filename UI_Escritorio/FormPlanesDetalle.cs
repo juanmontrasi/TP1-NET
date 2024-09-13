@@ -14,7 +14,7 @@ namespace UI_Escritorio
     public partial class FormPlanesDetalle : Form
     {
         private Plan plan;
-
+        public int? IdEspecialidad { get; set; } // Puede ser null 
         public Plan Plan
         {
             get { return plan; }
@@ -28,35 +28,51 @@ namespace UI_Escritorio
             }
         }
 
-        public async void PlanesDetalle_Load(object sender, EventArgs e)
-        {
-            await CargarEspecialidades();
-
-        }
         public FormPlanesDetalle()
         {
             InitializeComponent();
         }
+
         public bool EditMode { get; set; } = false;
 
-         private async void aceptarButton_Click(object sender, EventArgs e)
+        private async void PlanesDetalle_Load(object sender, EventArgs e)
+        {
+            await CargarEspecialidades();
+
+            if (IdEspecialidad.HasValue)
+            {
+                comboBoxEspecialidades.SelectedValue = IdEspecialidad.Value;
+                comboBoxEspecialidades.Enabled = false;
+            }
+        }
+
+        private async void aceptarButton_Click(object sender, EventArgs e)
         {
             if (this.ValidatePlan())
             {
                 if (plan != null)
                 {
                     this.Plan.Nombre_Plan = nombreTextBox.Text;
-                    this.Plan.IdEspecialidad = (int)comboBoxEspecialidades.SelectedValue;
-                    if (this.EditMode)
-                    {
-                        await PlanesApi.UpdateAsync(this.Plan);
-                    }
-                    else
-                    {
-                        await PlanesApi.AddAsync(this.Plan);
-                    }
+                    this.Plan.IdEspecialidad = (int)comboBoxEspecialidades.SelectedValue; // Asegúrate de que esto se asigna correctamente
 
-                    this.Close();
+                    try
+                    {
+                        if (this.EditMode)
+                        {
+                            await PlanesApi.UpdateAsync(this.Plan);
+                        }
+                        else
+                        {
+                            await PlanesApi.AddAsync(this.Plan);
+                        }
+
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: {ex.Message}");
+                    }
                 }
                 else
                 {
@@ -67,6 +83,7 @@ namespace UI_Escritorio
 
         private void cancelarButton_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
@@ -91,12 +108,12 @@ namespace UI_Escritorio
 
             return isValid;
         }
+
         private async Task CargarEspecialidades()
         {
             using (HttpClient client = new HttpClient())
             {
-                
-                string apiUrl = "https://localhost:7111/especialidades"; 
+                string apiUrl = "https://localhost:7111/especialidades";
 
                 try
                 {
@@ -105,8 +122,13 @@ namespace UI_Escritorio
                     {
                         var especialidades = await response.Content.ReadAsAsync<List<Especialidad>>();
                         comboBoxEspecialidades.DataSource = especialidades;
-                        comboBoxEspecialidades.DisplayMember = "Nombre_Especialidad"; 
-                        comboBoxEspecialidades.ValueMember = "IdEspecialidad"; 
+                        comboBoxEspecialidades.DisplayMember = "Nombre_Especialidad";
+                        comboBoxEspecialidades.ValueMember = "IdEspecialidad";
+
+                        if (IdEspecialidad.HasValue)
+                        {
+                            comboBoxEspecialidades.SelectedValue = IdEspecialidad.Value;
+                        }
                     }
                     else
                     {
@@ -117,6 +139,15 @@ namespace UI_Escritorio
                 {
                     MessageBox.Show("Error al conectar con el servidor: " + ex.Message);
                 }
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            if (this.DialogResult != DialogResult.OK)
+            {
+                this.DialogResult = DialogResult.Cancel;
             }
         }
     }
