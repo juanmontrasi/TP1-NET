@@ -28,14 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tlCursos = new TableLayoutPanel();
             dgvCursos = new DataGridView();
+            cursoBindingSource = new BindingSource(components);
             btnListar = new Button();
             btnBorrar = new Button();
             btnEditar = new Button();
             btnNuevo = new Button();
+            cursosApiBindingSource = new BindingSource(components);
             tlCursos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCursos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)cursoBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)cursosApiBindingSource).BeginInit();
             SuspendLayout();
             // 
             // tlCursos
@@ -53,12 +58,11 @@
             tlCursos.Controls.Add(btnNuevo, 4, 1);
             tlCursos.Dock = DockStyle.Fill;
             tlCursos.Location = new Point(0, 0);
-            tlCursos.Margin = new Padding(3, 2, 3, 2);
             tlCursos.Name = "tlCursos";
             tlCursos.RowCount = 2;
             tlCursos.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlCursos.RowStyles.Add(new RowStyle());
-            tlCursos.Size = new Size(700, 338);
+            tlCursos.Size = new Size(800, 451);
             tlCursos.TabIndex = 0;
             // 
             // dgvCursos
@@ -66,19 +70,21 @@
             dgvCursos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tlCursos.SetColumnSpan(dgvCursos, 5);
             dgvCursos.Dock = DockStyle.Fill;
-            dgvCursos.Location = new Point(3, 2);
-            dgvCursos.Margin = new Padding(3, 2, 3, 2);
+            dgvCursos.Location = new Point(3, 3);
             dgvCursos.Name = "dgvCursos";
             dgvCursos.RowHeadersWidth = 51;
-            dgvCursos.Size = new Size(694, 308);
+            dgvCursos.Size = new Size(794, 410);
             dgvCursos.TabIndex = 0;
+            // 
+            // cursoBindingSource
+            // 
+            cursoBindingSource.DataSource = typeof(Entidades.Curso);
             // 
             // btnListar
             // 
-            btnListar.Location = new Point(351, 314);
-            btnListar.Margin = new Padding(3, 2, 3, 2);
+            btnListar.Location = new Point(403, 419);
             btnListar.Name = "btnListar";
-            btnListar.Size = new Size(82, 22);
+            btnListar.Size = new Size(94, 29);
             btnListar.TabIndex = 4;
             btnListar.Text = "Listar";
             btnListar.UseVisualStyleBackColor = true;
@@ -86,10 +92,9 @@
             // 
             // btnBorrar
             // 
-            btnBorrar.Location = new Point(439, 314);
-            btnBorrar.Margin = new Padding(3, 2, 3, 2);
+            btnBorrar.Location = new Point(503, 419);
             btnBorrar.Name = "btnBorrar";
-            btnBorrar.Size = new Size(82, 22);
+            btnBorrar.Size = new Size(94, 29);
             btnBorrar.TabIndex = 2;
             btnBorrar.Text = "Borrar";
             btnBorrar.UseVisualStyleBackColor = true;
@@ -97,10 +102,9 @@
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(527, 314);
-            btnEditar.Margin = new Padding(3, 2, 3, 2);
+            btnEditar.Location = new Point(603, 419);
             btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(82, 22);
+            btnEditar.Size = new Size(94, 29);
             btnEditar.TabIndex = 1;
             btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = true;
@@ -108,27 +112,31 @@
             // 
             // btnNuevo
             // 
-            btnNuevo.Location = new Point(615, 314);
-            btnNuevo.Margin = new Padding(3, 2, 3, 2);
+            btnNuevo.Location = new Point(703, 419);
             btnNuevo.Name = "btnNuevo";
-            btnNuevo.Size = new Size(82, 22);
+            btnNuevo.Size = new Size(94, 29);
             btnNuevo.TabIndex = 3;
             btnNuevo.Text = "Agregar";
             btnNuevo.UseVisualStyleBackColor = true;
             btnNuevo.Click += btnNuevo_Click;
             // 
+            // cursosApiBindingSource
+            // 
+            cursosApiBindingSource.DataSource = typeof(CursosApi);
+            // 
             // FormCursos
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(700, 338);
+            ClientSize = new Size(800, 451);
             ControlBox = false;
             Controls.Add(tlCursos);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(3, 2, 3, 2);
             Name = "FormCursos";
             tlCursos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvCursos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)cursoBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)cursosApiBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -140,5 +148,13 @@
         private Button btnBorrar;
         private Button btnNuevo;
         private DataGridView dgvCursos;
+        private BindingSource cursosApiBindingSource;
+        private DataGridViewTextBoxColumn idCursoDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn idComisionDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn idMateriaDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn cupoDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn anioCalendarioDataGridViewTextBoxColumn;
+        private BindingSource cursoBindingSource;
     }
 }
