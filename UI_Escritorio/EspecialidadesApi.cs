@@ -18,7 +18,7 @@ namespace UI_Escritorio
         private static HttpClient _especialidad = new HttpClient();
         static EspecialidadesApi()
         {
-            _especialidad.BaseAddress = new Uri("http://localhost:5183/");
+            _especialidad.BaseAddress = new Uri("https://localhost:7111/");
             _especialidad.DefaultRequestHeaders.Accept.Clear();
             _especialidad.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -47,11 +47,33 @@ namespace UI_Escritorio
             return especialidades;
         }
 
-        public async static Task AddAsync(Especialidad especialidad)
+        public async static Task<Especialidad> AddAsync(Especialidad especialidad)
         {
-            HttpResponseMessage response = await _especialidad.PostAsJsonAsync("especialidades", especialidad);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                HttpResponseMessage response = await _especialidad.PostAsJsonAsync("especialidades", especialidad);
+                response.EnsureSuccessStatusCode(); // Lanza una excepción si el estado no es exitoso
+
+                var createdEspecialidad = await response.Content.ReadFromJsonAsync<Especialidad>();
+
+                if (createdEspecialidad == null)
+                {
+                    throw new Exception("La respuesta del servidor no contiene un objeto Especialidad válido.");
+                }
+
+                return createdEspecialidad;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar la especialidad: " + ex.Message);
+            }
         }
+
+
 
         public static async Task DeleteAsync(int id)
         {
