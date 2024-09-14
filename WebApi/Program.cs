@@ -62,6 +62,145 @@ app.MapDelete("/especialidades/{id}", (int id) =>
 .WithName("DeleteEspecialidad")
 .WithOpenApi();
 
+
+// Materias
+
+app.MapGet("/materias/{id}", (int id) =>
+{
+    MateriasServices materiasServices = new MateriasServices();
+
+    return materiasServices.Get(id);
+})
+.WithName("GetMateria")
+.WithOpenApi();
+app.MapGet("/materias", () =>
+{
+    MateriasServices materiasServices= new MateriasServices();
+
+    return materiasServices.GetAll();
+})
+.WithName("GetAllMaterias")
+.WithOpenApi();
+
+app.MapPost("/materias", (Materia materia) =>
+{
+    MateriasServices materiasServices = new MateriasServices();
+
+    materiasServices.Add(materia);
+})
+.WithName("AddMateria")
+.WithOpenApi();
+
+app.MapPut("/materias", (Materia materia) =>
+{
+    MateriasServices materiasServices = new MateriasServices();
+
+    materiasServices.Update(materia);
+})
+.WithName("UpdateMateria")
+.WithOpenApi();
+
+app.MapDelete("/materias/{id}", (int id) =>
+{
+    MateriasServices materiasServices = new MateriasServices();
+
+    materiasServices.Delete(id);
+})
+.WithName("DeleteMateria")
+.WithOpenApi();
+
+// Cursos
+
+app.MapGet("/cursos/{id}", (int id) =>
+{
+    CursosService cursosService= new CursosService();
+
+    return cursosService.Get(id);
+})
+.WithName("GetCurso")
+.WithOpenApi();
+app.MapGet("/cursos", () =>
+{
+    CursosService cursosService = new CursosService();
+
+    return cursosService.GetAll();
+})
+.WithName("GetAllCursos")
+.WithOpenApi();
+
+app.MapPost("/cursos", (Curso curso) =>
+{
+    CursosService cursosServices = new CursosService();
+
+    cursosServices.Add(curso);
+})
+.WithName("AddCurso")
+.WithOpenApi();
+
+app.MapPut("/cursos", (Curso curso) =>
+{
+    CursosService cursosServices = new CursosService();
+
+    cursosServices.Update(curso);
+})
+.WithName("UpdateCurso")
+.WithOpenApi();
+
+app.MapDelete("/cursos/{id}", (int id) =>
+{
+    CursosService cursosServices = new CursosService();
+
+    cursosServices.Delete(id);
+})
+.WithName("DeleteCurso")
+.WithOpenApi();
+
+// Comisiones
+
+app.MapGet("/comisiones/{id}", (int id) =>
+{
+    ComisionesService comisionesService = new ComisionesService();
+
+    return comisionesService.Get(id);
+})
+.WithName("GetComision")
+.WithOpenApi();
+app.MapGet("/comisiones", () =>
+{
+    ComisionesService comisionesService = new ComisionesService();
+
+    return comisionesService.GetAll();
+})
+.WithName("GetAllComisiones")
+.WithOpenApi();
+
+app.MapPost("/comisiones", (Comision comision) =>
+{
+    ComisionesService comisionesService = new ComisionesService();
+
+    comisionesService.Add(comision);
+})
+.WithName("AddComision")
+.WithOpenApi();
+
+app.MapPut("/comisiones", (Comision comision) =>
+{
+    ComisionesService comisionesService = new ComisionesService();
+
+    comisionesService.Update(comision);
+})
+.WithName("UpdateComision")
+.WithOpenApi();
+
+app.MapDelete("/comisiones/{id}", (int id) =>
+{
+    ComisionesService comisionesService = new ComisionesService();
+
+    comisionesService.Delete(id);
+})
+.WithName("DeleteComision")
+.WithOpenApi();
+
 app.UseHttpsRedirection();
 app.MapGet("/planes/{id}", (int id) =>
 {
@@ -104,5 +243,6 @@ app.MapDelete("/planes/{id}", (int id) =>
 
     planService.Delete(id);
 });
+
 app.Run();
 
