@@ -10,12 +10,13 @@ namespace proyecto_academia.Servicios
 {
     public  class EspecialidadesServicecs
     {
-        public void Add(Especialidad especialidad)
+        public Especialidad Add(Especialidad especialidad)
         {
             using var context = new AcademiaDbContext();
 
             context.Especialidades.Add(especialidad);
             context.SaveChanges();
+            return especialidad;
         }
         public void Delete(int id)
         {

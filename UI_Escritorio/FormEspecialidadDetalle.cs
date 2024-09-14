@@ -1,5 +1,4 @@
-﻿using MySqlX.XDevAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -44,16 +43,41 @@ namespace UI_Escritorio
                 {
                     this.Especialidad.Nombre_Especialidad = nombreTextBox.Text;
 
+                    Especialidad creadaEspecialidad = null;
+
                     if (this.EditMode)
                     {
                         await EspecialidadesApi.UpdateAsync(this.Especialidad);
+                        this.Close();
                     }
                     else
                     {
-                        await EspecialidadesApi.AddAsync(this.Especialidad);
-                    }
+                        creadaEspecialidad = await EspecialidadesApi.AddAsync(this.Especialidad);
 
-                    this.Close();
+                        if (creadaEspecialidad != null)
+                        {
+                            FormPlanesDetalle formPlanesDetalle = new FormPlanesDetalle
+                            {   Plan = new Plan(),
+                                IdEspecialidad = creadaEspecialidad.IdEspecialidad
+                            };
+
+                            var resultPlan = formPlanesDetalle.ShowDialog();
+
+                            if (resultPlan == DialogResult.OK)
+                            {
+                                this.Close();
+                            }
+                            else
+                            {
+                                await EspecialidadesApi.DeleteAsync(creadaEspecialidad.IdEspecialidad);
+                                MessageBox.Show("Debe Crear un plan para la Especialidad.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo crear la especialidad.");
+                        }
+                    }
                 }
                 else
                 {
@@ -61,6 +85,7 @@ namespace UI_Escritorio
                 }
             }
         }
+
 
         private void cancelarButton_Click(object sender, EventArgs e)
         {
