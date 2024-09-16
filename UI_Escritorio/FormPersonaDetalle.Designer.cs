@@ -41,13 +41,11 @@
             label2 = new Label();
             label3 = new Label();
             label5 = new Label();
-            comboBoxPlanes = new ComboBox();
             label6 = new Label();
             legajotb = new TextBox();
             label7 = new Label();
             fechaNacdtp = new DateTimePicker();
-            label8 = new Label();
-            comboBoxTipoPersona = new ComboBox();
+            comboBoxPlanes = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
@@ -71,10 +69,10 @@
             // 
             // aceptarButton
             // 
-            aceptarButton.Location = new Point(155, 382);
+            aceptarButton.Location = new Point(155, 303);
             aceptarButton.Margin = new Padding(2, 1, 2, 1);
             aceptarButton.Name = "aceptarButton";
-            aceptarButton.Size = new Size(81, 22);
+            aceptarButton.Size = new Size(121, 51);
             aceptarButton.TabIndex = 2;
             aceptarButton.Text = "Aceptar";
             aceptarButton.UseVisualStyleBackColor = true;
@@ -82,10 +80,10 @@
             // 
             // cancelarButton
             // 
-            cancelarButton.Location = new Point(313, 382);
+            cancelarButton.Location = new Point(372, 303);
             cancelarButton.Margin = new Padding(2, 1, 2, 1);
             cancelarButton.Name = "cancelarButton";
-            cancelarButton.Size = new Size(81, 22);
+            cancelarButton.Size = new Size(110, 51);
             cancelarButton.TabIndex = 3;
             cancelarButton.Text = "Cancelar";
             cancelarButton.UseVisualStyleBackColor = true;
@@ -146,19 +144,11 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(155, 243);
+            label5.Location = new Point(155, 246);
             label5.Name = "label5";
             label5.Size = new Size(75, 15);
             label5.TabIndex = 12;
             label5.Text = "Plan Persona";
-            // 
-            // comboBoxPlanes
-            // 
-            comboBoxPlanes.FormattingEnabled = true;
-            comboBoxPlanes.Location = new Point(282, 243);
-            comboBoxPlanes.Name = "comboBoxPlanes";
-            comboBoxPlanes.Size = new Size(112, 23);
-            comboBoxPlanes.TabIndex = 13;
             // 
             // label6
             // 
@@ -189,33 +179,22 @@
             // 
             fechaNacdtp.Location = new Point(282, 196);
             fechaNacdtp.Name = "fechaNacdtp";
-            fechaNacdtp.Size = new Size(200, 23);
+            fechaNacdtp.Size = new Size(210, 23);
             fechaNacdtp.TabIndex = 17;
             // 
-            // label8
+            // comboBoxPlanes
             // 
-            label8.AutoSize = true;
-            label8.Location = new Point(155, 305);
-            label8.Name = "label8";
-            label8.Size = new Size(75, 15);
-            label8.TabIndex = 18;
-            label8.Text = "Tipo Persona";
-            // 
-            // comboBoxTipoPersona
-            // 
-            comboBoxTipoPersona.FormattingEnabled = true;
-            comboBoxTipoPersona.Location = new Point(282, 305);
-            comboBoxTipoPersona.Name = "comboBoxTipoPersona";
-            comboBoxTipoPersona.Size = new Size(113, 23);
-            comboBoxTipoPersona.TabIndex = 19;
+            comboBoxPlanes.FormattingEnabled = true;
+            comboBoxPlanes.Location = new Point(282, 243);
+            comboBoxPlanes.Name = "comboBoxPlanes";
+            comboBoxPlanes.Size = new Size(112, 23);
+            comboBoxPlanes.TabIndex = 13;
             // 
             // FormPersonaDetalle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(657, 499);
-            Controls.Add(comboBoxTipoPersona);
-            Controls.Add(label8);
             Controls.Add(fechaNacdtp);
             Controls.Add(label7);
             Controls.Add(legajotb);
@@ -248,8 +227,6 @@
         private Button aceptarButton;
         private Button cancelarButton;
         private ErrorProvider errorProvider;
-        private ComboBox cbPlanes;
-        private ComboBox comboBoxPlanes;
         private Label label5;
         private Label label3;
         private Label label2;
@@ -261,7 +238,6 @@
         private Label label7;
         private TextBox legajotb;
         private Label label6;
-        private ComboBox comboBoxTipoPersona;
-        private Label label8;
+        private ComboBox comboBoxPlanes;
     }
 }

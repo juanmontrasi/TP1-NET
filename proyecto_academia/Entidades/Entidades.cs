@@ -5,12 +5,6 @@ using System.Collections.Generic;
 namespace Entidades
 {
     //ENUM TIPO PERSONA 
-    public enum TipoPersona
-    {
-        Administrador = 0,
-        Alumno = 1,
-        Docente = 2
-    }
     public class Persona
     {
         public int IdPersona { get; set; }
@@ -20,7 +14,6 @@ namespace Entidades
         public string Mail { get; set; }
         public string Direccion { get; set; }
         public string FechaNacimiento { get; set; }
-        public int Tipo_Persona { get; set; }
         public int Legajo { get; set; }
 
         // Relaciones

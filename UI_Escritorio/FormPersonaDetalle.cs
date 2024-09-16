@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Http;
 
 namespace UI_Escritorio
 {
@@ -18,22 +19,24 @@ namespace UI_Escritorio
         public Persona Persona
         {
             get { return persona; }
-            set {
+            set
+            {
                 persona = value;
-                    if (persona != null)
-                    this.SetPersona();
-                } 
+                if (persona != null)
+                    SetPersona();
+            }
         }
+
         public bool EditMode { get; internal set; } = false;
+
         public FormPersonaDetalle()
         {
             InitializeComponent();
         }
-        private async void FormPersonaDetalle_Load(object sender, EventArgs e) 
+
+        private async void FormPersonaDetalle_Load(object sender, EventArgs e)
         {
             await CargarPlanes();
-            comboBoxTipoPersona.DataSource = Enum.GetValues(typeof(TipoPersona));
-         
         }
 
         private void SetPersona()
@@ -45,12 +48,16 @@ namespace UI_Escritorio
                 legajotb.Text = this.Persona.Legajo.ToString();
                 mailtb.Text = this.Persona.Mail;
                 direcciontb.Text = this.Persona.Direccion;
-                comboBoxTipoPersona.SelectedItem = (TipoPersona)this.Persona.Tipo_Persona;
-
 
                 if (!string.IsNullOrEmpty(this.Persona.FechaNacimiento))
                 {
                     fechaNacdtp.Value = DateTime.Parse(this.Persona.FechaNacimiento);
+                }
+
+                // Asegúrate de que el ComboBox tenga los datos antes de asignar el SelectedValue
+                if (comboBoxPlanes.Items.Count > 0)
+                {
+                    comboBoxPlanes.SelectedValue = this.Persona.IdPlan;
                 }
             }
         }
@@ -71,28 +78,29 @@ namespace UI_Escritorio
                         return;
                     }
 
-                    TipoPersona tipoPersonaSeleccionado = (TipoPersona)comboBoxTipoPersona.SelectedItem;
-                    this.Persona.Tipo_Persona = (int)tipoPersonaSeleccionado;
-
                     this.Persona.Nombre = nombreTextBox.Text;
                     this.Persona.Apellido = apellidotb.Text;
                     this.Persona.Legajo = int.Parse(legajotb.Text);
                     this.Persona.Mail = mailtb.Text;
                     this.Persona.Direccion = direcciontb.Text;
                     this.Persona.FechaNacimiento = fechaNacdtp.Value.ToString("yyyy-MM-dd");
-                    
 
-
-                    if (this.EditMode)
+                    try
                     {
-                        await PersonaApi.UpdateAsync(this.Persona);
+                        if (this.EditMode)
+                        {
+                            await PersonaApi.UpdateAsync(this.Persona);
+                        }
+                        else
+                        {
+                            await PersonaApi.AddAsync(this.Persona);
+                        }
                         this.Close();
                     }
-                    else
+                    catch (Exception ex)
                     {
-                       await PersonaApi.AddAsync(this.Persona);
+                        MessageBox.Show("Error al guardar los datos: " + ex.Message);
                     }
-                    this.Close();
                 }
                 else
                 {
@@ -114,7 +122,6 @@ namespace UI_Escritorio
             errorProvider.SetError(nombreTextBox, string.Empty);
             errorProvider.SetError(apellidotb, string.Empty);
             errorProvider.SetError(legajotb, string.Empty);
-            errorProvider.SetError(comboBoxTipoPersona, string.Empty);
             errorProvider.SetError(mailtb, string.Empty);
             errorProvider.SetError(comboBoxPlanes, string.Empty);
             errorProvider.SetError(direcciontb, string.Empty);
@@ -149,13 +156,6 @@ namespace UI_Escritorio
                 }
             }
 
-            // Validar Tipo de Persona
-            if (comboBoxTipoPersona.SelectedItem == null)
-            {
-                isValid = false;
-                errorProvider.SetError(comboBoxTipoPersona, "El Tipo de Persona es requerido");
-            }
-
             // Validar Mail
             if (this.mailtb.Text == string.Empty)
             {
@@ -184,7 +184,6 @@ namespace UI_Escritorio
         {
             using (HttpClient client = new HttpClient())
             {
-
                 string apiUrl = "https://localhost:7111/planes";
 
                 try
@@ -196,10 +195,16 @@ namespace UI_Escritorio
                         comboBoxPlanes.DataSource = planes;
                         comboBoxPlanes.DisplayMember = "Nombre_Plan";
                         comboBoxPlanes.ValueMember = "IdPlan";
+
+                        // Asegúrate de seleccionar el valor correcto después de cargar los datos
+                        if (persona != null && persona.IdPlan > 0)
+                        {
+                            comboBoxPlanes.SelectedValue = persona.IdPlan;
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Error al cargar Materias: " + response.ReasonPhrase);
+                        MessageBox.Show("Error al cargar Planes: " + response.ReasonPhrase);
                     }
                 }
                 catch (Exception ex)
@@ -208,6 +213,5 @@ namespace UI_Escritorio
                 }
             }
         }
-
     }
 }

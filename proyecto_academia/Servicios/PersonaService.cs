@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using Entidades;
@@ -52,7 +53,6 @@ namespace proyecto_academia.Servicios
                 personaToUpdate.Direccion = persona.Direccion;
                 personaToUpdate.FechaNacimiento = persona.FechaNacimiento;
                 personaToUpdate.Mail = persona.Mail;
-                personaToUpdate.Tipo_Persona = persona.Tipo_Persona;
                 personaToUpdate.Legajo = persona.Legajo;
                 context.SaveChanges();
             }
