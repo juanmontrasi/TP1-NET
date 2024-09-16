@@ -40,6 +40,7 @@
             especialidadesToolStripMenuItem = new ToolStripMenuItem();
             planesToolStripMenuItem = new ToolStripMenuItem();
             salirToolStripMenuItem = new ToolStripMenuItem();
+            personasToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -55,7 +56,7 @@
             // 
             // crudToolStripMenuItem
             // 
-            crudToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { alumnosToolStripMenuItem, docentesToolStripMenuItem, esToolStripMenuItem, cursosToolStripMenuItem, comisionesToolStripMenuItem, inscripcionesToolStripMenuItem, cursosDocenteToolStripMenuItem, especialidadesToolStripMenuItem, planesToolStripMenuItem, salirToolStripMenuItem });
+            crudToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { personasToolStripMenuItem, alumnosToolStripMenuItem, docentesToolStripMenuItem, esToolStripMenuItem, cursosToolStripMenuItem, comisionesToolStripMenuItem, inscripcionesToolStripMenuItem, cursosDocenteToolStripMenuItem, especialidadesToolStripMenuItem, planesToolStripMenuItem, salirToolStripMenuItem });
             crudToolStripMenuItem.Name = "crudToolStripMenuItem";
             crudToolStripMenuItem.Size = new Size(69, 20);
             crudToolStripMenuItem.Text = "Opciones";
@@ -130,6 +131,13 @@
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
+            // personasToolStripMenuItem
+            // 
+            personasToolStripMenuItem.Name = "personasToolStripMenuItem";
+            personasToolStripMenuItem.Size = new Size(180, 22);
+            personasToolStripMenuItem.Text = "Personas";
+            personasToolStripMenuItem.Click += personasToolStripMenuItem_Click;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -162,5 +170,6 @@
         private ToolStripMenuItem planesToolStripMenuItem;
         private ToolStripMenuItem docentesToolStripMenuItem;
         private ToolStripMenuItem salirToolStripMenuItem;
+        private ToolStripMenuItem personasToolStripMenuItem;
     }
 }

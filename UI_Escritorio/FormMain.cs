@@ -103,5 +103,15 @@ namespace UI_Escritorio
             formPlanes.MdiParent = this;
             formPlanes.Show();
         }
+
+        private void personasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormPersonas formPersonas = new FormPersonas();
+            formPersonas.FormBorderStyle = FormBorderStyle.None;
+            formPersonas.WindowState = FormWindowState.Maximized;
+            formPersonas.MdiParent = this;
+            formPersonas.Show();
+
+        }
     }
 }

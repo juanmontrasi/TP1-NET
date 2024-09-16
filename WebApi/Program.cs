@@ -201,7 +201,6 @@ app.MapDelete("/comisiones/{id}", (int id) =>
 .WithName("DeleteComision")
 .WithOpenApi();
 
-app.UseHttpsRedirection();
 app.MapGet("/planes/{id}", (int id) =>
 {
     PlanesServices planesService = new PlanesServices();
@@ -243,6 +242,42 @@ app.MapDelete("/planes/{id}", (int id) =>
 
     planService.Delete(id);
 });
+//Persona
+
+app.MapGet("personas/{id}", (int id) =>
+{
+    PersonaService personaService = new PersonaService();
+    return personaService.Get(id); 
+})
+    .WithName("GetPersona")
+    .WithOpenApi();
+app.MapGet("/personas", () =>
+{
+    PersonaService personaService = new PersonaService();
+    return personaService.GetAll();
+})
+    .WithName("GetAllPersonas")
+    .WithOpenApi();
+app.MapPost("/personas", (Persona persona) =>
+{
+    PersonaService personaService = new PersonaService();
+    personaService.Add(persona);
+})
+    .WithName("AddPersona")
+    .WithOpenApi();
+app.MapPut("/personas", (Persona persona) =>
+{
+    PersonaService personaService = new PersonaService();
+    personaService.Update(persona);
+})
+    .WithName("Update Persona")
+    .WithOpenApi();
+app.MapDelete("/personas/{id}",(int id) =>
+{
+    PersonaService personaService = new PersonaService();
+    personaService.Delete(id);
+})
+    .WithName("DeletePersona")
+    .WithOpenApi();
 
 app.Run();
-
