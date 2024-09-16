@@ -4,6 +4,13 @@ using System.Collections.Generic;
 
 namespace Entidades
 {
+    //ENUM TIPO PERSONA 
+    public enum TipoPersona
+    {
+        Administrador = 0,
+        Alumno = 1,
+        Docente = 2
+    }
     public class Persona
     {
         public int IdPersona { get; set; }
@@ -13,7 +20,7 @@ namespace Entidades
         public string Mail { get; set; }
         public string Direccion { get; set; }
         public string FechaNacimiento { get; set; }
-        public string Tipo_Persona { get; set; }
+        public int Tipo_Persona { get; set; }
         public int Legajo { get; set; }
 
         // Relaciones
@@ -21,6 +28,10 @@ namespace Entidades
         public ICollection<DocenteCurso> DocenteCursos { get; set; }
         public ICollection<AlumnoInscripcion> AlumnoInscripciones { get; set; }
         public Plan Plan { get; set; }
+
+        
+
+        
     }
 
     public class Usuario
@@ -36,6 +47,8 @@ namespace Entidades
         public Persona Persona { get; set; }
         public ICollection<DocenteCurso> DocenteCursos { get; set; }
         public ICollection<AlumnoInscripcion> AlumnoInscripciones { get; set; }
+
+        
     }
 
     public class Curso

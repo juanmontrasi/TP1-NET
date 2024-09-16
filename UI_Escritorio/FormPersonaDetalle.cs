@@ -32,6 +32,8 @@ namespace UI_Escritorio
         private async void FormPersonaDetalle_Load(object sender, EventArgs e) 
         {
             await CargarPlanes();
+            comboBoxTipoPersona.DataSource = Enum.GetValues(typeof(TipoPersona));
+         
         }
 
         private void SetPersona()
@@ -41,9 +43,11 @@ namespace UI_Escritorio
                 nombreTextBox.Text = this.Persona.Nombre;
                 apellidotb.Text = this.Persona.Apellido;
                 legajotb.Text = this.Persona.Legajo.ToString();
-                comboBoxTipoPersona.SelectedItem = this.Persona.Tipo_Persona;
                 mailtb.Text = this.Persona.Mail;
                 direcciontb.Text = this.Persona.Direccion;
+                comboBoxTipoPersona.SelectedItem = (TipoPersona)this.Persona.Tipo_Persona;
+
+
                 if (!string.IsNullOrEmpty(this.Persona.FechaNacimiento))
                 {
                     fechaNacdtp.Value = DateTime.Parse(this.Persona.FechaNacimiento);
@@ -57,15 +61,26 @@ namespace UI_Escritorio
             {
                 if (persona != null)
                 {
+                    if (comboBoxPlanes.SelectedValue != null && int.TryParse(comboBoxPlanes.SelectedValue.ToString(), out int idPlan))
+                    {
+                        this.Persona.IdPlan = idPlan;
+                    }
+                    else
+                    {
+                        MessageBox.Show("El Plan seleccionado no es válido.");
+                        return;
+                    }
+
+                    TipoPersona tipoPersonaSeleccionado = (TipoPersona)comboBoxTipoPersona.SelectedItem;
+                    this.Persona.Tipo_Persona = (int)tipoPersonaSeleccionado;
+
                     this.Persona.Nombre = nombreTextBox.Text;
                     this.Persona.Apellido = apellidotb.Text;
                     this.Persona.Legajo = int.Parse(legajotb.Text);
-                    this.Persona.Tipo_Persona = comboBoxTipoPersona.SelectedItem.ToString();
                     this.Persona.Mail = mailtb.Text;
-                    this.Persona.IdPlan = comboBoxPlanes.SelectedIndex;
                     this.Persona.Direccion = direcciontb.Text;
                     this.Persona.FechaNacimiento = fechaNacdtp.Value.ToString("yyyy-MM-dd");
-
+                    
 
 
                     if (this.EditMode)
