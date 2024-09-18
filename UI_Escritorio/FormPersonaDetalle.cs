@@ -14,7 +14,7 @@ namespace UI_Escritorio
 {
     public partial class FormPersonaDetalle : Form
     {
-        private Persona persona;
+        public Persona persona;
 
         public Persona Persona
         {
@@ -27,7 +27,7 @@ namespace UI_Escritorio
             }
         }
 
-        public bool EditMode { get; internal set; } = false;
+        public bool EditMode { get; set; } = false;
 
         public FormPersonaDetalle()
         {
@@ -68,6 +68,12 @@ namespace UI_Escritorio
             {
                 if (persona != null)
                 {
+                    this.Persona.Nombre = nombreTextBox.Text;
+                    this.Persona.Apellido = apellidotb.Text;
+                    this.Persona.Legajo = int.Parse(legajotb.Text);
+                    this.Persona.Mail = mailtb.Text;
+                    this.Persona.Direccion = direcciontb.Text;
+                    this.Persona.FechaNacimiento = fechaNacdtp.Value.ToString("yyyy-MM-dd");
                     if (comboBoxPlanes.SelectedValue != null && int.TryParse(comboBoxPlanes.SelectedValue.ToString(), out int idPlan))
                     {
                         this.Persona.IdPlan = idPlan;
@@ -78,33 +84,46 @@ namespace UI_Escritorio
                         return;
                     }
 
-                    this.Persona.Nombre = nombreTextBox.Text;
-                    this.Persona.Apellido = apellidotb.Text;
-                    this.Persona.Legajo = int.Parse(legajotb.Text);
-                    this.Persona.Mail = mailtb.Text;
-                    this.Persona.Direccion = direcciontb.Text;
-                    this.Persona.FechaNacimiento = fechaNacdtp.Value.ToString("yyyy-MM-dd");
+                    Persona creadaPersona = null;
 
-                    try
+                    if (this.EditMode)
                     {
-                        if (this.EditMode)
+                        await PersonaApi.UpdateAsync(this.Persona);
+                        this.Close();
+                    }
+                    else
+                    {
+                        creadaPersona = await PersonaApi.AddAsync(this.Persona);
+
+                        if (creadaPersona != null)
                         {
-                            await PersonaApi.UpdateAsync(this.Persona);
+                            FormUsuarioDetalle formUsuarioDetalle = new FormUsuarioDetalle
+                            {
+                                Usuario = new Usuario(),
+                                IdPersona = creadaPersona.IdPersona
+                            };
+
+                            var resultUsuario = formUsuarioDetalle.ShowDialog();
+
+                            if (resultUsuario == DialogResult.OK)
+                            {
+                                this.Close();
+                            }
+                            else
+                            {
+                                await PersonaApi.DeleteAsync(creadaPersona.IdPersona);
+                                MessageBox.Show("Debe Crear un Usuario para la Persona.");
+                            }
                         }
                         else
                         {
-                            await PersonaApi.AddAsync(this.Persona);
+                            MessageBox.Show("No se pudo crear la persona.");
                         }
-                        this.Close();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error al guardar los datos: " + ex.Message);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Persona no está inicializada.");
+                    MessageBox.Show("Especialidad no está inicializada.");
                 }
             }
         }

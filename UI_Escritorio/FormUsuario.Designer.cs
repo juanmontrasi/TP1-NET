@@ -1,6 +1,8 @@
-﻿namespace UI_Escritorio
+﻿using Entidades;
+
+namespace UI_Escritorio
 {
-    partial class FormPlanes
+    partial class FormUsuario
     {
         /// <summary>
         /// Required designer variable.
@@ -28,48 +30,48 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tlPlanes = new TableLayoutPanel();
-            dgvPlanes = new DataGridView();
+            tlUsuarios = new TableLayoutPanel();
+            dgvUsuarios = new DataGridView();
             btnListar = new Button();
             btnBorrar = new Button();
             btnEditar = new Button();
             btnNuevo = new Button();
-            tlPlanes.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvPlanes).BeginInit();
+            tlUsuarios.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
             SuspendLayout();
             // 
-            // tlPlanes
+            // tlUsuarios
             // 
-            tlPlanes.ColumnCount = 5;
-            tlPlanes.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tlPlanes.ColumnStyles.Add(new ColumnStyle());
-            tlPlanes.ColumnStyles.Add(new ColumnStyle());
-            tlPlanes.ColumnStyles.Add(new ColumnStyle());
-            tlPlanes.ColumnStyles.Add(new ColumnStyle());
-            tlPlanes.Controls.Add(dgvPlanes, 0, 0);
-            tlPlanes.Controls.Add(btnListar, 1, 1);
-            tlPlanes.Controls.Add(btnBorrar, 2, 1);
-            tlPlanes.Controls.Add(btnEditar, 3, 1);
-            tlPlanes.Controls.Add(btnNuevo, 4, 1);
-            tlPlanes.Dock = DockStyle.Fill;
-            tlPlanes.Location = new Point(0, 0);
-            tlPlanes.Name = "tlPlanes";
-            tlPlanes.RowCount = 2;
-            tlPlanes.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlPlanes.RowStyles.Add(new RowStyle());
-            tlPlanes.Size = new Size(800, 451);
-            tlPlanes.TabIndex = 0;
+            tlUsuarios.ColumnCount = 5;
+            tlUsuarios.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlUsuarios.ColumnStyles.Add(new ColumnStyle());
+            tlUsuarios.ColumnStyles.Add(new ColumnStyle());
+            tlUsuarios.ColumnStyles.Add(new ColumnStyle());
+            tlUsuarios.ColumnStyles.Add(new ColumnStyle());
+            tlUsuarios.Controls.Add(dgvUsuarios, 0, 0);
+            tlUsuarios.Controls.Add(btnListar, 1, 1);
+            tlUsuarios.Controls.Add(btnBorrar, 2, 1);
+            tlUsuarios.Controls.Add(btnEditar, 3, 1);
+            tlUsuarios.Controls.Add(btnNuevo, 4, 1);
+            tlUsuarios.Dock = DockStyle.Fill;
+            tlUsuarios.Location = new Point(0, 0);
+            tlUsuarios.Name = "tlUsuarios";
+            tlUsuarios.RowCount = 2;
+            tlUsuarios.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlUsuarios.RowStyles.Add(new RowStyle());
+            tlUsuarios.Size = new Size(800, 451);
+            tlUsuarios.TabIndex = 0;
             // 
-            // dgvPlanes
+            // dgvUsuarios
             // 
-            dgvPlanes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            tlPlanes.SetColumnSpan(dgvPlanes, 5);
-            dgvPlanes.Dock = DockStyle.Fill;
-            dgvPlanes.Location = new Point(3, 3);
-            dgvPlanes.Name = "dgvPlanes";
-            dgvPlanes.RowHeadersWidth = 51;
-            dgvPlanes.Size = new Size(794, 410);
-            dgvPlanes.TabIndex = 0;
+            dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tlUsuarios.SetColumnSpan(dgvUsuarios, 5);
+            dgvUsuarios.Dock = DockStyle.Fill;
+            dgvUsuarios.Location = new Point(3, 3);
+            dgvUsuarios.Name = "dgvUsuarios";
+            dgvUsuarios.RowHeadersWidth = 51;
+            dgvUsuarios.Size = new Size(794, 410);
+            dgvUsuarios.TabIndex = 0;
             // 
             // btnListar
             // 
@@ -111,27 +113,27 @@
             btnNuevo.UseVisualStyleBackColor = true;
             btnNuevo.Click += btnNuevo_Click;
             // 
-            // FormPlanes
+            // FormUsuario
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 451);
             ControlBox = false;
-            Controls.Add(tlPlanes);
+            Controls.Add(tlUsuarios);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "FormPlanes";
-            tlPlanes.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvPlanes).EndInit();
+            Name = "FormUsuario";
+            tlUsuarios.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private TableLayoutPanel tlPlanes;
+        private TableLayoutPanel tlUsuarios;
         private Button btnListar;
         private Button btnEditar;
         private Button btnBorrar;
         private Button btnNuevo;
-        private DataGridView dgvPlanes;
+        private DataGridView dgvUsuarios;
     }
 }

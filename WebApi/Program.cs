@@ -261,16 +261,18 @@ app.MapGet("/personas", () =>
 app.MapPost("/personas", (Persona persona) =>
 {
     PersonaService personaService = new PersonaService();
+
     personaService.Add(persona);
+    return persona;
 })
-    .WithName("AddPersona")
-    .WithOpenApi();
+.WithName("AddPersona")
+.WithOpenApi();
 app.MapPut("/personas", (Persona persona) =>
 {
     PersonaService personaService = new PersonaService();
     personaService.Update(persona);
 })
-    .WithName("Update Persona")
+    .WithName("UpdatePersona")
     .WithOpenApi();
 app.MapDelete("/personas/{id}",(int id) =>
 {
@@ -278,6 +280,45 @@ app.MapDelete("/personas/{id}",(int id) =>
     personaService.Delete(id);
 })
     .WithName("DeletePersona")
+    .WithOpenApi();
+
+
+//Usuario
+
+app.MapGet("usuarios/{id}", (int id) =>
+{
+    UsuarioService usuarioService = new UsuarioService();
+    return usuarioService.Get(id);
+})
+    .WithName("GetUsuario")
+    .WithOpenApi();
+app.MapGet("/usuarios", () =>
+{
+    UsuarioService usuarioService = new UsuarioService();
+    return usuarioService.GetAll();
+})
+    .WithName("GetAllUsuario")
+    .WithOpenApi();
+app.MapPost("/usuarios", (Usuario usuario) =>
+{
+    UsuarioService usuarioService = new UsuarioService();
+    usuarioService.Add(usuario);
+})
+    .WithName("AddUsuario")
+    .WithOpenApi();
+app.MapPut("/usuarios", (Usuario usuario) =>
+{
+    UsuarioService usuarioService = new UsuarioService();
+    usuarioService.Update(usuario);
+})
+    .WithName("UpdateUsuario")
+    .WithOpenApi();
+app.MapDelete("/usuarios/{id}", (int id) =>
+{
+    UsuarioService usuarioService = new UsuarioService();
+    usuarioService.Delete(id);
+})
+    .WithName("DeleteUsuario")
     .WithOpenApi();
 
 app.Run();

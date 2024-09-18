@@ -94,11 +94,6 @@ namespace UI_Escritorio
             }
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void SetComisiones()
         {
             if (this.Comision != null)
@@ -124,6 +119,11 @@ namespace UI_Escritorio
                 errorProvider1.SetError(anioTextBox, "El Año es Requerido");
             }
             return isValid;
+        }
+
+        private void btnCancelar_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

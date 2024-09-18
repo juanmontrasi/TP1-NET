@@ -31,7 +31,7 @@ namespace Entidades
     {
         public int IdUsuario { get; set; }
         public int IdPersona { get; set; }
-        public IEnumerable<string> Rol { get; set; } // Puede ser "Estudiante" o "Profesor"
+        public string Rol { get; set; } // Puede ser "Estudiante" o "Profesor"
         public string Nombre_Usuario { get; set; }
         public string Clave { get; set; }
         public int Habilitado { get; set; }
@@ -41,8 +41,9 @@ namespace Entidades
         public ICollection<DocenteCurso> DocenteCursos { get; set; }
         public ICollection<AlumnoInscripcion> AlumnoInscripciones { get; set; }
 
-        
-    }
+
+
+}
 
     public class Curso
     {

@@ -150,5 +150,10 @@ namespace UI_Escritorio
                 this.DialogResult = DialogResult.Cancel;
             }
         }
+
+        private void comboBoxEspecialidades_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

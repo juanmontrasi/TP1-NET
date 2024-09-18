@@ -113,5 +113,14 @@ namespace UI_Escritorio
             formPersonas.Show();
 
         }
+
+        private void usuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormUsuario formUsuario = new FormUsuario();
+            formUsuario.FormBorderStyle = FormBorderStyle.None;
+            formUsuario.WindowState = FormWindowState.Maximized;
+            formUsuario.MdiParent = this;
+            formUsuario.Show();
+        }
     }
 }

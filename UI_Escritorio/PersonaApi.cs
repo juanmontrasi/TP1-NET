@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 
 namespace UI_Escritorio
@@ -46,12 +47,36 @@ namespace UI_Escritorio
             return personas;
         }
 
-        public static async Task AddAsync(Persona persona)
+        public static async Task<Persona> AddAsync(Persona persona)
         {
-            HttpResponseMessage response = await _persona.PostAsJsonAsync("personas", persona);
-            response.EnsureSuccessStatusCode();
-        }
+            try
+            {
+                HttpResponseMessage response = await _persona.PostAsJsonAsync("personas", persona);
+                response.EnsureSuccessStatusCode(); // Lanza una excepción si el estado no es exitoso
+                                                    // Leer el contenido de la respuesta como cadena
+                var responseString = await response.Content.ReadAsStringAsync();
 
+                // Verificar si la respuesta está vacía
+                if (string.IsNullOrWhiteSpace(responseString))
+                {
+                    throw new Exception("La respuesta del servidor está vacía.");
+                }
+
+
+                // Deserializar el contenido de la respuesta
+                var createdPersona = await response.Content.ReadFromJsonAsync<Persona>();
+
+                if (createdPersona == null)
+                {
+                    throw new Exception("La respuesta del servidor no contiene un objeto Persona válido.");
+                }
+                return createdPersona;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
+            }
+        }
         public static async Task UpdateAsync(Persona persona)
         {
             HttpResponseMessage response = await _persona.PutAsJsonAsync("personas", persona);

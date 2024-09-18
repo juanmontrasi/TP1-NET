@@ -79,5 +79,6 @@ namespace UI_Escritorio
         {
             return (Plan)dgvPlanes.SelectedRows[0].DataBoundItem;
         }
+
     }
 }

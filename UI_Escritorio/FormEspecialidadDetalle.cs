@@ -57,7 +57,8 @@ namespace UI_Escritorio
                         if (creadaEspecialidad != null)
                         {
                             FormPlanesDetalle formPlanesDetalle = new FormPlanesDetalle
-                            {   Plan = new Plan(),
+                            {
+                                Plan = new Plan(),
                                 IdEspecialidad = creadaEspecialidad.IdEspecialidad
                             };
 
@@ -112,6 +113,11 @@ namespace UI_Escritorio
             }
 
             return isValid;
+        }
+
+        private void FormEspecialidadDetalle_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -98,7 +98,6 @@ namespace proyecto_academia.Migrations
                     Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaNacimiento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Tipo_Persona = table.Column<int>(type: "int", nullable: false),
                     Legajo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
