@@ -320,5 +320,47 @@ app.MapDelete("/usuarios/{id}", (int id) =>
 })
     .WithName("DeleteUsuario")
     .WithOpenApi();
+//AlumnoInscripciones
+
+app.MapGet("alumnoinscripciones/{id}", (int id) =>
+{
+    AlumnoInscripcionesService alumnoInscripcion = new AlumnoInscripcionesService();
+    return alumnoInscripcion.Get(id);
+})
+    .WithName("GetAlumnoInscripcion")
+    .WithOpenApi();
+app.MapGet("/alumnoinscripciones", () =>
+{
+    AlumnoInscripcionesService alumnoInscripcion = new AlumnoInscripcionesService();
+    return alumnoInscripcion.GetAll();
+})
+    .WithName("GetAllAlumnoInscripciones")
+    .WithOpenApi();
+
+app.MapPost("/alumnoinscripciones", (AlumnoInscripcion alumnoInscripcion) =>
+{
+    AlumnoInscripcionesService alumnoInscripcionService = new AlumnoInscripcionesService();
+    alumnoInscripcionService.Add(alumnoInscripcion);
+    
+})
+    .WithName("AddAlumnoInscripcion")
+    .WithOpenApi();
+
+app.MapPut("/alumnoinscripciones", (AlumnoInscripcion alumnoInscripcion) =>
+{
+    AlumnoInscripcionesService alumnoInscripcionesService = new AlumnoInscripcionesService();
+    alumnoInscripcionesService.Update(alumnoInscripcion);
+}) 
+    .WithName("UpdateAlumnoInscripciones")
+    .WithOpenApi();
+
+app.MapDelete("/alumnoInscriones{id}",(int id) =>
+{
+    AlumnoInscripcionesService alumnoInscripcionesService = new AlumnoInscripcionesService();
+    alumnoInscripcionesService.Delete(id);
+})
+    .WithName("DeleteAlumnoInscripciones")
+    .WithOpenApi();
+
 
 app.Run();

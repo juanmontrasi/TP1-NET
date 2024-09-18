@@ -77,7 +77,7 @@ namespace Entidades
         public int IdAlumnoInscripcion { get; set; }
         public int IdPersona { get; set; }
         public int IdCurso { get; set; }
-        public int Cupo { get; set; }
+        public int Nota { get; set; }
         public string Condicion { get; set; }
 
         // Relaciones
