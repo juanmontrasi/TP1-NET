@@ -9,18 +9,16 @@ namespace Entidades
     {
         public int IdPersona { get; set; }
         public string Nombre { get; set; }
-        public int IdPlan { get; set; }
         public string Apellido { get; set; }
         public string Mail { get; set; }
         public string Direccion { get; set; }
         public string FechaNacimiento { get; set; }
-        public int Legajo { get; set; }
 
         // Relaciones
         public ICollection<Usuario> Usuarios { get; set; }
         public ICollection<DocenteCurso> DocenteCursos { get; set; }
         public ICollection<AlumnoInscripcion> AlumnoInscripciones { get; set; }
-        public Plan Plan { get; set; }
+
 
         
 
@@ -105,7 +103,6 @@ namespace Entidades
         public int IdEspecialidad { get; set; }
 
         // Relaciones
-        public ICollection<Persona> Personas { get; set; }
         public ICollection<Materia> Materias { get; set; }
         public Especialidad Especialidad { get; set; }
         public ICollection<Comision> Comisiones { get; set; }

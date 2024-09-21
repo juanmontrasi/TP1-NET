@@ -58,8 +58,6 @@ namespace proyecto_academia {
         
         private global::System.Data.DataRelation relationdt_Especialidad_dt_Plan;
         
-        private global::System.Data.DataRelation relationdt_Plan_dt_Persona;
-        
         private global::System.Data.DataRelation relationdt_Plan_dt_Comisiones;
         
         private global::System.Data.DataRelation relationdt_Comisiones_dt_Curso;
@@ -416,7 +414,6 @@ namespace proyecto_academia {
             this.relationdt_Materia_dt_Curso = this.Relations["dt_Materia_dt_Curso"];
             this.relationdt_Plan_dt_Materia = this.Relations["dt_Plan_dt_Materia"];
             this.relationdt_Especialidad_dt_Plan = this.Relations["dt_Especialidad_dt_Plan"];
-            this.relationdt_Plan_dt_Persona = this.Relations["dt_Plan_dt_Persona"];
             this.relationdt_Plan_dt_Comisiones = this.Relations["dt_Plan_dt_Comisiones"];
             this.relationdt_Comisiones_dt_Curso = this.Relations["dt_Comisiones_dt_Curso"];
         }
@@ -479,10 +476,6 @@ namespace proyecto_academia {
                         this.tabledt_Especialidad.id_especialidadColumn}, new global::System.Data.DataColumn[] {
                         this.tabledt_Plan.id_especialidadColumn}, false);
             this.Relations.Add(this.relationdt_Especialidad_dt_Plan);
-            this.relationdt_Plan_dt_Persona = new global::System.Data.DataRelation("dt_Plan_dt_Persona", new global::System.Data.DataColumn[] {
-                        this.tabledt_Plan.id_planColumn}, new global::System.Data.DataColumn[] {
-                        this.tabledt_Persona.id_planColumn}, false);
-            this.Relations.Add(this.relationdt_Plan_dt_Persona);
             this.relationdt_Plan_dt_Comisiones = new global::System.Data.DataRelation("dt_Plan_dt_Comisiones", new global::System.Data.DataColumn[] {
                         this.tabledt_Plan.id_planColumn}, new global::System.Data.DataColumn[] {
                         this.tabledt_Comisiones.id_planColumn}, false);
@@ -654,8 +647,6 @@ namespace proyecto_academia {
             
             private global::System.Data.DataColumn columnlegajo;
             
-            private global::System.Data.DataColumn columnid_plan;
-            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public dt_PersonaDataTable() {
@@ -763,14 +754,6 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn id_planColumn {
-                get {
-                    return this.columnid_plan;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -806,7 +789,7 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public dt_PersonaRow Adddt_PersonaRow(string tipo_persona, string nombre, string apellido, string direccion, string mail, string telefono, string fecha_nacimiento, int legajo, dt_PlanRow parentdt_PlanRowBydt_Plan_dt_Persona) {
+            public dt_PersonaRow Adddt_PersonaRow(string tipo_persona, string nombre, string apellido, string direccion, string mail, string telefono, string fecha_nacimiento, int legajo) {
                 dt_PersonaRow rowdt_PersonaRow = ((dt_PersonaRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -817,11 +800,7 @@ namespace proyecto_academia {
                         mail,
                         telefono,
                         fecha_nacimiento,
-                        legajo,
-                        null};
-                if ((parentdt_PlanRowBydt_Plan_dt_Persona != null)) {
-                    columnValuesArray[9] = parentdt_PlanRowBydt_Plan_dt_Persona[0];
-                }
+                        legajo};
                 rowdt_PersonaRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdt_PersonaRow);
                 return rowdt_PersonaRow;
@@ -860,7 +839,6 @@ namespace proyecto_academia {
                 this.columntelefono = base.Columns["telefono"];
                 this.columnfecha_nacimiento = base.Columns["fecha_nacimiento"];
                 this.columnlegajo = base.Columns["legajo"];
-                this.columnid_plan = base.Columns["id_plan"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -884,8 +862,6 @@ namespace proyecto_academia {
                 base.Columns.Add(this.columnfecha_nacimiento);
                 this.columnlegajo = new global::System.Data.DataColumn("legajo", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnlegajo);
-                this.columnid_plan = new global::System.Data.DataColumn("id_plan", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnid_plan);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("dt_PersonaKey1", new global::System.Data.DataColumn[] {
                                 this.columnid_persona}, true));
                 this.columnid_persona.AutoIncrement = true;
@@ -3647,33 +3623,6 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int id_plan {
-                get {
-                    try {
-                        return ((int)(this[this.tabledt_Persona.id_planColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'id_plan\' de la tabla \'dt_Persona\' es DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tabledt_Persona.id_planColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public dt_PlanRow dt_PlanRow {
-                get {
-                    return ((dt_PlanRow)(this.GetParentRow(this.Table.ParentRelations["dt_Plan_dt_Persona"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["dt_Plan_dt_Persona"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool Istipo_personaNull() {
                 return this.IsNull(this.tabledt_Persona.tipo_personaColumn);
             }
@@ -3766,18 +3715,6 @@ namespace proyecto_academia {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetlegajoNull() {
                 this[this.tabledt_Persona.legajoColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool Isid_planNull() {
-                return this.IsNull(this.tabledt_Persona.id_planColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void Setid_planNull() {
-                this[this.tabledt_Persona.id_planColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4728,17 +4665,6 @@ namespace proyecto_academia {
                 }
                 else {
                     return ((dt_MateriaRow[])(base.GetChildRows(this.Table.ChildRelations["dt_Plan_dt_Materia"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public dt_PersonaRow[] Getdt_PersonaRows() {
-                if ((this.Table.ChildRelations["dt_Plan_dt_Persona"] == null)) {
-                    return new dt_PersonaRow[0];
-                }
-                else {
-                    return ((dt_PersonaRow[])(base.GetChildRows(this.Table.ChildRelations["dt_Plan_dt_Persona"])));
                 }
             }
             

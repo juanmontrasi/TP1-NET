@@ -49,6 +49,8 @@ namespace proyecto_academia.Servicios
             {
                 alumnoInscripcionToUpdate.Condicion = alumnoInscripcion.Condicion;
                 alumnoInscripcionToUpdate.Nota = alumnoInscripcion.Nota;
+                alumnoInscripcionToUpdate.IdCurso = alumnoInscripcion.IdCurso;
+                alumnoInscripcionToUpdate.IdPersona = alumnoInscripcion.IdPersona;
                 context.SaveChanges();
             }
         }

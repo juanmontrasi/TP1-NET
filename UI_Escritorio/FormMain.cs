@@ -1,3 +1,4 @@
+using Entidades;
 using System;
 using System.Windows.Forms;
 
@@ -5,16 +6,18 @@ namespace UI_Escritorio
 {
     public partial class FormMain : Form
     {
-        public FormMain()
+        private Usuario usuarioAutenticado;
+        public FormMain(Usuario usuario)
         {
             InitializeComponent();
+            this.usuarioAutenticado = usuario;
         }
 
 
 
         private void FormMain_Shown(object sender, EventArgs e)
         {
-            // Código que se ejecutará cuando el formulario principal se muestre.
+            
 
         }
 
@@ -70,7 +73,7 @@ namespace UI_Escritorio
 
         private void inscripcionesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormInscripcionesAlumno formInscripcionesAlumno = new FormInscripcionesAlumno();
+            FormInscripcionesAlumno formInscripcionesAlumno = new FormInscripcionesAlumno(usuarioAutenticado);
             formInscripcionesAlumno.FormBorderStyle = FormBorderStyle.None;
             formInscripcionesAlumno.WindowState = FormWindowState.Maximized;
             formInscripcionesAlumno.MdiParent = this;

@@ -12,9 +12,16 @@ namespace UI_Escritorio
 {
     public partial class FormInscripcionesAlumno : Form
     {
-        public FormInscripcionesAlumno()
+        private Usuario usuario;
+        public FormInscripcionesAlumno(Usuario usuario)
         {
             InitializeComponent();
+            this.usuario = usuario;
+            if (usuario.Rol != "Alumno")
+            {
+                MessageBox.Show("Solo los alumnos pueden acceder a este formulario.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
         }
 
         private void btnListar_Click(object sender, EventArgs e)
@@ -49,7 +56,7 @@ namespace UI_Escritorio
 
         private async void btnEditar_Click(object sender, EventArgs e)
         {
-            FormAlumnoInscripcionesDetalle formAlumnoInscripcionesDetalle = new FormAlumnoInscripcionesDetalle();
+            FormAlumnoInscripcionesDetalle formAlumnoInscripcionesDetalle = new FormAlumnoInscripcionesDetalle(usuario);
             int id = this.SelectedItem().IdAlumnoInscripcion;
             AlumnoInscripcion alumnoInscripcion = await AlumnoInscripcionesApi.GetAsync(id);
             formAlumnoInscripcionesDetalle.EditMode = true;
@@ -60,7 +67,7 @@ namespace UI_Escritorio
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
-            FormAlumnoInscripcionesDetalle alumnoInscripcionesDetalle = new FormAlumnoInscripcionesDetalle();
+            FormAlumnoInscripcionesDetalle alumnoInscripcionesDetalle = new FormAlumnoInscripcionesDetalle(usuario);
             AlumnoInscripcion alumnoInscripcionNuevo = new AlumnoInscripcion();
             alumnoInscripcionesDetalle.ShowDialog();
             this.GetAllAndLoad();

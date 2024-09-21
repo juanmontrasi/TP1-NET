@@ -63,7 +63,6 @@ namespace UI_Escritorio
                 }
 
 
-                // Deserializar el contenido de la respuesta
                 var createdPersona = await response.Content.ReadFromJsonAsync<Persona>();
 
                 if (createdPersona == null)

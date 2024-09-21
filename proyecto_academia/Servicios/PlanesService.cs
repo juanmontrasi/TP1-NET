@@ -61,6 +61,7 @@ namespace proyecto_academia.Servicios
             if (planToUpdate != null)
             {
                 planToUpdate.Nombre_Plan = plan.Nombre_Plan;
+                planToUpdate.IdEspecialidad = plan.IdEspecialidad;
                 context.SaveChanges();
             }
         }

@@ -62,6 +62,7 @@ namespace proyecto_academia.Servicios
             {
                 comisionToUpdate.Nombre_Comision = comision.Nombre_Comision;
                 comisionToUpdate.Anio_Especialidad = comision.Anio_Especialidad;
+                comisionToUpdate.IdPlan = comision.IdPlan;
                 context.SaveChanges();
             }
         }

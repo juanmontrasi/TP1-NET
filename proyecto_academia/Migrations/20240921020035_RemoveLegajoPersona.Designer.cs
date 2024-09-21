@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using proyecto_academia.Context;
 
@@ -11,9 +12,11 @@ using proyecto_academia.Context;
 namespace proyecto_academia.Migrations
 {
     [DbContext(typeof(AcademiaDbContext))]
-    partial class AcademiaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240921020035_RemoveLegajoPersona")]
+    partial class RemoveLegajoPersona
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,7 +321,7 @@ namespace proyecto_academia.Migrations
                     b.HasOne("Entidades.Comision", "Comision")
                         .WithMany("Cursos")
                         .HasForeignKey("IdComision")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Entidades.Materia", "Materia")

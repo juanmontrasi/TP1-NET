@@ -63,6 +63,7 @@ namespace proyecto_academia.Servicios
                 materiaToUpdate.Nombre_Materia = materia.Nombre_Materia;
                 materiaToUpdate.Hs_Semanales = materia.Hs_Semanales;
                 materiaToUpdate.Hs_Totales = materia.Hs_Totales;
+                materiaToUpdate.IdPlan = materia.IdPlan;
                 context.SaveChanges();
             }
         }

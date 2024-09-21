@@ -53,7 +53,6 @@ namespace proyecto_academia.Servicios
                 personaToUpdate.Direccion = persona.Direccion;
                 personaToUpdate.FechaNacimiento = persona.FechaNacimiento;
                 personaToUpdate.Mail = persona.Mail;
-                personaToUpdate.Legajo = persona.Legajo;
                 context.SaveChanges();
             }
         }

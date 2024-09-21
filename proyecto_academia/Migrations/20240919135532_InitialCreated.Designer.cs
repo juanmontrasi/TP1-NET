@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using proyecto_academia.Context;
 
@@ -11,9 +12,11 @@ using proyecto_academia.Context;
 namespace proyecto_academia.Migrations
 {
     [DbContext(typeof(AcademiaDbContext))]
-    partial class AcademiaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240919135532_InitialCreated")]
+    partial class InitialCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,6 +214,12 @@ namespace proyecto_academia.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("IdPlan")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Legajo")
+                        .HasColumnType("int");
+
                     b.Property<string>("Mail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -220,6 +229,8 @@ namespace proyecto_academia.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdPersona");
+
+                    b.HasIndex("IdPlan");
 
                     b.ToTable("Personas");
                 });
@@ -318,7 +329,7 @@ namespace proyecto_academia.Migrations
                     b.HasOne("Entidades.Comision", "Comision")
                         .WithMany("Cursos")
                         .HasForeignKey("IdComision")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Entidades.Materia", "Materia")
@@ -359,6 +370,17 @@ namespace proyecto_academia.Migrations
                 {
                     b.HasOne("Entidades.Plan", "Plan")
                         .WithMany("Materias")
+                        .HasForeignKey("IdPlan")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plan");
+                });
+
+            modelBuilder.Entity("Entidades.Persona", b =>
+                {
+                    b.HasOne("Entidades.Plan", "Plan")
+                        .WithMany("Personas")
                         .HasForeignKey("IdPlan")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -424,6 +446,8 @@ namespace proyecto_academia.Migrations
                     b.Navigation("Comisiones");
 
                     b.Navigation("Materias");
+
+                    b.Navigation("Personas");
                 });
 
             modelBuilder.Entity("Entidades.Usuario", b =>

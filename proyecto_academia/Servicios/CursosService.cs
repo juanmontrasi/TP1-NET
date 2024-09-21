@@ -64,6 +64,8 @@ namespace proyecto_academia.Servicios
                 cursoToUpdate.Nombre = curso.Nombre;
                 cursoToUpdate.Cupo = curso.Cupo;
                 cursoToUpdate.Anio_Calendario = curso.Anio_Calendario;
+                cursoToUpdate.IdMateria = curso.IdMateria;
+                cursoToUpdate.IdComision = curso.IdComision;
                 context.SaveChanges();
             }
         }

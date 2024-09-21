@@ -1,12 +1,5 @@
 ﻿using Entidades;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UI_Escritorio
@@ -15,10 +8,23 @@ namespace UI_Escritorio
     {
         private AlumnoInscripcion alumnoInscripcion;
         public bool EditMode { get; internal set; } = false;
-        public FormAlumnoInscripcionesDetalle()
+        private Usuario usuario; 
+
+
+        public FormAlumnoInscripcionesDetalle(Usuario usuario)
         {
             InitializeComponent();
+            this.usuario = usuario;
+
+   
+            if (!usuario.Rol.Equals("Alumno"))
+            {
+                MessageBox.Show("Solo los usuarios con rol de Alumno pueden acceder a esta sección.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close(); 
+            }
         }
+
+
         public AlumnoInscripcion AlumnoInscripcion
         {
             get { return alumnoInscripcion; }
@@ -32,10 +38,9 @@ namespace UI_Escritorio
             }
         }
 
-
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -45,7 +50,7 @@ namespace UI_Escritorio
 
         private void SetAlumnoInscripcion()
         {
-
+           
         }
     }
 }

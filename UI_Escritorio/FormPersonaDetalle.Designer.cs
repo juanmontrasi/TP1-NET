@@ -40,12 +40,8 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            label5 = new Label();
-            label6 = new Label();
-            legajotb = new TextBox();
             label7 = new Label();
             fechaNacdtp = new DateTimePicker();
-            comboBoxPlanes = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
@@ -69,7 +65,7 @@
             // 
             // aceptarButton
             // 
-            aceptarButton.Location = new Point(155, 303);
+            aceptarButton.Location = new Point(155, 256);
             aceptarButton.Margin = new Padding(2, 1, 2, 1);
             aceptarButton.Name = "aceptarButton";
             aceptarButton.Size = new Size(121, 51);
@@ -80,7 +76,7 @@
             // 
             // cancelarButton
             // 
-            cancelarButton.Location = new Point(372, 303);
+            cancelarButton.Location = new Point(382, 256);
             cancelarButton.Margin = new Padding(2, 1, 2, 1);
             cancelarButton.Name = "cancelarButton";
             cancelarButton.Size = new Size(110, 51);
@@ -141,31 +137,6 @@
             label3.TabIndex = 10;
             label3.Text = "Direccion Persona";
             // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(155, 246);
-            label5.Name = "label5";
-            label5.Size = new Size(75, 15);
-            label5.TabIndex = 12;
-            label5.Text = "Plan Persona";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(155, 10);
-            label6.Name = "label6";
-            label6.Size = new Size(42, 15);
-            label6.TabIndex = 14;
-            label6.Text = "Legajo";
-            // 
-            // legajotb
-            // 
-            legajotb.Location = new Point(283, 10);
-            legajotb.Name = "legajotb";
-            legajotb.Size = new Size(111, 23);
-            legajotb.TabIndex = 15;
-            // 
             // label7
             // 
             label7.AutoSize = true;
@@ -182,14 +153,6 @@
             fechaNacdtp.Size = new Size(210, 23);
             fechaNacdtp.TabIndex = 17;
             // 
-            // comboBoxPlanes
-            // 
-            comboBoxPlanes.FormattingEnabled = true;
-            comboBoxPlanes.Location = new Point(282, 243);
-            comboBoxPlanes.Name = "comboBoxPlanes";
-            comboBoxPlanes.Size = new Size(112, 23);
-            comboBoxPlanes.TabIndex = 13;
-            // 
             // FormPersonaDetalle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -197,10 +160,6 @@
             ClientSize = new Size(657, 499);
             Controls.Add(fechaNacdtp);
             Controls.Add(label7);
-            Controls.Add(legajotb);
-            Controls.Add(label6);
-            Controls.Add(comboBoxPlanes);
-            Controls.Add(label5);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -227,7 +186,6 @@
         private Button aceptarButton;
         private Button cancelarButton;
         private ErrorProvider errorProvider;
-        private Label label5;
         private Label label3;
         private Label label2;
         private Label label1;
@@ -236,8 +194,5 @@
         private TextBox apellidotb;
         private DateTimePicker fechaNacdtp;
         private Label label7;
-        private TextBox legajotb;
-        private Label label6;
-        private ComboBox comboBoxPlanes;
     }
 }
