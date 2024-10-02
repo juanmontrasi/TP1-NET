@@ -362,5 +362,14 @@ app.MapDelete("/alumnoInscriones{id}",(int id) =>
     .WithName("DeleteAlumnoInscripciones")
     .WithOpenApi();
 
+app.MapGet("/alumnoinscripciones/alumno/{idPersona}", (int idPersona) =>
+{
+    AlumnoInscripcionesService alumnoInscripcionesService = new AlumnoInscripcionesService();
+    var inscripciones = alumnoInscripcionesService.GetByAlumnoId(idPersona); 
+    return inscripciones; 
+})
+.WithName("GetInscripcionesByAlumnoId")
+.WithOpenApi();
+
 
 app.Run();

@@ -24,9 +24,9 @@ namespace UI_Escritorio
         private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormAlumnos formAlumnos = new FormAlumnos();
-            formAlumnos.FormBorderStyle = FormBorderStyle.None; // Quita los bordes y los botones de control
+            formAlumnos.FormBorderStyle = FormBorderStyle.None; 
             formAlumnos.WindowState = FormWindowState.Maximized;
-            formAlumnos.MdiParent = this; // Para que se muestre dentro del FormMain si es MDI
+            formAlumnos.MdiParent = this; 
             formAlumnos.Show();
         }
 
@@ -91,7 +91,7 @@ namespace UI_Escritorio
 
         private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormEspecialidades formEsp = new FormEspecialidades();
+            FormEspecialidades formEsp = new FormEspecialidades(usuarioAutenticado);
             formEsp.FormBorderStyle = FormBorderStyle.None;
             formEsp.WindowState = FormWindowState.Maximized;
             formEsp.MdiParent = this;
@@ -100,7 +100,7 @@ namespace UI_Escritorio
 
         private void planesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormPlanes formPlanes = new FormPlanes();
+            FormPlanes formPlanes = new FormPlanes(usuarioAutenticado);
             formPlanes.FormBorderStyle = FormBorderStyle.None;
             formPlanes.WindowState = FormWindowState.Maximized;
             formPlanes.MdiParent = this;

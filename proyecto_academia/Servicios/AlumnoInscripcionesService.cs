@@ -54,5 +54,22 @@ namespace proyecto_academia.Servicios
                 context.SaveChanges();
             }
         }
+
+        public List<AlumnoInscripcion> GetByAlumnoId(int idPersona)
+        {
+            using var context = new AcademiaDbContext();
+            List<AlumnoInscripcion> inscripciones = new List<AlumnoInscripcion>();
+
+            foreach (var inscripcion in context.AlumnoInscripciones)
+            {
+                if (inscripcion.IdPersona == idPersona)
+                {
+                    inscripciones.Add(inscripcion);
+                }
+            }
+
+            return inscripciones;
+        }
+
     }
 }

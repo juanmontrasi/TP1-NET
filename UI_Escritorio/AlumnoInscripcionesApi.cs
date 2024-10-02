@@ -23,7 +23,7 @@ namespace UI_Escritorio
             AlumnoInscripcion alumnoInscripcion = null;
             HttpResponseMessage response = await _alumnoInscripciones.GetAsync("alumnoinscripciones/" + id);
             if (response.IsSuccessStatusCode)
-            { 
+            {
                 alumnoInscripcion = await response.Content.ReadAsAsync<AlumnoInscripcion>();
             }
             return alumnoInscripcion;
@@ -49,7 +49,7 @@ namespace UI_Escritorio
 
         public static async Task DeleteAsync(int id)
         {
-            HttpResponseMessage response = await _alumnoInscripciones.DeleteAsync("alumnoinscripciones/" +id);
+            HttpResponseMessage response = await _alumnoInscripciones.DeleteAsync("alumnoinscripciones/" + id);
             response.EnsureSuccessStatusCode();
         }
 
@@ -57,6 +57,20 @@ namespace UI_Escritorio
         {
             HttpResponseMessage response = await _alumnoInscripciones.PutAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
             response.EnsureSuccessStatusCode();
+        }
+
+        public static async Task<IEnumerable<AlumnoInscripcion>> GetByAlumnoIdAsync(int idPersona)
+        {
+            IEnumerable<AlumnoInscripcion> alumnoInscripciones = null;
+            HttpResponseMessage response = await _alumnoInscripciones.GetAsync($"alumnoinscripciones/alumno/{idPersona}");
+            if (response.IsSuccessStatusCode)
+            {
+                alumnoInscripciones = await response.Content.ReadAsAsync<IEnumerable<AlumnoInscripcion>>();
+            }
+            return alumnoInscripciones;
+
+
+
         }
     }
 }
