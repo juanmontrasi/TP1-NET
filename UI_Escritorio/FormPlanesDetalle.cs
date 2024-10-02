@@ -53,7 +53,7 @@ namespace UI_Escritorio
                 if (plan != null)
                 {
                     this.Plan.Nombre_Plan = nombreTextBox.Text;
-                    this.Plan.IdEspecialidad = (int)comboBoxEspecialidades.SelectedValue; // Asegúrate de que esto se asigna correctamente
+                    this.Plan.IdEspecialidad = (int)comboBoxEspecialidades.SelectedValue; 
 
                     try
                     {
@@ -151,9 +151,6 @@ namespace UI_Escritorio
             }
         }
 
-        private void comboBoxEspecialidades_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

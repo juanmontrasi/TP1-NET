@@ -15,9 +15,11 @@ namespace UI_Escritorio
 {
     public partial class FormEspecialidades : Form
     {
-        public FormEspecialidades()
+        private Usuario usuario;
+        public FormEspecialidades(Usuario usuario)
         {
             InitializeComponent();
+            this.usuario = usuario;
         }
 
         private void Especialidades_Load(object sender, EventArgs e)
@@ -75,6 +77,12 @@ namespace UI_Escritorio
             {
                 this.btnBorrar.Enabled = false;
                 this.btnEditar.Enabled = false;
+            }
+            if (usuario.Rol.Equals("Alumno") || usuario.Rol.Equals("Docente"))
+            {
+                this.btnBorrar.Enabled = false;
+                this.btnEditar.Enabled = false;
+                this.btnNuevo.Enabled = false;
             }
         }
 

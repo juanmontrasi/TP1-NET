@@ -17,16 +17,23 @@ namespace UI_Escritorio
         {
             InitializeComponent();
             this.usuario = usuario;
-            if (usuario.Rol != "Alumno")
+            if (!usuario.Rol.Equals("Alumno") && !usuario.Rol.Equals("Administrador"))
             {
-                MessageBox.Show("Solo los alumnos pueden acceder a este formulario.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Solo los alumnos o administradores  pueden acceder a este formulario.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
         }
 
         private void btnListar_Click(object sender, EventArgs e)
         {
-            this.GetAllAndLoad();
+            if (usuario.Rol.Equals("Administrador"))
+            {
+                this.GetAllAndLoad();
+            }
+            else if(usuario.Rol.Equals("Alumno"))
+            {
+                this.GetAllAndLoadAlumno();
+            }
         }
         private async void GetAllAndLoad()
         {
@@ -47,9 +54,31 @@ namespace UI_Escritorio
                 this.btnBorrar.Enabled=false;
                 this.btnEditar.Enabled=false;
             }
+
         }
 
-        private void btnBorrar_Click(object sender, EventArgs e)
+        private async void GetAllAndLoadAlumno()
+        {
+            this.dgvInscripcionesAlumno.DataSource = null;
+            this.dgvInscripcionesAlumno.AutoGenerateColumns = true;
+            var alumnoInscripciones = await AlumnoInscripcionesApi.GetByAlumnoIdAsync(usuario.IdPersona);
+            this.dgvInscripcionesAlumno.DataSource = alumnoInscripciones;
+            this.dgvInscripcionesAlumno.Refresh();  
+
+            if (this.dgvInscripcionesAlumno.Rows.Count > 0)
+            {
+                this.dgvInscripcionesAlumno.Rows[0].Selected = true;
+                this.btnBorrar.Enabled = true;
+                this.btnEditar.Enabled = false;
+
+            }
+            else
+            {
+                this.btnBorrar.Enabled = false;
+                this.btnEditar.Enabled = false;
+            }
+        }
+            private void btnBorrar_Click(object sender, EventArgs e)
         {
             int id = this.SelectedItem().IdAlumnoInscripcion;
         }
@@ -69,6 +98,7 @@ namespace UI_Escritorio
         {
             FormAlumnoInscripcionesDetalle alumnoInscripcionesDetalle = new FormAlumnoInscripcionesDetalle(usuario);
             AlumnoInscripcion alumnoInscripcionNuevo = new AlumnoInscripcion();
+            alumnoInscripcionesDetalle.EditMode= false;
             alumnoInscripcionesDetalle.ShowDialog();
             this.GetAllAndLoad();
 

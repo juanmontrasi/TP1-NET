@@ -13,9 +13,11 @@ namespace UI_Escritorio
 {
     public partial class FormPlanes : Form
     {
-        public FormPlanes()
+        private Usuario usuario;
+        public FormPlanes(Usuario usuario)
         {
             InitializeComponent();
+            this.usuario = usuario;
         }
         private void Planes_Load(object sender, EventArgs e)
         {
@@ -72,6 +74,13 @@ namespace UI_Escritorio
             {
                 this.btnBorrar.Enabled = false;
                 this.btnEditar.Enabled = false;
+            }
+
+            if(usuario.Rol.Equals("Alumno") || usuario.Rol.Equals("Docente"))
+            {
+                this.btnNuevo.Enabled = false;
+                this.btnEditar.Enabled = false;
+                this.btnBorrar.Enabled = false;
             }
         }
 

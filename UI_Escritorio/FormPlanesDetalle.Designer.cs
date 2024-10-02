@@ -92,7 +92,7 @@
             comboBoxEspecialidades.Name = "comboBoxEspecialidades";
             comboBoxEspecialidades.Size = new Size(228, 28);
             comboBoxEspecialidades.TabIndex = 6;
-            comboBoxEspecialidades.SelectedIndexChanged += comboBoxEspecialidades_SelectedIndexChanged;
+            
             // 
             // label1
             // 

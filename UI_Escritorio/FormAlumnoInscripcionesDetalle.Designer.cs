@@ -1,4 +1,6 @@
-﻿namespace UI_Escritorio
+﻿using System.Windows.Forms;
+
+namespace UI_Escritorio
 {
     partial class FormAlumnoInscripcionesDetalle
     {
@@ -28,16 +30,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.errorProvider = new System.Windows.Forms.ErrorProvider();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            tbCondicion = new TextBox();
             tbNota = new TextBox();
             btnAceptar = new Button();
             btnCancelar = new Button();
             label4 = new Label();
             cbCursos = new ComboBox();
             cbAlumnos = new ComboBox();
+            cbCondicion = new ComboBox();
             SuspendLayout();
             // 
             // label1
@@ -67,21 +70,12 @@
             label3.TabIndex = 2;
             label3.Text = "Curso";
             // 
-            // tbCondicion
-            // 
-            tbCondicion.Location = new Point(361, 65);
-            tbCondicion.Name = "tbCondicion";
-            tbCondicion.Size = new Size(143, 23);
-            tbCondicion.TabIndex = 3;
-            
-            // 
             // tbNota
             // 
             tbNota.Location = new Point(361, 106);
             tbNota.Name = "tbNota";
             tbNota.Size = new Size(143, 23);
             tbNota.TabIndex = 4;
-            
             // 
             // btnAceptar
             // 
@@ -119,7 +113,6 @@
             cbCursos.Name = "cbCursos";
             cbCursos.Size = new Size(143, 23);
             cbCursos.TabIndex = 9;
-
             // 
             // cbAlumnos
             // 
@@ -128,25 +121,39 @@
             cbAlumnos.Name = "cbAlumnos";
             cbAlumnos.Size = new Size(143, 23);
             cbAlumnos.TabIndex = 10;
-
+            // 
+            // cbCondicion
+            // 
+            cbCondicion.FormattingEnabled = true;
+            cbCondicion.Location = new Point(361, 68);
+            cbCondicion.Name = "cbCondicion";
+            cbCondicion.Size = new Size(143, 23);
+            cbCondicion.TabIndex = 11;
+            //
+            // Error Provider
+            //
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            this.errorProvider.ContainerControl = this;
             // 
             // FormAlumnoInscripcionesDetalle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(878, 473);
+            Controls.Add(cbCondicion);
             Controls.Add(cbAlumnos);
             Controls.Add(cbCursos);
             Controls.Add(label4);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
             Controls.Add(tbNota);
-            Controls.Add(tbCondicion);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "FormAlumnoInscripcionesDetalle";
             Text = "FormAlumnoInscripcionesDetalle";
+            Load += FormAlumnoInscripcionesDetalle_Load;
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -156,12 +163,13 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private TextBox tbCondicion;
         private TextBox tbNota;
         private Button btnAceptar;
         private Button btnCancelar;
         private Label label4;
         private ComboBox cbCursos;
         private ComboBox cbAlumnos;
+        private ErrorProvider errorProvider;
+        private ComboBox cbCondicion;
     }
 }
