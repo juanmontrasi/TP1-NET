@@ -7,6 +7,8 @@ namespace UI_Escritorio
     public partial class FormMain : Form
     {
         private Usuario usuarioAutenticado;
+
+        public IEnumerable<string> roles = new List<string> { "Alumno", "Administrador", "Docente" };
         public FormMain(Usuario usuario)
         {
             InitializeComponent();
@@ -17,8 +19,27 @@ namespace UI_Escritorio
 
         private void FormMain_Shown(object sender, EventArgs e)
         {
-            
+            if (usuarioAutenticado.Rol == "Alumno")
+            {
+                personasToolStripMenuItem.Visible = false;
+                docentesToolStripMenuItem.Visible = false;
+                cursosDocenteToolStripMenuItem.Visible = false;
+                cursosToolStripMenuItem.Visible = false;
+                alumnosToolStripMenuItem.Visible = false;
+                especialidadesToolStripMenuItem.Visible = false;
+                planesToolStripMenuItem.Visible = false;
+                usuarioToolStripMenuItem.Visible = false;
 
+            }
+            if (usuarioAutenticado.Rol == "Docente")
+            {
+                personasToolStripMenuItem.Visible = false;
+                cursosToolStripMenuItem.Visible = false;
+                alumnosToolStripMenuItem.Visible = false;
+                especialidadesToolStripMenuItem.Visible = false;
+                planesToolStripMenuItem.Visible = false;
+                usuarioToolStripMenuItem.Visible = false;
+            }
         }
 
         private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)

@@ -320,6 +320,19 @@ app.MapDelete("/usuarios/{id}", (int id) =>
 })
     .WithName("DeleteUsuario")
     .WithOpenApi();
+
+app.MapPost("/usuarios/authenticate", (Usuario loginUsuario) =>
+{
+    UsuarioService usuarioService = new UsuarioService();
+    var usuario = usuarioService.Authenticate(loginUsuario.Nombre_Usuario, loginUsuario.Clave);
+    if (usuario != null)
+    {
+        return Results.Ok(usuario);
+    }
+    return Results.Unauthorized();
+})
+.WithName("AuthenticateUsuario")
+.WithOpenApi();
 //AlumnoInscripciones
 
 app.MapGet("alumnoinscripciones/{id}", (int id) =>

@@ -11,6 +11,13 @@ namespace proyecto_academia.Servicios
 {
     public class UsuarioService
     {
+        public Usuario Authenticate(string nombreUsuario, string clave)
+        {
+            using var context = new AcademiaDbContext();
+
+            var usuario = context.Usuarios.FirstOrDefault(u => u.Nombre_Usuario == nombreUsuario && u.Clave == clave);
+            return usuario;
+        }
         public void Add(Usuario usuario)
         {
             using var context = new AcademiaDbContext();

@@ -1,7 +1,8 @@
-﻿using Entidades;
+﻿Using Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Numerics;
@@ -21,6 +22,18 @@ namespace UI_Escritorio
             _usuario.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+
+        public static async Task<Usuario> AuthenticateAsync(string nombreUsuario, string clave)
+        {
+            Usuario usuario = null;
+            var loginUsuario = new Usuario { Nombre_Usuario = nombreUsuario, Clave = clave };
+            HttpResponseMessage response = await _usuario.PostAsJsonAsync("usuarios/authenticate", loginUsuario);
+            if (response.IsSuccessStatusCode)
+            {
+                usuario = await response.Content.ReadAsAsync<Usuario>();
+            }
+            return usuario;
+        }
         public static async Task<Usuario> GetAsync(int id)
         {
             Usuario usuario = null;

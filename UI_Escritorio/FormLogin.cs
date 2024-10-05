@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,22 +13,32 @@ namespace UI_Escritorio
 {
     public partial class FormLogin : Form
     {
+        public Usuario UsuarioAutenticado { get; private set; }
         public FormLogin()
         {
             InitializeComponent();
+
         }
-        private void BtnIngresar_Click(object sender, EventArgs e)
+        private async void BtnIngresar_Click(object sender, EventArgs e)
         {
             // La propiedad Text de los TextBox contiene el texto escrito en ellos
-            if (this.txtUsuario.Text == "Admin" && this.txtPass.Text == "admin")
+
+            string nombreUsuario = txtUsuario.Text;
+            string clave = txtPass.Text;
+
+            var usuario = await UsuariosApi.AuthenticateAsync(nombreUsuario, clave);
+
+            if (usuario != null)
             {
+                // Credenciales correctas, almacenar el usuario autenticado y cerrar el formulario
+                UsuarioAutenticado = usuario;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Usuario y/o contraseña incorrectos", "Login",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Usuario y/o contraseña incorrectos", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
 

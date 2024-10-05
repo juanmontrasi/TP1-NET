@@ -16,11 +16,8 @@ namespace UI_Escritorio
             {
                 if (loginForm.ShowDialog() == DialogResult.OK)
                 {
-                  // FALTA TODA LA VALIDACION DEL USUARIO
-                    Usuario usuario = new Usuario
-                    {
-                        
-                    };
+
+                    Usuario usuario = loginForm.UsuarioAutenticado;
 
                     Application.Run(new FormMain(usuario));
                 }
