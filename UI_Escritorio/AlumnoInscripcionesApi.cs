@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,6 @@ namespace UI_Escritorio
             return alumnoInscripcion;
         }
 
-
         public static async Task<IEnumerable<AlumnoInscripcion>> GetAllAsync()
         {
             IEnumerable<AlumnoInscripcion> alumnoInscripciones = null;
@@ -41,21 +41,39 @@ namespace UI_Escritorio
             return alumnoInscripciones;
         }
 
-        public static async Task AddAsync(AlumnoInscripcion alumnoInscripcion)
+        public static async Task<bool> AddAsync(AlumnoInscripcion alumnoInscripcion)
         {
-            HttpResponseMessage response = await _alumnoInscripciones.PostAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                HttpResponseMessage response = await _alumnoInscripciones.PostAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
+                response.EnsureSuccessStatusCode();
+                return true; // Inscripción exitosa
+            }
+            catch (HttpRequestException ex)
+            {
+                // Manejar errores de la solicitud aquí, si es necesario
+                return false; // Inscripción fallida
+            }
+        }
+
+        public static async Task<bool> UpdateAsync(AlumnoInscripcion alumnoInscripcion)
+        {
+            try
+            {
+                HttpResponseMessage response = await _alumnoInscripciones.PutAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
+                response.EnsureSuccessStatusCode();
+                return true; // Actualización exitosa
+            }
+            catch (HttpRequestException ex)
+            {
+                // Manejar errores de la solicitud aquí, si es necesario
+                return false; // Actualización fallida
+            }
         }
 
         public static async Task DeleteAsync(int id)
         {
             HttpResponseMessage response = await _alumnoInscripciones.DeleteAsync("alumnoinscripciones/" + id);
-            response.EnsureSuccessStatusCode();
-        }
-
-        public static async Task UpdateAsync(AlumnoInscripcion alumnoInscripcion)
-        {
-            HttpResponseMessage response = await _alumnoInscripciones.PutAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
             response.EnsureSuccessStatusCode();
         }
 
@@ -68,9 +86,6 @@ namespace UI_Escritorio
                 alumnoInscripciones = await response.Content.ReadAsAsync<IEnumerable<AlumnoInscripcion>>();
             }
             return alumnoInscripciones;
-
-
-
         }
     }
 }

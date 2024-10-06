@@ -12,8 +12,8 @@ using proyecto_academia.Context;
 namespace proyecto_academia.Migrations
 {
     [DbContext(typeof(AcademiaDbContext))]
-    [Migration("20240829140726_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241005193104_Update4")]
+    partial class Update4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace proyecto_academia.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AlumnoInscripcion", b =>
+            modelBuilder.Entity("Entidades.AlumnoInscripcion", b =>
                 {
                     b.Property<int>("IdAlumnoInscripcion")
                         .ValueGeneratedOnAdd()
@@ -37,13 +37,13 @@ namespace proyecto_academia.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Cupo")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdCurso")
                         .HasColumnType("int");
 
                     b.Property<int>("IdPersona")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Nota")
                         .HasColumnType("int");
 
                     b.Property<int?>("UsuarioIdUsuario")
@@ -60,7 +60,7 @@ namespace proyecto_academia.Migrations
                     b.ToTable("AlumnoInscripciones");
                 });
 
-            modelBuilder.Entity("Comision", b =>
+            modelBuilder.Entity("Entidades.Comision", b =>
                 {
                     b.Property<int>("IdComision")
                         .ValueGeneratedOnAdd()
@@ -85,7 +85,7 @@ namespace proyecto_academia.Migrations
                     b.ToTable("Comisiones");
                 });
 
-            modelBuilder.Entity("Curso", b =>
+            modelBuilder.Entity("Entidades.Curso", b =>
                 {
                     b.Property<int>("IdCurso")
                         .ValueGeneratedOnAdd()
@@ -118,7 +118,7 @@ namespace proyecto_academia.Migrations
                     b.ToTable("Cursos");
                 });
 
-            modelBuilder.Entity("DocenteCurso", b =>
+            modelBuilder.Entity("Entidades.DocenteCurso", b =>
                 {
                     b.Property<int>("IdDocenteCurso")
                         .ValueGeneratedOnAdd()
@@ -149,7 +149,7 @@ namespace proyecto_academia.Migrations
                     b.ToTable("DocenteCursos");
                 });
 
-            modelBuilder.Entity("Especialidad", b =>
+            modelBuilder.Entity("Entidades.Especialidad", b =>
                 {
                     b.Property<int>("IdEspecialidad")
                         .ValueGeneratedOnAdd()
@@ -166,7 +166,7 @@ namespace proyecto_academia.Migrations
                     b.ToTable("Especialidades");
                 });
 
-            modelBuilder.Entity("Materia", b =>
+            modelBuilder.Entity("Entidades.Materia", b =>
                 {
                     b.Property<int>("IdMateria")
                         .ValueGeneratedOnAdd()
@@ -194,7 +194,7 @@ namespace proyecto_academia.Migrations
                     b.ToTable("Materias");
                 });
 
-            modelBuilder.Entity("Persona", b =>
+            modelBuilder.Entity("Entidades.Persona", b =>
                 {
                     b.Property<int>("IdPersona")
                         .ValueGeneratedOnAdd()
@@ -214,12 +214,6 @@ namespace proyecto_academia.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdPlan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Legajo")
-                        .HasColumnType("int");
-
                     b.Property<string>("Mail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -228,17 +222,12 @@ namespace proyecto_academia.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Tipo_Persona")
-                        .HasColumnType("int");
-
                     b.HasKey("IdPersona");
-
-                    b.HasIndex("IdPlan");
 
                     b.ToTable("Personas");
                 });
 
-            modelBuilder.Entity("Plan", b =>
+            modelBuilder.Entity("Entidades.Plan", b =>
                 {
                     b.Property<int>("IdPlan")
                         .ValueGeneratedOnAdd()
@@ -260,7 +249,7 @@ namespace proyecto_academia.Migrations
                     b.ToTable("Planes");
                 });
 
-            modelBuilder.Entity("Usuario", b =>
+            modelBuilder.Entity("Entidades.Usuario", b =>
                 {
                     b.Property<int>("IdUsuario")
                         .ValueGeneratedOnAdd()
@@ -293,21 +282,21 @@ namespace proyecto_academia.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("AlumnoInscripcion", b =>
+            modelBuilder.Entity("Entidades.AlumnoInscripcion", b =>
                 {
-                    b.HasOne("Curso", "Curso")
+                    b.HasOne("Entidades.Curso", "Curso")
                         .WithMany("AlumnoInscripciones")
                         .HasForeignKey("IdCurso")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Persona", "Persona")
+                    b.HasOne("Entidades.Persona", "Persona")
                         .WithMany("AlumnoInscripciones")
                         .HasForeignKey("IdPersona")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Usuario", null)
+                    b.HasOne("Entidades.Usuario", null)
                         .WithMany("AlumnoInscripciones")
                         .HasForeignKey("UsuarioIdUsuario");
 
@@ -316,9 +305,9 @@ namespace proyecto_academia.Migrations
                     b.Navigation("Persona");
                 });
 
-            modelBuilder.Entity("Comision", b =>
+            modelBuilder.Entity("Entidades.Comision", b =>
                 {
-                    b.HasOne("Plan", "Plan")
+                    b.HasOne("Entidades.Plan", "Plan")
                         .WithMany("Comisiones")
                         .HasForeignKey("IdPlan")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -327,15 +316,15 @@ namespace proyecto_academia.Migrations
                     b.Navigation("Plan");
                 });
 
-            modelBuilder.Entity("Curso", b =>
+            modelBuilder.Entity("Entidades.Curso", b =>
                 {
-                    b.HasOne("Comision", "Comision")
+                    b.HasOne("Entidades.Comision", "Comision")
                         .WithMany("Cursos")
                         .HasForeignKey("IdComision")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Materia", "Materia")
+                    b.HasOne("Entidades.Materia", "Materia")
                         .WithMany("Cursos")
                         .HasForeignKey("IdMateria")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -346,21 +335,21 @@ namespace proyecto_academia.Migrations
                     b.Navigation("Materia");
                 });
 
-            modelBuilder.Entity("DocenteCurso", b =>
+            modelBuilder.Entity("Entidades.DocenteCurso", b =>
                 {
-                    b.HasOne("Curso", "Curso")
+                    b.HasOne("Entidades.Curso", "Curso")
                         .WithMany("DocenteCursos")
                         .HasForeignKey("IdCurso")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Persona", "Persona")
+                    b.HasOne("Entidades.Persona", "Persona")
                         .WithMany("DocenteCursos")
                         .HasForeignKey("IdPersona")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Usuario", null)
+                    b.HasOne("Entidades.Usuario", null)
                         .WithMany("DocenteCursos")
                         .HasForeignKey("UsuarioIdUsuario");
 
@@ -369,9 +358,9 @@ namespace proyecto_academia.Migrations
                     b.Navigation("Persona");
                 });
 
-            modelBuilder.Entity("Materia", b =>
+            modelBuilder.Entity("Entidades.Materia", b =>
                 {
-                    b.HasOne("Plan", "Plan")
+                    b.HasOne("Entidades.Plan", "Plan")
                         .WithMany("Materias")
                         .HasForeignKey("IdPlan")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -380,20 +369,9 @@ namespace proyecto_academia.Migrations
                     b.Navigation("Plan");
                 });
 
-            modelBuilder.Entity("Persona", b =>
+            modelBuilder.Entity("Entidades.Plan", b =>
                 {
-                    b.HasOne("Plan", "Plan")
-                        .WithMany("Personas")
-                        .HasForeignKey("IdPlan")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Plan");
-                });
-
-            modelBuilder.Entity("Plan", b =>
-                {
-                    b.HasOne("Especialidad", "Especialidad")
+                    b.HasOne("Entidades.Especialidad", "Especialidad")
                         .WithMany("Planes")
                         .HasForeignKey("IdEspecialidad")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -402,9 +380,9 @@ namespace proyecto_academia.Migrations
                     b.Navigation("Especialidad");
                 });
 
-            modelBuilder.Entity("Usuario", b =>
+            modelBuilder.Entity("Entidades.Usuario", b =>
                 {
-                    b.HasOne("Persona", "Persona")
+                    b.HasOne("Entidades.Persona", "Persona")
                         .WithMany("Usuarios")
                         .HasForeignKey("IdPersona")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -413,29 +391,29 @@ namespace proyecto_academia.Migrations
                     b.Navigation("Persona");
                 });
 
-            modelBuilder.Entity("Comision", b =>
+            modelBuilder.Entity("Entidades.Comision", b =>
                 {
                     b.Navigation("Cursos");
                 });
 
-            modelBuilder.Entity("Curso", b =>
+            modelBuilder.Entity("Entidades.Curso", b =>
                 {
                     b.Navigation("AlumnoInscripciones");
 
                     b.Navigation("DocenteCursos");
                 });
 
-            modelBuilder.Entity("Especialidad", b =>
+            modelBuilder.Entity("Entidades.Especialidad", b =>
                 {
                     b.Navigation("Planes");
                 });
 
-            modelBuilder.Entity("Materia", b =>
+            modelBuilder.Entity("Entidades.Materia", b =>
                 {
                     b.Navigation("Cursos");
                 });
 
-            modelBuilder.Entity("Persona", b =>
+            modelBuilder.Entity("Entidades.Persona", b =>
                 {
                     b.Navigation("AlumnoInscripciones");
 
@@ -444,16 +422,14 @@ namespace proyecto_academia.Migrations
                     b.Navigation("Usuarios");
                 });
 
-            modelBuilder.Entity("Plan", b =>
+            modelBuilder.Entity("Entidades.Plan", b =>
                 {
                     b.Navigation("Comisiones");
 
                     b.Navigation("Materias");
-
-                    b.Navigation("Personas");
                 });
 
-            modelBuilder.Entity("Usuario", b =>
+            modelBuilder.Entity("Entidades.Usuario", b =>
                 {
                     b.Navigation("AlumnoInscripciones");
 

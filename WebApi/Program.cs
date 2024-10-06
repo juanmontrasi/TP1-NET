@@ -367,7 +367,7 @@ app.MapPut("/alumnoinscripciones", (AlumnoInscripcion alumnoInscripcion) =>
     .WithName("UpdateAlumnoInscripciones")
     .WithOpenApi();
 
-app.MapDelete("/alumnoInscriones{id}",(int id) =>
+app.MapDelete("/alumnoinscripciones/{id}",(int id) =>
 {
     AlumnoInscripcionesService alumnoInscripcionesService = new AlumnoInscripcionesService();
     alumnoInscripcionesService.Delete(id);

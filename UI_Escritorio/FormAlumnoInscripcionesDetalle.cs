@@ -1,11 +1,8 @@
 ﻿using Entidades;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -25,24 +22,28 @@ namespace UI_Escritorio
             "Libre"
         };
 
-
         public FormAlumnoInscripcionesDetalle(Usuario usuario)
         {
             InitializeComponent();
-
             this.usuario = usuario;
             cbCondicion.DataSource = condiciones.ToList();
             cbCondicion.SelectedItem = "Inscripto";
 
-            cbAlumnos.DataSource = new List<Usuario>{usuario};
-            cbAlumnos.DisplayMember = "Nombre_Usuario";
-            cbAlumnos.ValueMember = "IdPersona";
+            if (usuario.Rol.Equals("Alumno"))
+            {
+                cbAlumnos.DataSource = new List<Usuario> { usuario };
+                cbAlumnos.DisplayMember = "Nombre_Usuario";
+                cbAlumnos.ValueMember = "IdPersona";
+                cbAlumnos.Enabled = false;
+            }
+
             if (!usuario.Rol.Equals("Alumno") && !usuario.Rol.Equals("Administrador"))
             {
                 MessageBox.Show("Solo los usuarios con rol de Alumno o Administrador pueden acceder a esta sección.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
-            } 
+            }
         }
+
         private async void FormAlumnoInscripcionesDetalle_Load(object sender, EventArgs e)
         {
             await cargarCursos();
@@ -51,8 +52,8 @@ namespace UI_Escritorio
                 cbCursos.SelectedValue = IdCurso.Value;
                 cbCursos.Enabled = false;
             }
-            
         }
+
         public AlumnoInscripcion AlumnoInscripcion
         {
             get { return alumnoInscripcion; }
@@ -66,62 +67,96 @@ namespace UI_Escritorio
             }
         }
 
-        private void SetAlumnoInscripcion()
+        private async void SetAlumnoInscripcion()
         {
-
             cbCondicion.SelectedItem = alumnoInscripcion.Condicion;
-            cbAlumnos.SelectedValue = alumnoInscripcion.IdPersona;
-            cbCursos.SelectedValue = alumnoInscripcion.IdCurso;
 
-
-           
             if (EditMode)
             {
+                cbAlumnos.DataSource = new List<Usuario> { await UsuariosApi.GetAsync(alumnoInscripcion.IdPersona) };
+                cbAlumnos.DisplayMember = "Nombre_Usuario";
+                cbAlumnos.ValueMember = "IdPersona";
+                cbAlumnos.SelectedValue = alumnoInscripcion.IdPersona;
+
                 tbNota.Text = alumnoInscripcion.Nota.ToString();
-                tbNota.Enabled = usuario.Rol.Equals("Administrador"); // Solo el administrador puede editar la nota
-                cbCondicion.Enabled = usuario.Rol.Equals("Administrador");
+                tbNota.Enabled = true;
+                cbCondicion.Enabled = true;
                 cbAlumnos.Enabled = false;
                 cbCursos.Enabled = false;
             }
             else
-            {   tbNota.Text = string.Empty;
-                tbNota.Enabled = false;
+            {
+                cbAlumnos.DataSource = new List<Usuario> { usuario };
+                cbAlumnos.DisplayMember = "Nombre_Usuario";
+                cbAlumnos.ValueMember = "IdPersona";
+                cbAlumnos.Enabled = false;
+
+                tbNota.Text = string.Empty;
                 cbCondicion.SelectedItem = "Inscripto";
                 cbCondicion.Enabled = false;
-                cbAlumnos.Enabled = false;
+                tbNota.Enabled = false;
             }
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (this.validateAlumno())
+            try
             {
-                if (alumnoInscripcion != null)
+                if (this.validateAlumno())
                 {
-                    this.AlumnoInscripcion.IdPersona = (int)cbAlumnos.SelectedValue;
-                    this.AlumnoInscripcion.IdCurso = (int)cbCursos.SelectedValue;
-                    this.AlumnoInscripcion.Condicion = cbCondicion.SelectedItem.ToString();
-
-
-
-                    if (EditMode && usuario.Rol.Equals("Administrador"))
+                    if (alumnoInscripcion != null)
                     {
-                        if (int.TryParse(tbNota.Text, out int nota))
+                        if (!EditMode)
                         {
-                            this.AlumnoInscripcion.Nota = nota;
+                            alumnoInscripcion.IdPersona = (int)cbAlumnos.SelectedValue;
                         }
-                        else
+                        alumnoInscripcion.IdCurso = (int)cbCursos.SelectedValue;
+                        alumnoInscripcion.Condicion = cbCondicion.SelectedItem.ToString();
+
+                        if (EditMode && usuario.Rol.Equals("Administrador"))
                         {
-                            MessageBox.Show("La nota debe ser un número entero válido.");
+                            if (int.TryParse(tbNota.Text, out int nota))
+                            {
+                                alumnoInscripcion.Nota = nota;
+                            }
+                            else
+                            {
+                                MessageBox.Show("La nota debe ser un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                tbNota.Focus();
+                                return;
+                            }
+
+                            bool result = await AlumnoInscripcionesApi.UpdateAsync(alumnoInscripcion);
+                            if (!result)
+                            {
+                                MessageBox.Show("Error al actualizar la inscripción. El alumno puede que ya esté inscrito en este curso.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return; 
+                            }
                         }
-                    }
-                    else if (!EditMode)
-                    {
-                        alumnoInscripcion.Condicion = "Inscripto";
+                        else if (!EditMode)
+                        {
+                            alumnoInscripcion.Condicion = "Inscripto";
+                            bool result = await AlumnoInscripcionesApi.AddAsync(alumnoInscripcion);
+                            if (!result)
+                            {
+                                MessageBox.Show("Error al agregar la inscripción. El alumno puede que ya esté inscrito en este curso.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return; 
+                            }
+                        }
+
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se produjo un error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
+
+
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -143,13 +178,13 @@ namespace UI_Escritorio
                 errorProvider.SetError(cbCondicion, "La condición es requerida.");
             }
 
-            if (string.IsNullOrWhiteSpace(cbAlumnos.Text))
+            if (cbAlumnos.SelectedValue == null || (int)cbAlumnos.SelectedValue == 0)
             {
                 isValid = false;
                 errorProvider.SetError(cbAlumnos, "El alumno es requerido.");
             }
 
-            if (string.IsNullOrWhiteSpace(cbCursos.Text))
+            if (cbCursos.SelectedValue == null || (int)cbCursos.SelectedValue == 0)
             {
                 isValid = false;
                 errorProvider.SetError(cbCursos, "El curso es requerido.");
@@ -171,24 +206,23 @@ namespace UI_Escritorio
                         var cursos = await response.Content.ReadAsAsync<List<Curso>>();
                         cbCursos.DataSource = cursos;
                         cbCursos.DisplayMember = "Nombre";
-                        cbCursos.ValueMember = "IdCurso"; 
+                        cbCursos.ValueMember = "IdCurso";
 
-                        if(IdCurso.HasValue)
+                        if (IdCurso.HasValue)
                         {
-                            cbCursos.SelectedItem = IdCurso.Value;
+                            cbCursos.SelectedValue = IdCurso.Value;
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Error al conectar con el servidor");
+                        MessageBox.Show("Error al conectar con el servidor.");
                     }
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Error al conectar con el servidor" + ex.Message);
+                    MessageBox.Show("Error al conectar con el servidor: " + ex.Message);
                 }
             }
-            
         }
     }
 }

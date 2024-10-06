@@ -9,7 +9,7 @@ namespace proyecto_academia
         static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            // You can run any necessary code here, or just exit.
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

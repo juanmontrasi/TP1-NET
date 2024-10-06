@@ -52,11 +52,11 @@ namespace UI_Escritorio
             try
             {
                 HttpResponseMessage response = await _persona.PostAsJsonAsync("personas", persona);
-                response.EnsureSuccessStatusCode(); // Lanza una excepción si el estado no es exitoso
-                                                    // Leer el contenido de la respuesta como cadena
+                response.EnsureSuccessStatusCode(); 
+                                                    
                 var responseString = await response.Content.ReadAsStringAsync();
 
-                // Verificar si la respuesta está vacía
+                // 
                 if (string.IsNullOrWhiteSpace(responseString))
                 {
                     throw new Exception("La respuesta del servidor está vacía.");

@@ -1,4 +1,4 @@
-﻿Using Entidades;
+﻿using Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,6 @@ using System.Net.Http.Json;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace UI_Escritorio
 {
     internal class UsuariosApi

@@ -39,6 +39,7 @@ namespace UI_Escritorio
                 especialidadesToolStripMenuItem.Visible = false;
                 planesToolStripMenuItem.Visible = false;
                 usuarioToolStripMenuItem.Visible = false;
+                inscripcionesToolStripMenuItem.Visible = false;
             }
         }
 
