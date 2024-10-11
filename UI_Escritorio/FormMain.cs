@@ -24,20 +24,20 @@ namespace UI_Escritorio
                 personasToolStripMenuItem.Visible = false;
                 docentesToolStripMenuItem.Visible = false;
                 cursosDocenteToolStripMenuItem.Visible = false;
-                cursosToolStripMenuItem.Visible = false;
+                cursosToolStripMenuItem.Visible = true;
                 alumnosToolStripMenuItem.Visible = false;
-                especialidadesToolStripMenuItem.Visible = false;
-                planesToolStripMenuItem.Visible = false;
+                especialidadesToolStripMenuItem.Visible = true;
+                planesToolStripMenuItem.Visible = true;
                 usuarioToolStripMenuItem.Visible = false;
 
             }
             if (usuarioAutenticado.Rol == "Docente")
             {
                 personasToolStripMenuItem.Visible = false;
-                cursosToolStripMenuItem.Visible = false;
+                cursosToolStripMenuItem.Visible = true;
                 alumnosToolStripMenuItem.Visible = false;
-                especialidadesToolStripMenuItem.Visible = false;
-                planesToolStripMenuItem.Visible = false;
+                especialidadesToolStripMenuItem.Visible = true;
+                planesToolStripMenuItem.Visible = true;
                 usuarioToolStripMenuItem.Visible = false;
                 inscripcionesToolStripMenuItem.Visible = false;
             }

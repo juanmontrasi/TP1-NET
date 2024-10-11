@@ -4,6 +4,7 @@ using System.Linq;
 using Entidades;
 using proyecto_academia.Context;
 
+
 namespace proyecto_academia.Servicios
 {
     public class AlumnoInscripcionesService
@@ -14,14 +15,27 @@ namespace proyecto_academia.Servicios
 
             if (context.AlumnoInscripciones.Any(ai => ai.IdPersona == alumnoInscripcion.IdPersona && ai.IdCurso == alumnoInscripcion.IdCurso))
             {
+                return false;
+            }
+
+            var curso = context.Cursos.Find(alumnoInscripcion.IdCurso);
+            if (curso == null || curso.Cupo <= 0)
+            {
                 return false; 
             }
 
-            context.Add(alumnoInscripcion);
-            context.SaveChanges();
-            return true; 
-        }
+            
+            context.AlumnoInscripciones.Add(alumnoInscripcion);
 
+            
+            curso.Cupo -= 1;
+            context.Cursos.Update(curso);
+
+            
+            context.SaveChanges();
+
+            return true;
+        }
 
         public void Delete(int id)
         {
@@ -52,9 +66,14 @@ namespace proyecto_academia.Servicios
             AlumnoInscripcion? alumnoInscripcionToUpdate = context.AlumnoInscripciones.Find(alumnoInscripcion.IdAlumnoInscripcion);
             if (alumnoInscripcionToUpdate != null)
             {
-                if (alumnoInscripcion.Condicion == "Aprobada" && alumnoInscripcion.Nota < 6)
+                if ((alumnoInscripcion.Condicion == "Aprobada" && alumnoInscripcion.Nota < 6) || (alumnoInscripcion.Condicion == "Aprobada" && alumnoInscripcion.Nota > 10))
                 {
                     return false; 
+                }
+
+                if(alumnoInscripcion.Nota != 1 || alumnoInscripcion.Nota != 2 || alumnoInscripcion.Nota != 3 || alumnoInscripcion.Nota != 4 || alumnoInscripcion.Nota != 5 || alumnoInscripcion.Nota != 6 || alumnoInscripcion.Nota != 7 || alumnoInscripcion.Nota != 8 || alumnoInscripcion.Nota != 9 || alumnoInscripcion.Nota != 10 )
+                {
+                    return false;
                 }
 
                 if (alumnoInscripcion.Condicion != "Aprobada")

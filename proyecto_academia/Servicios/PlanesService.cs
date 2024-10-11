@@ -3,28 +3,35 @@ using proyecto_academia.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace proyecto_academia.Servicios
 {
     public class PlanesServices
     {
-        public void Add(Plan plan)
+        public bool Add(Plan plan)
         {
             using var context = new AcademiaDbContext();
 
+           
+            if (context.Planes.Any(p => p.Nombre_Plan == plan.Nombre_Plan && p.IdEspecialidad == plan.IdEspecialidad))
+            {
+                return false; 
+            }
+
+          
             if (context.Especialidades.Any(e => e.IdEspecialidad == plan.IdEspecialidad))
             {
                 context.Planes.Add(plan);
                 context.SaveChanges();
+                return true; 
             }
             else
             {
                 throw new ArgumentException("ID de Especialidad no válido.");
             }
         }
+
+
         public void Delete(int id)
         {
             using var context = new AcademiaDbContext();

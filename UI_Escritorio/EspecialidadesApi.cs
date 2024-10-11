@@ -2,14 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-
 
 namespace UI_Escritorio
 {
@@ -23,7 +18,6 @@ namespace UI_Escritorio
             _especialidad.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
-
 
         public static async Task<Especialidad> GetAsync(int id)
         {
@@ -47,24 +41,20 @@ namespace UI_Escritorio
             return especialidades;
         }
 
-        public async static Task<Especialidad> AddAsync(Especialidad especialidad)
+        public static async Task<bool> AddAsync(Especialidad especialidad)
         {
             try
             {
                 HttpResponseMessage response = await _especialidad.PostAsJsonAsync("especialidades", especialidad);
-                response.EnsureSuccessStatusCode(); // Lanza una excepción si el estado no es exitoso
-
-                var createdEspecialidad = await response.Content.ReadFromJsonAsync<Especialidad>();
-
-                if (createdEspecialidad == null)
-                {
-                    throw new Exception("La respuesta del servidor no contiene un objeto Especialidad válido.");
-                }
-
-                return createdEspecialidad;
+                response.EnsureSuccessStatusCode(); 
+                return true; 
             }
             catch (HttpRequestException ex)
             {
+                if (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
+                {
+                    return false; 
+                }
                 throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
             }
             catch (Exception ex)
@@ -72,9 +62,6 @@ namespace UI_Escritorio
                 throw new Exception("Error al agregar la especialidad: " + ex.Message);
             }
         }
-
-
-
         public static async Task DeleteAsync(int id)
         {
             HttpResponseMessage response = await _especialidad.DeleteAsync("especialidades/" + id);

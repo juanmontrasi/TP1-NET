@@ -57,17 +57,28 @@ namespace UI_Escritorio
 
                     try
                     {
+                        bool creado;
+
                         if (this.EditMode)
                         {
                             await PlanesApi.UpdateAsync(this.Plan);
+                            creado = true;
                         }
                         else
                         {
-                            await PlanesApi.AddAsync(this.Plan);
+                            creado = await PlanesApi.AddAsync(this.Plan);
                         }
 
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
+                        if (creado)
+                        {
+                            MessageBox.Show("Plan creado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.DialogResult = DialogResult.OK;
+                            this.Close(); 
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ya existe un plan con ese nombre y especialidad.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -80,6 +91,8 @@ namespace UI_Escritorio
                 }
             }
         }
+
+
 
         private void cancelarButton_Click(object sender, EventArgs e)
         {

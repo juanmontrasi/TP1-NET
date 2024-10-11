@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using proyecto_academia.Servicios;
 
 namespace UI_Escritorio
 {
@@ -43,41 +44,47 @@ namespace UI_Escritorio
                 {
                     this.Especialidad.Nombre_Especialidad = nombreTextBox.Text;
 
-                    Especialidad creadaEspecialidad = null;
-
-                    if (this.EditMode)
+                    try
                     {
-                        await EspecialidadesApi.UpdateAsync(this.Especialidad);
-                        this.Close();
-                    }
-                    else
-                    {
-                        creadaEspecialidad = await EspecialidadesApi.AddAsync(this.Especialidad);
-
-                        if (creadaEspecialidad != null)
+                        if (this.EditMode)
                         {
-                            FormPlanesDetalle formPlanesDetalle = new FormPlanesDetalle
-                            {
-                                Plan = new Plan(),
-                                IdEspecialidad = creadaEspecialidad.IdEspecialidad
-                            };
-
-                            var resultPlan = formPlanesDetalle.ShowDialog();
-
-                            if (resultPlan == DialogResult.OK)
-                            {
-                                this.Close();
-                            }
-                            else
-                            {
-                                await EspecialidadesApi.DeleteAsync(creadaEspecialidad.IdEspecialidad);
-                                MessageBox.Show("Debe Crear un plan para la Especialidad.");
-                            }
+                            await EspecialidadesApi.UpdateAsync(this.Especialidad);
+                            this.Close();
                         }
                         else
                         {
-                            MessageBox.Show("No se pudo crear la especialidad.");
+                            bool creada = await EspecialidadesApi.AddAsync(this.Especialidad);
+
+                            if (creada)
+                            {
+                                var creadaEspecialidad = this.Especialidad; 
+                                FormPlanesDetalle formPlanesDetalle = new FormPlanesDetalle
+                                {
+                                    Plan = new Plan(),
+                                    IdEspecialidad = creadaEspecialidad.IdEspecialidad
+                                };
+
+                                var resultPlan = formPlanesDetalle.ShowDialog();
+
+                                if (resultPlan == DialogResult.OK)
+                                {
+                                    this.Close();
+                                }
+                                else
+                                {
+                                    await EspecialidadesApi.DeleteAsync(creadaEspecialidad.IdEspecialidad);
+                                    MessageBox.Show("Debe Crear un plan para la Especialidad.");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Ya existe una especialidad con ese nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
@@ -86,6 +93,10 @@ namespace UI_Escritorio
                 }
             }
         }
+
+
+
+
 
 
         private void cancelarButton_Click(object sender, EventArgs e)
@@ -119,5 +130,7 @@ namespace UI_Escritorio
         {
 
         }
+
+       
     }
 }

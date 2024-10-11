@@ -12,8 +12,8 @@ using proyecto_academia.Context;
 namespace proyecto_academia.Migrations
 {
     [DbContext(typeof(AcademiaDbContext))]
-    [Migration("20241005193104_Update4")]
-    partial class Update4
+    [Migration("20241007135115_Update0710")]
+    partial class Update0710
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -129,7 +129,7 @@ namespace UI_Escritorio
                             bool result = await AlumnoInscripcionesApi.UpdateAsync(alumnoInscripcion);
                             if (!result)
                             {
-                                MessageBox.Show("Error al actualizar la inscripción. El alumno puede que ya esté inscrito en este curso.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Error al actualizar la inscripción. La Nota es menor 6 o Nota es mayor a 10 ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return; 
                             }
                         }
@@ -139,7 +139,7 @@ namespace UI_Escritorio
                             bool result = await AlumnoInscripcionesApi.AddAsync(alumnoInscripcion);
                             if (!result)
                             {
-                                MessageBox.Show("Error al agregar la inscripción. El alumno puede que ya esté inscrito en este curso.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Error al agregar la inscripción. El alumno puede que ya esté inscrito en este curso o que no haya cupo del curso.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return; 
                             }
                         }

@@ -128,5 +128,16 @@ namespace UI_Escritorio
             }
             return null;
         }
+        private void FormInscripcionesAlumno_Load(object sender, EventArgs e)
+        {
+            if (usuario.Rol.Equals("Administrador"))
+            {
+                this.GetAllAndLoad();
+            }
+            else if (usuario.Rol.Equals("Alumno"))
+            {
+                this.GetAllAndLoadAlumno();
+            }
+        }
     }
 }

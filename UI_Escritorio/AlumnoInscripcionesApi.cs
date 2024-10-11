@@ -47,12 +47,12 @@ namespace UI_Escritorio
             {
                 HttpResponseMessage response = await _alumnoInscripciones.PostAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
                 response.EnsureSuccessStatusCode();
-                return true; // Inscripción exitosa
+                return true; 
             }
             catch (HttpRequestException ex)
             {
-                // Manejar errores de la solicitud aquí, si es necesario
-                return false; // Inscripción fallida
+                
+                return false;
             }
         }
 
@@ -62,12 +62,12 @@ namespace UI_Escritorio
             {
                 HttpResponseMessage response = await _alumnoInscripciones.PutAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
                 response.EnsureSuccessStatusCode();
-                return true; // Actualización exitosa
+                return true; 
             }
             catch (HttpRequestException ex)
             {
-                // Manejar errores de la solicitud aquí, si es necesario
-                return false; // Actualización fallida
+                
+                return false; 
             }
         }
 

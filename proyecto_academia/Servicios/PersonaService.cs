@@ -10,14 +10,22 @@ using proyecto_academia.Context;
 namespace proyecto_academia.Servicios
 {
     public class PersonaService
-    { 
-        public Persona Add(Persona persona)
+    {
+        public bool Add(Persona persona)
         {
             using var context = new AcademiaDbContext();
-            context.Add(persona);
+
+            
+            if (context.Personas.Any(p => p.Nombre == persona.Nombre && p.Apellido == persona.Apellido && p.FechaNacimiento == persona.FechaNacimiento))
+            {
+                return false; 
+            }
+
+            context.Personas.Add(persona);
             context.SaveChanges();
-            return persona;
+            return true; 
         }
+
 
         public void Delete(int id)
         {
