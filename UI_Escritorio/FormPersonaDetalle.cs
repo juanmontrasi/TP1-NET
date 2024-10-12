@@ -56,60 +56,57 @@ namespace UI_Escritorio
 
         private async void aceptarButton_Click(object sender, EventArgs e)
         {
-            if (this.ValidatePersona())
+            if (this.ValidatePersona()) 
             {
                 if (persona != null)
                 {
+                    
                     this.Persona.Nombre = nombreTextBox.Text;
                     this.Persona.Apellido = apellidotb.Text;
                     this.Persona.Mail = mailtb.Text;
                     this.Persona.Direccion = direcciontb.Text;
                     this.Persona.FechaNacimiento = fechaNacdtp.Value.ToString("yyyy-MM-dd");
 
-
-                    Persona creadaPersona = null;
-
-                    if (this.EditMode)
+                    try
                     {
-                        await PersonaApi.UpdateAsync(this.Persona);
-                        this.Close();
-                    }
-                    else
-                    {
-                        creadaPersona = await PersonaApi.AddAsync(this.Persona);
+                        bool creada;
 
-                        if (creadaPersona != null)
+                        if (this.EditMode)
                         {
-                            FormUsuarioDetalle formUsuarioDetalle = new FormUsuarioDetalle
-                            {
-                                Usuario = new Usuario(),
-                                IdPersona = creadaPersona.IdPersona
-                            };
-
-                            var resultUsuario = formUsuarioDetalle.ShowDialog();
-
-                            if (resultUsuario == DialogResult.OK)
-                            {
-                                this.Close();
-                            }
-                            else
-                            {
-                                await PersonaApi.DeleteAsync(creadaPersona.IdPersona);
-                                MessageBox.Show("Debe Crear un Usuario para la Persona.");
-                            }
+                            await PersonaApi.UpdateAsync(this.Persona);
+                            creada = true; 
                         }
                         else
                         {
-                            MessageBox.Show("No se pudo crear la persona.");
+                            creada = await PersonaApi.AddAsync(this.Persona); 
                         }
+
+                        if (creada)
+                        {
+                            
+                            this.DialogResult = DialogResult.OK;
+                            this.Close();
+                        }
+                        else
+                        {
+                            
+                            MessageBox.Show("Ya existe una persona con el mismo Nombre, Apellido y Fecha de Nacimiento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Especialidad no está inicializada.");
+                    MessageBox.Show("La persona no está inicializada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
+
+
+
 
         private void cancelarButton_Click(object sender, EventArgs e)
         {
@@ -120,20 +117,20 @@ namespace UI_Escritorio
         {
             bool isValid = true;
 
-            // Limpiar errores previos
+           
             errorProvider.SetError(nombreTextBox, string.Empty);
             errorProvider.SetError(apellidotb, string.Empty);
             errorProvider.SetError(mailtb, string.Empty);
             errorProvider.SetError(direcciontb, string.Empty);
 
-            // Validar Nombre
+           
             if (this.nombreTextBox.Text == string.Empty)
             {
                 isValid = false;
                 errorProvider.SetError(nombreTextBox, "El Nombre es requerido");
             }
 
-            // Validar Apellido
+           
             if (this.apellidotb.Text == string.Empty)
             {
                 isValid = false;
@@ -143,7 +140,7 @@ namespace UI_Escritorio
 
 
 
-            // Validar Mail
+           
             if (this.mailtb.Text == string.Empty)
             {
                 isValid = false;
@@ -151,7 +148,7 @@ namespace UI_Escritorio
             }
 
 
-            // Validar Dirección
+           
             if (this.direcciontb.Text == string.Empty)
             {
                 isValid = false;

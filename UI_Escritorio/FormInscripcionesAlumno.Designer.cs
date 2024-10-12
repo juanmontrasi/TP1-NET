@@ -1,4 +1,5 @@
-﻿namespace UI_Escritorio
+﻿
+namespace UI_Escritorio
 {
     partial class FormInscripcionesAlumno
     {
@@ -127,10 +128,13 @@
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormInscripcionesAlumno";
+            Load += new System.EventHandler(this.FormInscripcionesAlumno_Load);
             tlInscripcionesAlumno.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvInscripcionesAlumno).EndInit();
             ResumeLayout(false);
         }
+
+        
 
         #endregion
 

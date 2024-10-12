@@ -47,35 +47,32 @@ namespace UI_Escritorio
             return personas;
         }
 
-        public static async Task<Persona> AddAsync(Persona persona)
+        public async static Task<bool> AddAsync(Persona persona)
         {
             try
             {
                 HttpResponseMessage response = await _persona.PostAsJsonAsync("personas", persona);
-                response.EnsureSuccessStatusCode(); // Lanza una excepción si el estado no es exitoso
-                                                    // Leer el contenido de la respuesta como cadena
-                var responseString = await response.Content.ReadAsStringAsync();
 
-                // Verificar si la respuesta está vacía
-                if (string.IsNullOrWhiteSpace(responseString))
+                if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
                 {
-                    throw new Exception("La respuesta del servidor está vacía.");
+                    return false; // Persona ya existe
                 }
 
-
-                var createdPersona = await response.Content.ReadFromJsonAsync<Persona>();
-
-                if (createdPersona == null)
-                {
-                    throw new Exception("La respuesta del servidor no contiene un objeto Persona válido.");
-                }
-                return createdPersona;
+                response.EnsureSuccessStatusCode(); // Lanza excepción si la respuesta no es exitosa
+                return true; // Persona creada con éxito
             }
             catch (HttpRequestException ex)
             {
                 throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
             }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar la persona: " + ex.Message);
+            }
         }
+
+
+
         public static async Task UpdateAsync(Persona persona)
         {
             HttpResponseMessage response = await _persona.PutAsJsonAsync("personas", persona);

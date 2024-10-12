@@ -120,6 +120,7 @@
             Controls.Add(tlPlanes);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FormPlanes";
+            this.Load += new System.EventHandler(this.Planes_Load);
             tlPlanes.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvPlanes).EndInit();
             ResumeLayout(false);

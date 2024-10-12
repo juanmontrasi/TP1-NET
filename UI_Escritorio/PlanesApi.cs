@@ -1,9 +1,8 @@
 ﻿using Entidades;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
-using System.Text;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace UI_Escritorio
@@ -18,7 +17,6 @@ namespace UI_Escritorio
             _planes.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
-
 
         public static async Task<Plan> GetAsync(int id)
         {
@@ -42,10 +40,26 @@ namespace UI_Escritorio
             return planes;
         }
 
-        public async static Task AddAsync(Plan plan)
+        public async static Task<bool> AddAsync(Plan plan)
         {
-            HttpResponseMessage response = await _planes.PostAsJsonAsync("planes", plan);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                HttpResponseMessage response = await _planes.PostAsJsonAsync("planes", plan);
+                response.EnsureSuccessStatusCode();
+                return true; 
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
+                {
+                    return false; 
+                }
+                throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar el plan: " + ex.Message);
+            }
         }
 
         public static async Task DeleteAsync(int id)

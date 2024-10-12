@@ -38,8 +38,12 @@ app.MapPost("/especialidades", (Especialidad especialidad) =>
 {
     EspecialidadesServicecs especialidadesServicecs = new EspecialidadesServicecs();
 
-    especialidadesServicecs.Add(especialidad);
-    return especialidad;
+   bool creada =  especialidadesServicecs.Add(especialidad);
+    if(!creada)
+    {
+        return Results.Conflict("Ya existe una especialidad con los mismo datos");
+    }
+    return Results.Ok(especialidad);
 })
 .WithName("AddEspecialidad")
 .WithOpenApi();
@@ -222,7 +226,12 @@ app.MapPost("/planes", (Plan plan) =>
 {
     PlanesServices planesService = new PlanesServices();
 
-    planesService.Add(plan);
+   bool creado = planesService.Add(plan);
+    if (!creado)
+    {
+        return Results.Conflict("Ya existe un Plan con ese Nombre en esa Especialidad");
+    }
+    return Results.Ok(plan);
 })
 .WithName("AddPlan")
 .WithOpenApi();
@@ -262,11 +271,18 @@ app.MapPost("/personas", (Persona persona) =>
 {
     PersonaService personaService = new PersonaService();
 
-    personaService.Add(persona);
-    return persona;
+    bool creada = personaService.Add(persona);
+
+    if (!creada)
+    {
+        return Results.Conflict("Ya existe una persona con los mismos datos.");
+    }
+
+    return Results.Ok(persona); 
 })
 .WithName("AddPersona")
 .WithOpenApi();
+
 app.MapPut("/personas", (Persona persona) =>
 {
     PersonaService personaService = new PersonaService();
@@ -353,8 +369,12 @@ app.MapGet("/alumnoinscripciones", () =>
 app.MapPost("/alumnoinscripciones", (AlumnoInscripcion alumnoInscripcion) =>
 {
     AlumnoInscripcionesService alumnoInscripcionService = new AlumnoInscripcionesService();
-    alumnoInscripcionService.Add(alumnoInscripcion);
-    
+    bool creada = alumnoInscripcionService.Add(alumnoInscripcion);
+    if(!creada)
+    {
+        return Results.Conflict("Inscripcion ya creada de curso o No hay cupo en el curso");
+    }
+    return Results.Ok(alumnoInscripcion);
 })
     .WithName("AddAlumnoInscripcion")
     .WithOpenApi();
@@ -362,12 +382,17 @@ app.MapPost("/alumnoinscripciones", (AlumnoInscripcion alumnoInscripcion) =>
 app.MapPut("/alumnoinscripciones", (AlumnoInscripcion alumnoInscripcion) =>
 {
     AlumnoInscripcionesService alumnoInscripcionesService = new AlumnoInscripcionesService();
-    alumnoInscripcionesService.Update(alumnoInscripcion);
+   bool actualizada = alumnoInscripcionesService.Update(alumnoInscripcion);
+    if(!actualizada)
+    {
+        return Results.Conflict("Error al actualizar la inscripcion");
+    }
+    return Results.Ok(actualizada);
 }) 
     .WithName("UpdateAlumnoInscripciones")
     .WithOpenApi();
 
-app.MapDelete("/alumnoInscriones{id}",(int id) =>
+app.MapDelete("/alumnoinscripciones/{id}",(int id) =>
 {
     AlumnoInscripcionesService alumnoInscripcionesService = new AlumnoInscripcionesService();
     alumnoInscripcionesService.Delete(id);
