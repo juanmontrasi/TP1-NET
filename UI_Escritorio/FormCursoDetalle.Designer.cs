@@ -138,6 +138,7 @@
             cbMateria.Name = "cbMateria";
             cbMateria.Size = new Size(151, 28);
             cbMateria.TabIndex = 10;
+            cbMateria.SelectedIndexChanged += cbMateria_SelectedIndexChanged;
             // 
             // cbComisiones
             // 

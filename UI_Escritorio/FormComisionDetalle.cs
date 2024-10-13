@@ -75,17 +75,34 @@ namespace UI_Escritorio
                     this.Comision.Anio_Especialidad = int.Parse(anioTextBox.Text);
                     this.Comision.IdPlan = (int)cbPlanes.SelectedValue;
 
-
-                    if (this.EditMode)
+                    try
                     {
-                        await ComisionesApi.UpdateAsync(this.Comision);
-                    }
-                    else
-                    {
-                        await ComisionesApi.AddAsync(this.Comision);
-                    }
+                        if (this.EditMode)
+                        {
+                            await ComisionesApi.UpdateAsync(this.Comision);
+                        }
+                        else
+                        {
+                            bool creada = await ComisionesApi.AddAsync(this.Comision);
 
-                    this.Close();
+                            if (creada)
+                            {
+                                MessageBox.Show("Comisión creada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.DialogResult = DialogResult.OK;
+                                this.Close();
+                            }
+                            else
+                            {
+
+                                MessageBox.Show("Ya existe una comision con el mismo nombre y fecha.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {

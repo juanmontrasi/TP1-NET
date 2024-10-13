@@ -11,14 +11,20 @@ namespace proyecto_academia.Servicios
 {
     public class MateriasServices
     {
-        public void Add(Materia materia)
+        public bool Add(Materia materia)
         {
             using var context = new AcademiaDbContext();
+
+            if (context.Materias.Any(p => p.Nombre_Materia== materia.Nombre_Materia))
+            {
+                return false;
+            }
 
             if (context.Planes.Any(p => p.IdPlan == materia.IdPlan))
             {
                 context.Materias.Add(materia);
                 context.SaveChanges();
+                return true;    
             }
             else
             {

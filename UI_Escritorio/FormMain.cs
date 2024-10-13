@@ -22,10 +22,8 @@ namespace UI_Escritorio
             if (usuarioAutenticado.Rol == "Alumno")
             {
                 personasToolStripMenuItem.Visible = false;
-                docentesToolStripMenuItem.Visible = false;
                 cursosDocenteToolStripMenuItem.Visible = false;
                 cursosToolStripMenuItem.Visible = true;
-                alumnosToolStripMenuItem.Visible = false;
                 especialidadesToolStripMenuItem.Visible = true;
                 planesToolStripMenuItem.Visible = true;
                 usuarioToolStripMenuItem.Visible = false;
@@ -35,7 +33,6 @@ namespace UI_Escritorio
             {
                 personasToolStripMenuItem.Visible = false;
                 cursosToolStripMenuItem.Visible = true;
-                alumnosToolStripMenuItem.Visible = false;
                 especialidadesToolStripMenuItem.Visible = true;
                 planesToolStripMenuItem.Visible = true;
                 usuarioToolStripMenuItem.Visible = false;

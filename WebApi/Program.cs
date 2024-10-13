@@ -90,7 +90,12 @@ app.MapPost("/materias", (Materia materia) =>
 {
     MateriasServices materiasServices = new MateriasServices();
 
-    materiasServices.Add(materia);
+    bool creada = materiasServices.Add(materia);
+    if (!creada)
+    {
+        return Results.Conflict("Ya existe una materia con los mismo datos");
+    }
+    return Results.Ok(materia);
 })
 .WithName("AddMateria")
 .WithOpenApi();
@@ -136,7 +141,12 @@ app.MapPost("/cursos", (Curso curso) =>
 {
     CursosService cursosServices = new CursosService();
 
-    cursosServices.Add(curso);
+    bool creada = cursosServices.Add(curso);
+    if (!creada)
+    {
+        return Results.Conflict("Ya existe curso con los mismo datos");
+    }
+    return Results.Ok(curso);
 })
 .WithName("AddCurso")
 .WithOpenApi();
@@ -182,7 +192,12 @@ app.MapPost("/comisiones", (Comision comision) =>
 {
     ComisionesService comisionesService = new ComisionesService();
 
-    comisionesService.Add(comision);
+    bool creada = comisionesService.Add(comision);
+    if (!creada)
+    {
+        return Results.Conflict("Ya existe una comision con los mismo datos");
+    }
+    return Results.Ok(comision);
 })
 .WithName("AddComision")
 .WithOpenApi();
@@ -318,7 +333,13 @@ app.MapGet("/usuarios", () =>
 app.MapPost("/usuarios", (Usuario usuario) =>
 {
     UsuarioService usuarioService = new UsuarioService();
-    usuarioService.Add(usuario);
+
+    bool creada = usuarioService.Add(usuario);
+    if (!creada)
+    {
+        return Results.Conflict("Ya existe un usuario con los mismo datos");
+    }
+    return Results.Ok(usuario);
 })
     .WithName("AddUsuario")
     .WithOpenApi();

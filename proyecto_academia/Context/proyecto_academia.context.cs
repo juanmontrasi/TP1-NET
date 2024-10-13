@@ -19,43 +19,6 @@ namespace proyecto_academia.Context
 
             return new AcademiaDbContext(optionsBuilder.Options);
         }
-        public void Delete(int id)
-        {
-            using var context = new AcademiaDbContext();
-
-            Especialidad? EspecialidadToDelete = context.Especialidades.Find(id);
-
-            if (EspecialidadToDelete != null)
-            {
-                context.Especialidades.Remove(EspecialidadToDelete);
-                context.SaveChanges();
-            }
-        }
-        public Especialidad? Get(int id)
-        {
-            using var context = new AcademiaDbContext();
-
-            return context.Especialidades.Find(id);
-        }
-
-        public IEnumerable<Especialidad> GetAll()
-        {
-            using var context = new AcademiaDbContext();
-
-            return context.Especialidades.ToList();
-        }
-
-        public void Update(Especialidad especialidad)
-        {
-            using var context = new AcademiaDbContext();
-
-            Especialidad? EspecialidadToUpdate = context.Especialidades.Find(especialidad.IdEspecialidad);
-
-            if (EspecialidadToUpdate != null)
-            {
-                EspecialidadToUpdate.Nombre_Especialidad = especialidad.Nombre_Especialidad;
-                context.SaveChanges();
-            }
-        }
+        
     }
 }

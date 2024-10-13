@@ -18,14 +18,20 @@ namespace proyecto_academia.Servicios
             var usuario = context.Usuarios.FirstOrDefault(u => u.Nombre_Usuario == nombreUsuario && u.Clave == clave);
             return usuario;
         }
-        public void Add(Usuario usuario)
+        public bool Add(Usuario usuario)
         {
             using var context = new AcademiaDbContext();
+
+            if (context.Usuarios.Any(p => p.Nombre_Usuario == usuario.Nombre_Usuario && p.Habilitado == 1))
+            {
+                return false;
+            }
 
             if (context.Personas.Any(e => e.IdPersona == usuario.IdPersona))
             {
                 context.Usuarios.Add(usuario);
                 context.SaveChanges();
+                return true;
             }
             else
             {

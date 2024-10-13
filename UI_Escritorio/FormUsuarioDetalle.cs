@@ -67,15 +67,25 @@ namespace UI_Escritorio
                         }
                         else
                         {
-                            await UsuariosApi.AddAsync(this.Usuario);
-                        }
+                            bool creada = await UsuariosApi.AddAsync(this.Usuario);
 
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
+                            if (creada)
+                            {
+                                MessageBox.Show("Usuario creado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.DialogResult = DialogResult.OK;
+                                this.Close();
+                            }
+                            else
+                            {
+
+                                MessageBox.Show("Ya existe un usuario con el mismo nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+
+                        }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error: {ex.Message}");
+                        MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else

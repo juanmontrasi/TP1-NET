@@ -42,10 +42,27 @@ namespace UI_Escritorio
             return cursos;
         }
 
-        public async static Task AddAsync(Curso curso)
+        public async static Task<bool> AddAsync(Curso curso)
         {
-            HttpResponseMessage response = await _cursos.PostAsJsonAsync("cursos", curso);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                HttpResponseMessage response = await _cursos.PostAsJsonAsync("cursos", curso);
+                response.EnsureSuccessStatusCode();
+                return true;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
+                {
+                    return false;
+                }
+                throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar el curso: " + ex.Message);
+            }
         }
 
         public static async Task DeleteAsync(int id)

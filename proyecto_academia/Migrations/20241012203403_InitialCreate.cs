@@ -24,6 +24,23 @@ namespace proyecto_academia.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Personas",
+                columns: table => new
+                {
+                    IdPersona = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaNacimiento = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Personas", x => x.IdPersona);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Planes",
                 columns: table => new
                 {
@@ -40,6 +57,29 @@ namespace proyecto_academia.Migrations
                         column: x => x.IdEspecialidad,
                         principalTable: "Especialidades",
                         principalColumn: "IdEspecialidad",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Usuarios",
+                columns: table => new
+                {
+                    IdUsuario = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdPersona = table.Column<int>(type: "int", nullable: false),
+                    Rol = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nombre_Usuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Clave = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Habilitado = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.IdUsuario);
+                    table.ForeignKey(
+                        name: "FK_Usuarios_Personas_IdPersona",
+                        column: x => x.IdPersona,
+                        principalTable: "Personas",
+                        principalColumn: "IdPersona",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -87,31 +127,6 @@ namespace proyecto_academia.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Personas",
-                columns: table => new
-                {
-                    IdPersona = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdPlan = table.Column<int>(type: "int", nullable: false),
-                    Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaNacimiento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Legajo = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Personas", x => x.IdPersona);
-                    table.ForeignKey(
-                        name: "FK_Personas_Planes_IdPlan",
-                        column: x => x.IdPlan,
-                        principalTable: "Planes",
-                        principalColumn: "IdPlan",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cursos",
                 columns: table => new
                 {
@@ -131,36 +146,13 @@ namespace proyecto_academia.Migrations
                         column: x => x.IdComision,
                         principalTable: "Comisiones",
                         principalColumn: "IdComision",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Cursos_Materias_IdMateria",
                         column: x => x.IdMateria,
                         principalTable: "Materias",
                         principalColumn: "IdMateria",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Usuarios",
-                columns: table => new
-                {
-                    IdUsuario = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdPersona = table.Column<int>(type: "int", nullable: false),
-                    Rol = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nombre_Usuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Clave = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Habilitado = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Usuarios", x => x.IdUsuario);
-                    table.ForeignKey(
-                        name: "FK_Usuarios_Personas_IdPersona",
-                        column: x => x.IdPersona,
-                        principalTable: "Personas",
-                        principalColumn: "IdPersona",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,7 +163,7 @@ namespace proyecto_academia.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdPersona = table.Column<int>(type: "int", nullable: false),
                     IdCurso = table.Column<int>(type: "int", nullable: false),
-                    Cupo = table.Column<int>(type: "int", nullable: false),
+                    Nota = table.Column<int>(type: "int", nullable: false),
                     Condicion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UsuarioIdUsuario = table.Column<int>(type: "int", nullable: true)
                 },
@@ -278,11 +270,6 @@ namespace proyecto_academia.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Materias_IdPlan",
                 table: "Materias",
-                column: "IdPlan");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Personas_IdPlan",
-                table: "Personas",
                 column: "IdPlan");
 
             migrationBuilder.CreateIndex(

@@ -1,6 +1,7 @@
 ﻿using Entidades;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -55,10 +56,26 @@ namespace UI_Escritorio
             return usuarios;
         }
 
-        public static async Task AddAsync(Usuario usuario)
+        public static async Task<bool> AddAsync(Usuario usuario)
         {
-            HttpResponseMessage response = await _usuario.PostAsJsonAsync("usuarios", usuario);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                HttpResponseMessage response = await _usuario.PostAsJsonAsync("usuarios", usuario);
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
+                {
+                    return false;
+                }
+                throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar la especialidad: " + ex.Message);
+            }
         }
 
         public static async Task UpdateAsync(Usuario usuario)
