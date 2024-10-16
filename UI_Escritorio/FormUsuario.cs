@@ -80,5 +80,10 @@ namespace UI_Escritorio
         {
             return (Usuario)dgvUsuarios.SelectedRows[0].DataBoundItem;
         }
+
+        private void FormUsuarios_Load(object sender, EventArgs e)
+        {
+            this.GetAllAndLoad();
+        }
     }
 }

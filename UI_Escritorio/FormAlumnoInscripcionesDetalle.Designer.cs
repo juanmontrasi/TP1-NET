@@ -30,10 +30,11 @@ namespace UI_Escritorio
         /// </summary>
         private void InitializeComponent()
         {
-            this.errorProvider = new System.Windows.Forms.ErrorProvider();
+            components = new System.ComponentModel.Container();
+            errorProvider = new ErrorProvider(components);
             label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
+            notalb = new Label();
+            cursolb = new Label();
             tbNota = new TextBox();
             btnAceptar = new Button();
             btnCancelar = new Button();
@@ -41,7 +42,12 @@ namespace UI_Escritorio
             cbCursos = new ComboBox();
             cbAlumnos = new ComboBox();
             cbCondicion = new ComboBox();
+            ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
+            // 
+            // errorProvider
+            // 
+            errorProvider.ContainerControl = this;
             // 
             // label1
             // 
@@ -52,23 +58,23 @@ namespace UI_Escritorio
             label1.TabIndex = 0;
             label1.Text = "Condicion";
             // 
-            // label2
+            // notalb
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(304, 109);
-            label2.Name = "label2";
-            label2.Size = new Size(33, 15);
-            label2.TabIndex = 1;
-            label2.Text = "Nota";
+            notalb.AutoSize = true;
+            notalb.Location = new Point(304, 109);
+            notalb.Name = "notalb";
+            notalb.Size = new Size(33, 15);
+            notalb.TabIndex = 1;
+            notalb.Text = "Nota";
             // 
-            // label3
+            // cursolb
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(299, 150);
-            label3.Name = "label3";
-            label3.Size = new Size(38, 15);
-            label3.TabIndex = 2;
-            label3.Text = "Curso";
+            cursolb.AutoSize = true;
+            cursolb.Location = new Point(299, 150);
+            cursolb.Name = "cursolb";
+            cursolb.Size = new Size(38, 15);
+            cursolb.TabIndex = 2;
+            cursolb.Text = "Curso";
             // 
             // tbNota
             // 
@@ -129,11 +135,6 @@ namespace UI_Escritorio
             cbCondicion.Name = "cbCondicion";
             cbCondicion.Size = new Size(143, 23);
             cbCondicion.TabIndex = 11;
-            //
-            // Error Provider
-            //
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
-            this.errorProvider.ContainerControl = this;
             // 
             // FormAlumnoInscripcionesDetalle
             // 
@@ -147,13 +148,13 @@ namespace UI_Escritorio
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
             Controls.Add(tbNota);
-            Controls.Add(label3);
-            Controls.Add(label2);
+            Controls.Add(cursolb);
+            Controls.Add(notalb);
             Controls.Add(label1);
             Name = "FormAlumnoInscripcionesDetalle";
             Text = "FormAlumnoInscripcionesDetalle";
             Load += FormAlumnoInscripcionesDetalle_Load;
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -161,8 +162,8 @@ namespace UI_Escritorio
         #endregion
 
         private Label label1;
-        private Label label2;
-        private Label label3;
+        private Label notalb;
+        private Label cursolb;
         private TextBox tbNota;
         private Button btnAceptar;
         private Button btnCancelar;

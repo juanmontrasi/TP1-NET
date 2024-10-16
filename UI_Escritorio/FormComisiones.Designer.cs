@@ -127,6 +127,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormComisiones";
+            Load += FormComisiones_Load;
             tlComisiones.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvComisiones).EndInit();
             ResumeLayout(false);

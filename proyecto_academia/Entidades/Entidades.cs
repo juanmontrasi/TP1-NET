@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 
 namespace Entidades
@@ -54,6 +55,8 @@ namespace Entidades
         // Relaciones
         public Materia Materia { get; set; }
         public Comision Comision { get; set; }
+        
+        [JsonIgnore] 
         public ICollection<AlumnoInscripcion> AlumnoInscripciones { get; set; }
         public ICollection<DocenteCurso> DocenteCursos { get; set; }
     }

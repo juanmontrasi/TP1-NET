@@ -70,19 +70,19 @@ namespace UI_Escritorio
             if (this.dgvEspecialidades.Rows.Count > 0)
             {
                 this.dgvEspecialidades.Rows[0].Selected = true;
-                this.btnBorrar.Enabled = true;
-                this.btnEditar.Enabled = true;
+                this.btnBorrar.Visible = true;
+                this.btnEditar.Visible = true;
             }
             else
             {
-                this.btnBorrar.Enabled = false;
-                this.btnEditar.Enabled = false;
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
             }
             if (usuario.Rol.Equals("Alumno") || usuario.Rol.Equals("Docente"))
             {
-                this.btnBorrar.Enabled = false;
-                this.btnEditar.Enabled = false;
-                this.btnNuevo.Enabled = false;
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+                this.btnNuevo.Visible = false;
             }
         }
 

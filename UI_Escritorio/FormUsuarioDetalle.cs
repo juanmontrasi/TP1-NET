@@ -31,19 +31,22 @@ namespace UI_Escritorio
         public FormUsuarioDetalle()
         {
             InitializeComponent();
-            
+            this.Usuario = new Usuario(); 
         }
+
         public bool EditMode { get; set; } = false;
+
         private async void FormUsuarioDetalle_Load(object sender, EventArgs e)
         {
             await CargarPersonas();
+            comboBoxRol.Items.AddRange(roles.ToArray());
 
-            if (IdPersona.HasValue)
+            
+            if (comboBoxPersonas.Items.Count > 0 && IdPersona.HasValue)
             {
                 comboBoxPersonas.SelectedValue = IdPersona.Value;
                 comboBoxPersonas.Enabled = false;
             }
-            comboBoxRol.Items.AddRange(roles.ToArray());
         }
 
 
@@ -71,16 +74,13 @@ namespace UI_Escritorio
 
                             if (creada)
                             {
-                                MessageBox.Show("Usuario creado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 this.DialogResult = DialogResult.OK;
                                 this.Close();
                             }
                             else
                             {
-
                                 MessageBox.Show("Ya existe un usuario con el mismo nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
-
                         }
                     }
                     catch (Exception ex)
@@ -95,20 +95,14 @@ namespace UI_Escritorio
             }
         }
 
-
         private void SetUsuario()
         {
             if (this.Usuario != null)
             {
                 nombreTextBox.Text = this.Usuario.Nombre_Usuario;
-            }
-            if (this.Usuario != null)
-            {
                 claveTextBox.Text = this.Usuario.Clave;
-            }
-            if (this.Usuario != null)
-            {
                 comboBoxRol.SelectedItem = this.Usuario.Rol;
+                comboBoxPersonas.SelectedValue = this.Usuario.IdPersona; 
             }
         }
 
@@ -128,17 +122,17 @@ namespace UI_Escritorio
             if (this.claveTextBox.Text == string.Empty)
             {
                 isValid = false;
-                errorProvider1.SetError(nombreTextBox, "La Clave es Requerida");
+                errorProvider1.SetError(claveTextBox, "La Clave es Requerida"); 
             }
             if (this.comboBoxRol.SelectedItem == null)
             {
                 isValid = false;
-                errorProvider1.SetError(nombreTextBox, "El rol es Requerido");
+                errorProvider1.SetError(comboBoxRol, "El rol es Requerido"); 
             }
             if (this.comboBoxPersonas.SelectedItem == null)
             {
                 isValid = false;
-                errorProvider1.SetError(nombreTextBox, "El rol es Requerido");
+                errorProvider1.SetError(comboBoxPersonas, "La persona es Requerida"); 
             }
 
             return isValid;
@@ -177,8 +171,6 @@ namespace UI_Escritorio
             }
         }
 
-
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -188,15 +180,13 @@ namespace UI_Escritorio
             }
         }
 
-
-        
-
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
     }
+
 
 }
 

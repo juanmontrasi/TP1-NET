@@ -1,14 +1,8 @@
 ﻿using Entidades;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace UI_Escritorio
 {
@@ -34,8 +28,9 @@ namespace UI_Escritorio
             InitializeComponent();
         }
 
-        private async void FormPersonaDetalle_Load(object sender, EventArgs e)
+        private void FormPersonaDetalle_Load(object sender, EventArgs e)
         {
+            
         }
 
         private void SetPersona()
@@ -47,16 +42,16 @@ namespace UI_Escritorio
                 mailtb.Text = this.Persona.Mail;
                 direcciontb.Text = this.Persona.Direccion;
 
-                if (!string.IsNullOrEmpty(this.Persona.FechaNacimiento))
+                if (DateTime.TryParse(this.Persona.FechaNacimiento, out DateTime fechaNacimiento))
                 {
-                    fechaNacdtp.Value = DateTime.Parse(this.Persona.FechaNacimiento);
+                    fechaNacdtp.Value = fechaNacimiento;
                 }
             }
         }
 
         private async void aceptarButton_Click(object sender, EventArgs e)
         {
-            if (this.ValidatePersona()) 
+            if (this.ValidatePersona())
             {
                 if (persona != null)
                 {
@@ -78,18 +73,35 @@ namespace UI_Escritorio
                         }
                         else
                         {
-                            creada = await PersonaApi.AddAsync(this.Persona); 
+                            creada = await PersonaApi.AddAsync(this.Persona);
                         }
 
                         if (creada)
                         {
                             
-                            this.DialogResult = DialogResult.OK;
-                            this.Close();
+                            FormUsuarioDetalle formUsuarioDetalle = new FormUsuarioDetalle
+                            {
+                                IdPersona = this.Persona.IdPersona 
+                            };
+
+                            
+                            var result = formUsuarioDetalle.ShowDialog();
+
+                            if (result == DialogResult.OK)
+                            {
+                                MessageBox.Show("Usuario creado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.DialogResult = DialogResult.OK;
+                                this.Close();
+                            }
+                            else
+                            {
+                               
+                                await PersonaApi.DeleteAsync(this.Persona.IdPersona);
+                                MessageBox.Show("Se produjo un error al crear el usuario. La persona ha sido eliminada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                         else
                         {
-                            
                             MessageBox.Show("Ya existe una persona con el mismo Nombre, Apellido y Fecha de Nacimiento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
@@ -105,9 +117,6 @@ namespace UI_Escritorio
             }
         }
 
-
-
-
         private void cancelarButton_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -117,39 +126,31 @@ namespace UI_Escritorio
         {
             bool isValid = true;
 
-           
             errorProvider.SetError(nombreTextBox, string.Empty);
             errorProvider.SetError(apellidotb, string.Empty);
             errorProvider.SetError(mailtb, string.Empty);
             errorProvider.SetError(direcciontb, string.Empty);
 
-           
-            if (this.nombreTextBox.Text == string.Empty)
+            
+            if (string.IsNullOrWhiteSpace(nombreTextBox.Text))
             {
                 isValid = false;
                 errorProvider.SetError(nombreTextBox, "El Nombre es requerido");
             }
 
-           
-            if (this.apellidotb.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(apellidotb.Text))
             {
                 isValid = false;
                 errorProvider.SetError(apellidotb, "El Apellido es requerido");
             }
 
-
-
-
-           
-            if (this.mailtb.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(mailtb.Text))
             {
                 isValid = false;
                 errorProvider.SetError(mailtb, "El Mail es requerido");
             }
 
-
-           
-            if (this.direcciontb.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(direcciontb.Text))
             {
                 isValid = false;
                 errorProvider.SetError(direcciontb, "La Dirección es requerida");
@@ -157,6 +158,5 @@ namespace UI_Escritorio
 
             return isValid;
         }
-        
     }
 }

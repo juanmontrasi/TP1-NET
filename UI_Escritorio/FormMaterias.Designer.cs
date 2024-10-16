@@ -127,6 +127,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormMaterias";
+            Load += FormMaterias_Load;
             tlMaterias.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvMaterias).EndInit();
             ResumeLayout(false);

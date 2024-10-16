@@ -40,32 +40,18 @@ namespace UI_Escritorio
             }
         }
 
-        private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAlumnos formAlumnos = new FormAlumnos();
-            formAlumnos.FormBorderStyle = FormBorderStyle.None; 
-            formAlumnos.WindowState = FormWindowState.Maximized;
-            formAlumnos.MdiParent = this; 
-            formAlumnos.Show();
-        }
+        
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Dispose();
         }
 
-        private void docentesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormDocentes formDoc = new FormDocentes();
-            formDoc.FormBorderStyle = FormBorderStyle.None;
-            formDoc.WindowState = FormWindowState.Maximized;
-            formDoc.MdiParent = this;
-            formDoc.Show();
-        }
+        
 
         private void esToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormMaterias formMaterias = new FormMaterias();
+            FormMaterias formMaterias = new FormMaterias(usuarioAutenticado);
             formMaterias.FormBorderStyle = FormBorderStyle.None;
             formMaterias.WindowState = FormWindowState.Maximized;
             formMaterias.MdiParent = this;
@@ -74,7 +60,7 @@ namespace UI_Escritorio
 
         private void cursosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormCursos formCursos = new FormCursos();
+            FormCursos formCursos = new FormCursos(usuarioAutenticado);
             formCursos.FormBorderStyle = FormBorderStyle.None;
             formCursos.WindowState = FormWindowState.Maximized;
             formCursos.MdiParent = this;
@@ -83,7 +69,7 @@ namespace UI_Escritorio
 
         private void comisionesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormComisiones formComisiones = new FormComisiones();
+            FormComisiones formComisiones = new FormComisiones(usuarioAutenticado);
             formComisiones.FormBorderStyle = FormBorderStyle.None;
             formComisiones.WindowState = FormWindowState.Maximized;
             formComisiones.MdiParent = this;

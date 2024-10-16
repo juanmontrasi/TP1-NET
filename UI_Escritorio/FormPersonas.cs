@@ -79,5 +79,9 @@ namespace UI_Escritorio
             this.GetAllAndLoad();
         }
 
+        private void FormPersonas_Load(object sender, EventArgs e)
+        {
+            this.GetAllAndLoad();
+        }
     }
-    }
+}

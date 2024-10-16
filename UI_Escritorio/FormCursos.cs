@@ -13,9 +13,11 @@ namespace UI_Escritorio
 {
     public partial class FormCursos : Form
     {
-        public FormCursos()
+        private Usuario usuario;
+        public FormCursos(Usuario usuario)
         {
             InitializeComponent();
+            this.usuario = usuario;
         }
         private void btnListar_Click(object sender, EventArgs e)
         {
@@ -40,6 +42,12 @@ namespace UI_Escritorio
             {
                 this.btnBorrar.Enabled = false;
                 this.btnEditar.Enabled = false;
+            }
+            if (usuario.Rol.Equals("Alumno") || usuario.Rol.Equals("Docente"))
+            {
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+                this.btnNuevo.Visible = false;
             }
         }
 
@@ -73,6 +81,11 @@ namespace UI_Escritorio
         private Curso SelectedItem()
         {
             return (Curso)dgvCursos.SelectedRows[0].DataBoundItem;
+        }
+
+        private void FormCursos_load(object sender, EventArgs e)
+        {
+            this.GetAllAndLoad();
         }
     }
 }

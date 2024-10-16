@@ -72,23 +72,25 @@ namespace UI_Escritorio
             this.dgvPlanes.DataSource = planes;
             this.dgvPlanes.Refresh();
 
+            this.dgvPlanes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
             if (this.dgvPlanes.Rows.Count > 0)
             {
                 this.dgvPlanes.Rows[0].Selected = true;
-                this.btnBorrar.Enabled = true;
-                this.btnEditar.Enabled = true;
+                this.btnBorrar.Visible = true;
+                this.btnEditar.Visible = true;
             }
             else
             {
-                this.btnBorrar.Enabled = false;
-                this.btnEditar.Enabled = false;
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
             }
 
             if(usuario.Rol.Equals("Alumno") || usuario.Rol.Equals("Docente"))
             {
-                this.btnNuevo.Enabled = false;
-                this.btnEditar.Enabled = false;
-                this.btnBorrar.Enabled = false;
+                this.btnNuevo.Visible = false;
+                this.btnEditar.Visible = false;
+                this.btnBorrar.Visible = false;
             }
         }
 
