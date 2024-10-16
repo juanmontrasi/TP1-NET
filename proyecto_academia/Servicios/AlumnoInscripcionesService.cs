@@ -71,10 +71,11 @@ namespace proyecto_academia.Servicios
                     return false; 
                 }
 
-                if(alumnoInscripcion.Nota != 1 || alumnoInscripcion.Nota != 2 || alumnoInscripcion.Nota != 3 || alumnoInscripcion.Nota != 4 || alumnoInscripcion.Nota != 5 || alumnoInscripcion.Nota != 6 || alumnoInscripcion.Nota != 7 || alumnoInscripcion.Nota != 8 || alumnoInscripcion.Nota != 9 || alumnoInscripcion.Nota != 10 )
+                if (alumnoInscripcion.Nota < 1 || alumnoInscripcion.Nota > 10)
                 {
                     return false;
                 }
+
 
                 if (alumnoInscripcion.Condicion != "Aprobada")
                 {

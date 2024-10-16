@@ -13,9 +13,11 @@ namespace UI_Escritorio
 {
     public partial class FormMaterias : Form
     {
-        public FormMaterias()
+        private Usuario usuario;
+        public FormMaterias(Usuario usuario)
         {
             InitializeComponent();
+            this.usuario = usuario;
         }
         private void Materias_Load(object sender, EventArgs e)
         {
@@ -26,7 +28,7 @@ namespace UI_Escritorio
             this.GetAllAndLoad();
         }
 
-        private async void  GetAllAndLoad()
+        private async void GetAllAndLoad()
         {
             this.dgvMaterias.DataSource = null;
             this.dgvMaterias.AutoGenerateColumns = true;
@@ -37,13 +39,19 @@ namespace UI_Escritorio
             if (this.dgvMaterias.Rows.Count > 0)
             {
                 this.dgvMaterias.Rows[0].Selected = true;
-                this.btnBorrar.Enabled = true;
-                this.btnEditar.Enabled = true;
+                this.btnBorrar.Visible = true;
+                this.btnEditar.Visible = true;
             }
             else
             {
-                this.btnBorrar.Enabled = false;
-                this.btnEditar.Enabled = false;
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+            }
+            if (usuario.Rol.Equals("Alumno") || usuario.Rol.Equals("Docente"))
+            {
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+                this.btnNuevo.Visible = false;
             }
         }
 
@@ -76,6 +84,11 @@ namespace UI_Escritorio
             Materia materiaNuevo = new Materia();
             materiaDetalle.Materia = materiaNuevo;
             materiaDetalle.ShowDialog();
+            this.GetAllAndLoad();
+        }
+
+        private void FormMaterias_Load(object sender, EventArgs e)
+        {
             this.GetAllAndLoad();
         }
     }

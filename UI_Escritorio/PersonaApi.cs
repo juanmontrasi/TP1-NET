@@ -55,11 +55,11 @@ namespace UI_Escritorio
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
                 {
-                    return false; // Persona ya existe
+                    return false; 
                 }
 
-                response.EnsureSuccessStatusCode(); // Lanza excepción si la respuesta no es exitosa
-                return true; // Persona creada con éxito
+                response.EnsureSuccessStatusCode(); 
+                return true; 
             }
             catch (HttpRequestException ex)
             {

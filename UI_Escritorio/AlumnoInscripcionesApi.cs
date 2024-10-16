@@ -43,32 +43,24 @@ namespace UI_Escritorio
 
         public static async Task<bool> AddAsync(AlumnoInscripcion alumnoInscripcion)
         {
-            try
+            HttpResponseMessage response = await _alumnoInscripciones.PostAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
+            if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
-                HttpResponseMessage response = await _alumnoInscripciones.PostAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
-                response.EnsureSuccessStatusCode();
-                return true; 
-            }
-            catch (HttpRequestException ex)
-            {
-                
                 return false;
             }
+            response.EnsureSuccessStatusCode();
+            return true;
         }
 
         public static async Task<bool> UpdateAsync(AlumnoInscripcion alumnoInscripcion)
         {
-            try
+            HttpResponseMessage response = await _alumnoInscripciones.PutAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
+            if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
-                HttpResponseMessage response = await _alumnoInscripciones.PutAsJsonAsync("alumnoinscripciones", alumnoInscripcion);
-                response.EnsureSuccessStatusCode();
-                return true; 
+                return false;
             }
-            catch (HttpRequestException ex)
-            {
-                
-                return false; 
-            }
+            response.EnsureSuccessStatusCode();
+            return true;
         }
 
         public static async Task DeleteAsync(int id)

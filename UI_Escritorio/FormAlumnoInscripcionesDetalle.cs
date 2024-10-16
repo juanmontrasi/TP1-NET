@@ -15,12 +15,12 @@ namespace UI_Escritorio
         public bool EditMode { get; internal set; } = false;
         private Usuario usuario;
         public IEnumerable<string> condiciones = new List<string>
-        {
-            "Inscripto",
-            "Regular",
-            "Aprobada",
-            "Libre"
-        };
+            {
+                "Inscripto",
+                "Regular",
+                "Aprobada",
+                "Libre"
+            };
 
         public FormAlumnoInscripcionesDetalle(Usuario usuario)
         {
@@ -34,7 +34,7 @@ namespace UI_Escritorio
                 cbAlumnos.DataSource = new List<Usuario> { usuario };
                 cbAlumnos.DisplayMember = "Nombre_Usuario";
                 cbAlumnos.ValueMember = "IdPersona";
-                cbAlumnos.Enabled = false;
+                cbAlumnos.Visible = false;
             }
 
             if (!usuario.Rol.Equals("Alumno") && !usuario.Rol.Equals("Administrador"))
@@ -50,7 +50,7 @@ namespace UI_Escritorio
             if (IdCurso.HasValue)
             {
                 cbCursos.SelectedValue = IdCurso.Value;
-                cbCursos.Enabled = false;
+                cbCursos.Visible = false;
             }
         }
 
@@ -79,22 +79,23 @@ namespace UI_Escritorio
                 cbAlumnos.SelectedValue = alumnoInscripcion.IdPersona;
 
                 tbNota.Text = alumnoInscripcion.Nota.ToString();
-                tbNota.Enabled = true;
-                cbCondicion.Enabled = true;
+                tbNota.Visible = true;
+                cbCondicion.Visible = true;
                 cbAlumnos.Enabled = false;
-                cbCursos.Enabled = false;
+                cbCursos.Visible = false;
             }
             else
             {
                 cbAlumnos.DataSource = new List<Usuario> { usuario };
                 cbAlumnos.DisplayMember = "Nombre_Usuario";
                 cbAlumnos.ValueMember = "IdPersona";
-                cbAlumnos.Enabled = false;
+                cbAlumnos.Visible = false;
 
                 tbNota.Text = string.Empty;
                 cbCondicion.SelectedItem = "Inscripto";
-                cbCondicion.Enabled = false;
-                tbNota.Enabled = false;
+                cbCondicion.Visible = false;
+                tbNota.Visible = false;
+                cursolb.Visible = false;
             }
         }
 
@@ -110,14 +111,31 @@ namespace UI_Escritorio
                         {
                             alumnoInscripcion.IdPersona = (int)cbAlumnos.SelectedValue;
                         }
+
                         alumnoInscripcion.IdCurso = (int)cbCursos.SelectedValue;
                         alumnoInscripcion.Condicion = cbCondicion.SelectedItem.ToString();
 
+                        
                         if (EditMode && usuario.Rol.Equals("Administrador"))
                         {
                             if (int.TryParse(tbNota.Text, out int nota))
                             {
                                 alumnoInscripcion.Nota = nota;
+
+                                
+                                if (nota < 1 || nota > 10)
+                                {
+                                    MessageBox.Show("La nota debe estar entre 1 y 10.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    tbNota.Focus();
+                                    return;
+                                }
+
+                                bool result = await AlumnoInscripcionesApi.UpdateAsync(alumnoInscripcion);
+                                if (!result)
+                                {
+                                    MessageBox.Show("Error al actualizar la inscripción. Asegúrate de que la Nota sea válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
                             }
                             else
                             {
@@ -125,14 +143,8 @@ namespace UI_Escritorio
                                 tbNota.Focus();
                                 return;
                             }
-
-                            bool result = await AlumnoInscripcionesApi.UpdateAsync(alumnoInscripcion);
-                            if (!result)
-                            {
-                                MessageBox.Show("Error al actualizar la inscripción. La Nota es menor 6 o Nota es mayor a 10 ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return; 
-                            }
                         }
+                        
                         else if (!EditMode)
                         {
                             alumnoInscripcion.Condicion = "Inscripto";
@@ -140,7 +152,7 @@ namespace UI_Escritorio
                             if (!result)
                             {
                                 MessageBox.Show("Error al agregar la inscripción. El alumno puede que ya esté inscrito en este curso o que no haya cupo del curso.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return; 
+                                return;
                             }
                         }
 

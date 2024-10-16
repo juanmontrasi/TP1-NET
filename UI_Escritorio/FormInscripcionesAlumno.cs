@@ -41,16 +41,16 @@ namespace UI_Escritorio
             if (this.dgvInscripcionesAlumno.Rows.Count > 0)
             {
                 this.dgvInscripcionesAlumno.Rows[0].Selected = true;
-                this.btnBorrar.Enabled = false;
-                this.btnEditar.Enabled = true;
-                this.btnNuevo.Enabled = false;
-                this.btnListar.Enabled = true;
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = true;
+                this.btnNuevo.Visible = false;
+                this.btnListar.Visible = true;
             }
             else
             {
-                this.btnBorrar.Enabled = false;
-                this.btnEditar.Enabled = false;
-                this.btnNuevo.Enabled=false;
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+                this.btnNuevo.Visible =false;
             }
         }
 
@@ -65,16 +65,16 @@ namespace UI_Escritorio
             if (this.dgvInscripcionesAlumno.Rows.Count > 0)
             {
                 this.dgvInscripcionesAlumno.Rows[0].Selected = true;
-                this.btnBorrar.Enabled = true;
-                this.btnEditar.Enabled = false; 
-                this.btnNuevo.Enabled = true;
+                this.btnBorrar.Visible = true;
+                this.btnEditar.Visible = false; 
+                this.btnNuevo.Visible = true;
 
             }
             else
             {
-                this.btnBorrar.Enabled = false;
-                this.btnEditar.Enabled = false;
-                this.btnNuevo.Enabled = true;
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+                this.btnNuevo.Visible = true;
             }
         }
 

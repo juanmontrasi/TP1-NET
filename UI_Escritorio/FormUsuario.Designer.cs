@@ -55,11 +55,12 @@ namespace UI_Escritorio
             tlUsuarios.Controls.Add(btnNuevo, 4, 1);
             tlUsuarios.Dock = DockStyle.Fill;
             tlUsuarios.Location = new Point(0, 0);
+            tlUsuarios.Margin = new Padding(3, 2, 3, 2);
             tlUsuarios.Name = "tlUsuarios";
             tlUsuarios.RowCount = 2;
             tlUsuarios.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlUsuarios.RowStyles.Add(new RowStyle());
-            tlUsuarios.Size = new Size(800, 451);
+            tlUsuarios.Size = new Size(700, 338);
             tlUsuarios.TabIndex = 0;
             // 
             // dgvUsuarios
@@ -67,17 +68,19 @@ namespace UI_Escritorio
             dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tlUsuarios.SetColumnSpan(dgvUsuarios, 5);
             dgvUsuarios.Dock = DockStyle.Fill;
-            dgvUsuarios.Location = new Point(3, 3);
+            dgvUsuarios.Location = new Point(3, 2);
+            dgvUsuarios.Margin = new Padding(3, 2, 3, 2);
             dgvUsuarios.Name = "dgvUsuarios";
             dgvUsuarios.RowHeadersWidth = 51;
-            dgvUsuarios.Size = new Size(794, 410);
+            dgvUsuarios.Size = new Size(694, 308);
             dgvUsuarios.TabIndex = 0;
             // 
             // btnListar
             // 
-            btnListar.Location = new Point(403, 419);
+            btnListar.Location = new Point(351, 314);
+            btnListar.Margin = new Padding(3, 2, 3, 2);
             btnListar.Name = "btnListar";
-            btnListar.Size = new Size(94, 29);
+            btnListar.Size = new Size(82, 22);
             btnListar.TabIndex = 4;
             btnListar.Text = "Listar";
             btnListar.UseVisualStyleBackColor = true;
@@ -85,9 +88,10 @@ namespace UI_Escritorio
             // 
             // btnBorrar
             // 
-            btnBorrar.Location = new Point(503, 419);
+            btnBorrar.Location = new Point(439, 314);
+            btnBorrar.Margin = new Padding(3, 2, 3, 2);
             btnBorrar.Name = "btnBorrar";
-            btnBorrar.Size = new Size(94, 29);
+            btnBorrar.Size = new Size(82, 22);
             btnBorrar.TabIndex = 2;
             btnBorrar.Text = "Borrar";
             btnBorrar.UseVisualStyleBackColor = true;
@@ -95,9 +99,10 @@ namespace UI_Escritorio
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(603, 419);
+            btnEditar.Location = new Point(527, 314);
+            btnEditar.Margin = new Padding(3, 2, 3, 2);
             btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(94, 29);
+            btnEditar.Size = new Size(82, 22);
             btnEditar.TabIndex = 1;
             btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = true;
@@ -105,9 +110,10 @@ namespace UI_Escritorio
             // 
             // btnNuevo
             // 
-            btnNuevo.Location = new Point(703, 419);
+            btnNuevo.Location = new Point(615, 314);
+            btnNuevo.Margin = new Padding(3, 2, 3, 2);
             btnNuevo.Name = "btnNuevo";
-            btnNuevo.Size = new Size(94, 29);
+            btnNuevo.Size = new Size(82, 22);
             btnNuevo.TabIndex = 3;
             btnNuevo.Text = "Agregar";
             btnNuevo.UseVisualStyleBackColor = true;
@@ -115,13 +121,15 @@ namespace UI_Escritorio
             // 
             // FormUsuario
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 451);
+            ClientSize = new Size(700, 338);
             ControlBox = false;
             Controls.Add(tlUsuarios);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FormUsuario";
+            Load += FormUsuarios_Load;
             tlUsuarios.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
             ResumeLayout(false);

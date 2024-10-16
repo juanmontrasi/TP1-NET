@@ -127,6 +127,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormPersonas";
+            Load += FormPersonas_Load;
             tlPersonas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvPersonas).EndInit();
             ResumeLayout(false);
