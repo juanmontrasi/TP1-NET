@@ -17,6 +17,7 @@ namespace UI_Escritorio
 
         public IEnumerable<string> roles = new List<string> { "Alumno", "Administrador", "Docente" };
         public int? IdPersona { get; set; }
+
         public Usuario Usuario
         {
             get { return usuario; }
@@ -38,15 +39,32 @@ namespace UI_Escritorio
 
         private async void FormUsuarioDetalle_Load(object sender, EventArgs e)
         {
-            await CargarPersonas();
+            
             comboBoxRol.Items.AddRange(roles.ToArray());
 
-            
-            if (comboBoxPersonas.Items.Count > 0 && IdPersona.HasValue)
+            if(IdPersona.HasValue)
             {
-                comboBoxPersonas.SelectedValue = IdPersona.Value;
+                Persona personaCreada = await PersonaApi.GetAsync(IdPersona.Value);
+                
+                comboBoxPersonas.DataSource = new List<Persona> { personaCreada };
+                comboBoxPersonas.DisplayMember = "Mail";
+                comboBoxPersonas.ValueMember = "IdPersona";
                 comboBoxPersonas.Enabled = false;
             }
+            else if (IdPersona == null)
+            {
+                await CargaPersonas();
+                comboBoxPersonas.Enabled = true;
+
+            }
+
+            if(EditMode)
+            {
+                 SetUsuario();
+            }
+
+
+            
         }
 
 
@@ -103,6 +121,7 @@ namespace UI_Escritorio
                 claveTextBox.Text = this.Usuario.Clave;
                 comboBoxRol.SelectedItem = this.Usuario.Rol;
                 comboBoxPersonas.SelectedValue = this.Usuario.IdPersona; 
+                comboBoxPersonas.Enabled = false;
             }
         }
 
@@ -138,37 +157,15 @@ namespace UI_Escritorio
             return isValid;
         }
 
-        private async Task CargarPersonas()
+      
+
+        private async Task CargaPersonas()
         {
-            using (HttpClient client = new HttpClient())
-            {
-                string apiUrl = "https://localhost:7111/personas";
-
-                try
-                {
-                    HttpResponseMessage response = await client.GetAsync(apiUrl);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var personas = await response.Content.ReadAsAsync<List<Persona>>();
-                        comboBoxPersonas.DataSource = personas;
-                        comboBoxPersonas.DisplayMember = "Legajo";
-                        comboBoxPersonas.ValueMember = "IdPersona";
-
-                        if (IdPersona.HasValue)
-                        {
-                            comboBoxPersonas.SelectedValue = IdPersona.Value;
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error al cargar personas: " + response.ReasonPhrase);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al conectar con el servidor: " + ex.Message);
-                }
-            }
+            var personas = await PersonaApi.GetAllAsync();
+            comboBoxPersonas.DataSource = personas;
+            comboBoxPersonas.DisplayMember = "Mail";
+            comboBoxPersonas.ValueMember = "IdPersona";
+           
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

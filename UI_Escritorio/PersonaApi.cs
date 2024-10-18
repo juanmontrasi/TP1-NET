@@ -53,7 +53,7 @@ namespace UI_Escritorio
             {
                 HttpResponseMessage response = await _persona.PostAsJsonAsync("personas", persona);
 
-                if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+                if (response.StatusCode == HttpStatusCode.Conflict)
                 {
                     return false; 
                 }
@@ -83,6 +83,17 @@ namespace UI_Escritorio
         {
             HttpResponseMessage response = await _persona.DeleteAsync("personas/" + id);
             response.EnsureSuccessStatusCode();
+        }
+
+        public static async Task<Persona> GetPersonaCreated(string Nombre, string Apellido, string FechaNacimiento)
+        {
+            Persona persona = null;
+            HttpResponseMessage response = await _persona.GetAsync("personas/GetPersonaCreated?Nombre=" + Nombre + "&Apellido=" + Apellido + "&FechaNacimiento=" + FechaNacimiento);
+            if (response.IsSuccessStatusCode)
+            {
+                persona = await response.Content.ReadAsAsync<Persona>();
+            }
+            return persona;
         }
     }
 }
