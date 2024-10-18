@@ -31,12 +31,26 @@ namespace UI_Escritorio
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            Plan planSelected = this.SelectedItem();
-            if(planSelected != null)
-            { 
-                int id = planSelected.IdPlan;
-                await PlanesApi.DeleteAsync(id);
-                this.GetAllAndLoad();
+            
+            DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar el plan?", "Eliminar plan", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (result == DialogResult.OK)
+            {
+                Plan planSelected = this.SelectedItem();
+                if (planSelected != null)
+                {
+                    int id = planSelected.IdPlan;
+                    await PlanesApi.DeleteAsync(id);
+                    this.GetAllAndLoad();
+                }
+
+                MessageBox.Show("Plan eliminado con éxito", "Plan Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            else if (result == DialogResult.Cancel)
+            {
+                return;
             }
         }
 

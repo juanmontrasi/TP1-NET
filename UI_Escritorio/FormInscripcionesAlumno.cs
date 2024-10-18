@@ -80,14 +80,28 @@ namespace UI_Escritorio
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            AlumnoInscripcion alumnoInscripcionSelected = this.SelectedItem();
-            if( alumnoInscripcionSelected != null )
-            {
-                int id = alumnoInscripcionSelected.IdAlumnoInscripcion;
-                await AlumnoInscripcionesApi.DeleteAsync(id);
-                this.GetAllAndLoadAlumno();
-            }
             
+            DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la inscripcion del alumno?", "Eliminar inscripcion", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (result == DialogResult.OK)
+            {
+                AlumnoInscripcion alumnoInscripcionSelected = this.SelectedItem();
+                if (alumnoInscripcionSelected != null)
+                {
+                    int id = alumnoInscripcionSelected.IdAlumnoInscripcion;
+                    await AlumnoInscripcionesApi.DeleteAsync(id);
+                    this.GetAllAndLoadAlumno();
+                }
+
+                MessageBox.Show("Inscripcion eliminada con éxito", "Inscripcion Eliminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
+
         }
 
         private async void btnEditar_Click(object sender, EventArgs e)

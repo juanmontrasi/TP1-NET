@@ -14,7 +14,7 @@ namespace UI_Escritorio
     public partial class FormPlanesDetalle : Form
     {
         private Plan plan;
-        public int? IdEspecialidad { get; set; } // Puede ser null 
+        public int? IdEspecialidad { get; set; } 
         public Plan Plan
         {
             get { return plan; }
@@ -37,13 +37,17 @@ namespace UI_Escritorio
 
         private async void PlanesDetalle_Load(object sender, EventArgs e)
         {
-            await CargarEspecialidades();
+            
 
             if (IdEspecialidad.HasValue)
             {
-                comboBoxEspecialidades.SelectedValue = IdEspecialidad.Value;
+                Especialidad especialidadCreada = await EspecialidadesApi.GetAsync(IdEspecialidad.Value);
+                comboBoxEspecialidades.DataSource = new List<Especialidad> { especialidadCreada };
+                comboBoxEspecialidades.DisplayMember = "Nombre_Especialidad";
+                comboBoxEspecialidades.ValueMember = "IdEspecialidad";
                 comboBoxEspecialidades.Enabled = false;
             }
+            else if (IdEspecialidad == null) { await CargaEspecialidades(); }
         }
 
         private async void aceptarButton_Click(object sender, EventArgs e)
@@ -122,7 +126,7 @@ namespace UI_Escritorio
             return isValid;
         }
 
-        private async Task CargarEspecialidades()
+       /* private async Task CargarEspecialidades()
         {
             using (HttpClient client = new HttpClient())
             {
@@ -152,6 +156,21 @@ namespace UI_Escritorio
                 {
                     MessageBox.Show("Error al conectar con el servidor: " + ex.Message);
                 }
+            }
+        }*/
+
+        private async Task CargaEspecialidades()
+        {
+            try
+            {
+                var especialidades = await EspecialidadesApi.GetAllAsync();
+                comboBoxEspecialidades.DataSource = especialidades;
+                comboBoxEspecialidades.DisplayMember = "Nombre_Especialidad";
+                comboBoxEspecialidades.ValueMember = "IdEspecialidad";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar especialidades: " + ex.Message);
             }
         }
 

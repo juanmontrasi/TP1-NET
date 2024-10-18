@@ -53,9 +53,23 @@ namespace UI_Escritorio
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            int id = this.SelectedItem().IdCurso;
-            await CursosApi.DeleteAsync(id);
-            this.GetAllAndLoad();
+            
+            DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar el curso?", "Eliminar curso", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (result == DialogResult.OK)
+            {
+                int id = this.SelectedItem().IdCurso;
+                await CursosApi.DeleteAsync(id);
+                this.GetAllAndLoad();
+
+                MessageBox.Show("Curso eliminado con éxito", "Curso Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
         }
 
         private async void btnEditar_Click(object sender, EventArgs e)
