@@ -65,5 +65,10 @@ namespace proyecto_academia.Servicios
             }
         }
 
+        public Persona? GetPersonaCreated(string Nombre, string Apellido, string FechaNacimiento)
+        {
+            using var context = new AcademiaDbContext();
+            return context.Personas.FirstOrDefault(p => p.Nombre == Nombre && p.Apellido == Apellido && p.FechaNacimiento == FechaNacimiento);
+        }
     }
 }

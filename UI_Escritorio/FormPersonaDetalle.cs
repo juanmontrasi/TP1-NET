@@ -10,6 +10,7 @@ namespace UI_Escritorio
     {
         public Persona persona;
 
+        public int idPersonaCreada { get; set; }
         public Persona Persona
         {
             get { return persona; }
@@ -64,27 +65,30 @@ namespace UI_Escritorio
 
                     try
                     {
-                        bool creada;
+                        bool creada = false;
+                        
 
                         if (this.EditMode)
                         {
                             await PersonaApi.UpdateAsync(this.Persona);
-                            creada = true; 
+                            MessageBox.Show("Persona actualizada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
                             creada = await PersonaApi.AddAsync(this.Persona);
+                            
                         }
 
                         if (creada)
                         {
-                            
+                            Persona personaCreada = await PersonaApi.GetPersonaCreated(Persona.Nombre, Persona.Apellido, Persona.FechaNacimiento);
+                            idPersonaCreada = personaCreada.IdPersona;
                             FormUsuarioDetalle formUsuarioDetalle = new FormUsuarioDetalle
                             {
-                                IdPersona = this.Persona.IdPersona 
+                                IdPersona = idPersonaCreada
                             };
 
-                            
+
                             var result = formUsuarioDetalle.ShowDialog();
 
                             if (result == DialogResult.OK)
@@ -95,15 +99,17 @@ namespace UI_Escritorio
                             }
                             else
                             {
-                               
-                                await PersonaApi.DeleteAsync(this.Persona.IdPersona);
+
+                                await PersonaApi.DeleteAsync(idPersonaCreada);
                                 MessageBox.Show("Se produjo un error al crear el usuario. La persona ha sido eliminada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
-                        else
+                        else if (!creada)
                         {
                             MessageBox.Show("Ya existe una persona con el mismo Nombre, Apellido y Fecha de Nacimiento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
+                        
+                        
                     }
                     catch (Exception ex)
                     {

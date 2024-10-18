@@ -295,6 +295,14 @@ builder.Services.AddControllers()
         })
             .WithName("GetAllPersonas")
             .WithOpenApi();
+        app.MapGet("/personas/GetPersonaCreated", (string Nombre, string Apellido, string FechaNacimiento) =>
+        {
+            PersonaService personaService = new PersonaService();
+            return personaService.GetPersonaCreated(Nombre, Apellido, FechaNacimiento);
+        });
+
+
+
         app.MapPost("/personas", (Persona persona) =>
         {
             PersonaService personaService = new PersonaService();
