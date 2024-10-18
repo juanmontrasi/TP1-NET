@@ -34,9 +34,22 @@ namespace UI_Escritorio
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            int id = this.SelectedItem().IdEspecialidad;
-            await EspecialidadesApi.DeleteAsync(id);
-            this.GetAllAndLoad();
+            DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la especialidad?", "Eliminar especialidad", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if(result == DialogResult.OK)
+            {
+                int id = this.SelectedItem().IdEspecialidad;
+                await EspecialidadesApi.DeleteAsync(id);
+                this.GetAllAndLoad();
+                MessageBox.Show("Especialidad eliminada con éxito", "Especialidad eliminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
+           
         }
 
         private async void btnEditar_Click(object sender, EventArgs e)

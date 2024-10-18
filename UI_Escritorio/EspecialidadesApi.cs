@@ -46,14 +46,14 @@ namespace UI_Escritorio
             try
             {
                 HttpResponseMessage response = await _especialidad.PostAsJsonAsync("especialidades", especialidad);
-                response.EnsureSuccessStatusCode(); 
-                return true; 
+                response.EnsureSuccessStatusCode();
+                return true;
             }
             catch (HttpRequestException ex)
             {
                 if (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
                 {
-                    return false; 
+                    return false;
                 }
                 throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
             }
@@ -72,6 +72,17 @@ namespace UI_Escritorio
         {
             HttpResponseMessage response = await _especialidad.PutAsJsonAsync("especialidades", especialidad);
             response.EnsureSuccessStatusCode();
+        }
+
+        public static async Task<Especialidad> GetEspecialidadCreada(string nombreEspecialidad)
+        {
+            Especialidad especialidad = null;
+            HttpResponseMessage response = await _especialidad.GetAsync("especialidades/nombre/" + nombreEspecialidad);
+            if (response.IsSuccessStatusCode)
+            {
+                especialidad = await response.Content.ReadAsAsync<Especialidad>();
+            }
+            return especialidad;
         }
     }
 }
