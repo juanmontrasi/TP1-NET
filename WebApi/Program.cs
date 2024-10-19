@@ -460,8 +460,75 @@ builder.Services.AddControllers()
         .WithName("GetInscripcionesByAlumnoId")
         .WithOpenApi();
 
+app.MapGet("docentecurso/{id}", (int id) =>
+{
+    DocenteCursoService docenteCursoService = new DocenteCursoService();
+    return docenteCursoService.Get(id);
+})
+            .WithName("GetDocenteCurso")
+            .WithOpenApi();
+app.MapGet("/docentecurso", () =>
+{
+    DocenteCursoService docenteCursoService = new DocenteCursoService();
+    return docenteCursoService.GetAll();
+})
+    .WithName("GetAllDocenteCursos")
+    .WithOpenApi();
 
-        app.UseAuthorization();
+app.MapPost("/docentecursos", (DocenteCurso docenteCurso) =>
+{
+    try
+    {
+        DocenteCursoService docenteCursoService = new DocenteCursoService();
+        bool creada = docenteCursoService.Add(docenteCurso);
+        if (!creada)
+        {
+            return Results.Conflict("Docente ya asignado al curso");
+        }
+        return Results.Ok(docenteCurso);
+    }
+    catch (Exception ex)
+    {
+
+        Console.WriteLine(ex.ToString());
+        return Results.Problem("Error inesperado en el servidor.");
+    }
+}).WithName("AgregarDocenteCurso")
+    .WithOpenApi();
+
+
+app.MapPut("/docentecurso", (DocenteCurso docenteCurso) =>
+{
+    DocenteCursoService docenteCursoService = new DocenteCursoService();
+    bool actualizada = docenteCursoService.Update(docenteCurso);
+    if (!actualizada)
+    {
+        return Results.Conflict("Error al actualizar la asignacion");
+    }
+    return Results.Ok(actualizada);
+})
+    .WithName("UpdateDocenteCurso")
+    .WithOpenApi();
+
+app.MapDelete("/docentecursos/{id}", (int id) =>
+{
+    DocenteCursoService docenteCursoService = new DocenteCursoService();
+    docenteCursoService.Delete(id);
+})
+    .WithName("DeleteDocenteCurso")
+    .WithOpenApi();
+
+app.MapGet("/docentecurso/docente/{idPersona}", (int idPersona) =>
+{
+    DocenteCursoService docenteCursoService = new DocenteCursoService();
+    var asignaciones = docenteCursoService.GetByDocenteId(idPersona);
+    return asignaciones;
+})
+.WithName("GetAsignacionesByDocenteId")
+.WithOpenApi();
+
+
+app.UseAuthorization();
         app.MapControllers();
 
     
