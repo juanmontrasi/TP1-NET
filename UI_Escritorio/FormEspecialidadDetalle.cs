@@ -57,7 +57,7 @@ namespace UI_Escritorio
 
                             if (creada)
                             {
-                                var creadaEspecialidad = this.Especialidad; 
+                                var creadaEspecialidad = await EspecialidadesApi.GetEspecialidadCreada(Especialidad.Nombre_Especialidad);
                                 FormPlanesDetalle formPlanesDetalle = new FormPlanesDetalle
                                 {
                                     Plan = new Plan(),

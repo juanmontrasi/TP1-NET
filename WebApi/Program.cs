@@ -38,7 +38,15 @@ builder.Services.AddControllers()
         })
         .WithName("GetEspecialidad")
         .WithOpenApi();
-        app.MapGet("/especialidades", () =>
+
+        app.MapGet("/especialidades/nombre/{nombre}", (string nombre) =>
+        {
+            EspecialidadesServicecs especialidadesServicecs = new EspecialidadesServicecs();
+
+            return especialidadesServicecs.GetByNombre(nombre);
+        }).WithName("GetEspecialidadCreada")
+                 .WithOpenApi();
+app.MapGet("/especialidades", () =>
         {
             EspecialidadesServicecs especialidadService = new EspecialidadesServicecs();
 

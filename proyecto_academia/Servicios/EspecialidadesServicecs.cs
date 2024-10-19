@@ -63,6 +63,12 @@ namespace proyecto_academia.Servicios
                 context.SaveChanges();
             }
         }
+
+        public async Task<Especialidad> GetByNombre(string nombreEspecialiad)
+        {
+            using var context = new AcademiaDbContext();
+            return context.Especialidades.FirstOrDefault(e => e.Nombre_Especialidad == nombreEspecialiad);
+        }
     }
 }
 

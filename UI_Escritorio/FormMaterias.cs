@@ -57,9 +57,23 @@ namespace UI_Escritorio
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            int id = this.SelectedItem().IdMateria;
-            await MateriasApi.DeleteAsync(id);
-            this.GetAllAndLoad();
+            
+            DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la materia?", "Eliminar materia", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (result == DialogResult.OK)
+            {
+                int id = this.SelectedItem().IdMateria;
+                await MateriasApi.DeleteAsync(id);
+                this.GetAllAndLoad();
+
+                MessageBox.Show("Materia eliminada con éxito", "Materia Eliminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
         }
 
         private Materia SelectedItem()
