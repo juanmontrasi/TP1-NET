@@ -1,0 +1,76 @@
+﻿@using Entidades
+@inject DocenteCursosApi docenteCursosApi
+@inject NavigationManager NavigationManager 
+
+<h3>Mis Cursos</h3>
+
+@if (docenteCursos == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Curso</th>
+                <th>Cargo</th>
+                @if (userRole == "Admin") // Muestra solo si el usuario es Admin
+                {
+                    <th>Acciones</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var docenteCurso in docenteCursos)
+            {
+                <tr>
+                    <td>@docenteCurso.Curso.Nombre</td>
+                    <td>@(docenteCurso.Cargo == 1 ? "Teoría" : "Práctica")</td>
+                    @if (userRole == "Admin")
+                    {
+                        <td>
+                            <button @onclick="() => EditDocenteCurso(docenteCurso)" class="btn btn-warning btn-sm">Editar</button>
+                            <button @onclick="() => DeleteDocenteCurso(docenteCurso.IdDocenteCurso)" class="btn btn-danger btn-sm">Borrar</button>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (userRole == "Admin") // Solo muestra el botón de agregar si el usuario es Admin
+    {
+        <button class="btn btn-primary" @onclick="AddDocenteCurso">Agregar Curso</button>
+    }
+}
+
+@code {
+    private IEnumerable<DocenteCurso> docenteCursos;
+    private string userRole; // Esta variable debe estar definida y tener el rol del usuario
+
+    protected override async Task OnInitializedAsync()
+    {
+      //  int docenteId = /* Lógica para obtener el ID del docente logueado ;
+       // userRole = /* Lógica para obtener el rol del usuario logueado ; */
+
+      //  docenteCursos = await docenteCursosApi.GetDocenteCursoByIdAsync(docenteId);
+    }
+
+    private void AddDocenteCurso()
+    {
+        NavigationManager.NavigateTo("/agregar-docentecurso"); // Redirige a la página de agregar
+    }
+
+    private void EditDocenteCurso(DocenteCurso docenteCurso)
+    {
+        NavigationManager.NavigateTo($"/editar-docentecurso/{docenteCurso.IdDocenteCurso}"); // Redirige a la página de editar
+    }
+
+    private async Task DeleteDocenteCurso(int id)
+    {
+        await DocenteCursosApi.DeleteAsync(id);
+        // Aquí podrías recargar la lista de cursos después de eliminar
+       // docenteCursos = await docenteCursosApi.GetDocenteCursoByIdAsync(/* ID del docente logueado */);
+    }
+}

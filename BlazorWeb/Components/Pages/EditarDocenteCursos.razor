@@ -1,0 +1,91 @@
+﻿@page "/editar-docentecurso/{id}"
+@using Entidades
+@inject DocenteCursosApi docenteCursosApi
+@inject NavigationManager NavigationManager
+
+<h3>Editar Docente Curso</h3>
+
+<EditForm Model="docenteCurso" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="idPersona">Docente:</label>
+        <InputSelect id="idPersona" @bind-Value="docenteCurso.IdPersona">
+            @foreach (var persona in personas)
+            {
+                <option value="@persona.IdPersona">@persona.Nombre</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div>
+        <label for="idCurso">Curso:</label>
+        <InputSelect id="idCurso" @bind-Value="docenteCurso.IdCurso">
+            @foreach (var curso in cursos)
+            {
+                <option value="@curso.IdCurso">@curso.Nombre</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div>
+        <label>Cargo:</label>
+        <InputCheckbox id="cargoTeoria" @bind-Value="isCargoTeoria" /> Teoría
+        <InputCheckbox id="cargoPractica" @bind-Value="isCargoPractica" /> Práctica
+        @if (!string.IsNullOrEmpty(cargoError))
+        {
+            <div style="color: red;">@cargoError</div>
+        }
+    </div>
+
+    <button type="submit">Guardar</button>
+</EditForm>
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private DocenteCurso docenteCurso;
+    private IEnumerable<Persona> personas; 
+    private IEnumerable<Curso> cursos; 
+    private bool isCargoTeoria;
+    private bool isCargoPractica;
+    private string cargoError; 
+
+    protected override async Task OnInitializedAsync()
+    {
+        docenteCurso = await DocenteCursosApi.GetAsync(Id);
+        personas = (await DocenteCursosApi.GetDocentesAsync()).ToList();
+        cursos = (await DocenteCursosApi.GetCursosAsync()).ToList();
+
+        
+        isCargoTeoria = docenteCurso.Cargo == 1;
+        isCargoPractica = docenteCurso.Cargo == 2;
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        cargoError = ""; 
+        if ((isCargoTeoria && isCargoPractica) || (!isCargoTeoria && !isCargoPractica))
+        {
+            cargoError = "Debe seleccionar solo un cargo: Teoría o Práctica.";
+            return; 
+        }
+
+        UpdateCargo(); 
+
+        await DocenteCursosApi.UpdateAsync(docenteCurso);
+        NavigationManager.NavigateTo("/docentecursos"); 
+    }
+
+    private void UpdateCargo()
+    {
+        if (isCargoTeoria)
+        {
+            docenteCurso.Cargo = 1; 
+        }
+        else if (isCargoPractica)
+        {
+            docenteCurso.Cargo = 2; 
+        }
+    }
+}

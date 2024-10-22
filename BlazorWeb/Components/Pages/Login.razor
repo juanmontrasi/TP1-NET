@@ -1,0 +1,67 @@
+﻿@page "/login"
+@inject NavigationManager NavigationManager
+@inject UsuariosService UsuariosService
+@using BlazorWeb.Servicios
+@using BlazorWeb.Api
+@using Entidades;
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Forms;
+
+<h3>Iniciar Sesión</h3>
+
+@if (loginFailed)
+{
+    <div class="alert alert-danger">
+        Inicio de sesión fallido. Verifica tus credenciales.
+    </div>
+}
+
+<EditForm Model="@loginUsuario" OnValidSubmit="@HandleLogin" FormName="formLogin">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Nombre de Usuario:</label>
+        <InputText @bind-Value="loginUsuario.Nombre_Usuario" />
+    </div>
+    <div>
+        <label>Clave:</label>
+        <InputText @bind-Value="loginUsuario.Clave" Type="password" />
+    </div>
+
+    <button type="submit">Iniciar Sesión</button>
+</EditForm>
+
+@code {
+    private Usuario loginUsuario = new Usuario();
+    private bool loginFailed = false;
+
+
+
+    private async Task HandleLogin()
+    {
+        loginUsuario.Nombre_Usuario = "biglina";
+        loginUsuario.Clave = "49623";
+        Console.WriteLine($"Intentando iniciar sesión con Usuario: '{loginUsuario.Nombre_Usuario}', Clave: '{loginUsuario.Clave}'");
+
+        
+        if (string.IsNullOrWhiteSpace(loginUsuario.Nombre_Usuario) || string.IsNullOrWhiteSpace(loginUsuario.Clave))
+        {
+            Console.WriteLine("Los campos no pueden estar vacíos.");
+            loginFailed = true; 
+            return; 
+        }
+
+        var usuario = await UsuariosService.AuthenticateAsync(loginUsuario.Nombre_Usuario, loginUsuario.Clave);
+        if (usuario != null)
+        {
+            Console.WriteLine("Inicio de sesión exitoso");
+            NavigationManager.NavigateTo("/"); 
+        }
+        else
+        {
+            Console.WriteLine("Inicio de sesión fallido");
+            loginFailed = true;
+        }
+    }
+}

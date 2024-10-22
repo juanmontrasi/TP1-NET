@@ -1,4 +1,5 @@
 ﻿using Entidades;
+using Microsoft.EntityFrameworkCore;
 using proyecto_academia.Context;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,14 @@ namespace proyecto_academia.Servicios
                 usuarioToUpdate.Rol = usuario.Rol;
                 context.SaveChanges();
             }
+        }
+
+        public  IEnumerable<Usuario> GetAllDocentes()
+        {
+            using var context = new AcademiaDbContext();
+
+            IEnumerable<Usuario> docentes = context.Usuarios.Where(u => u.Rol == "Docente").ToList();
+            return docentes;
         }
     }
 }

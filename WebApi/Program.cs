@@ -399,6 +399,13 @@ app.MapGet("/especialidades", () =>
         })
         .WithName("AuthenticateUsuario")
         .WithOpenApi();
+
+        app.MapGet("/docentes", () =>
+        {
+            UsuarioService usuarioService = new UsuarioService();
+            return usuarioService.GetAllDocentes();
+        }).WithName("GetAllDocentes")
+          .WithOpenApi();
         //AlumnoInscripciones
 
         app.MapGet("alumnoinscripciones/{id}", (int id) =>
@@ -487,8 +494,19 @@ app.MapPost("/docentecursos", (DocenteCurso docenteCurso) =>
 {
     try
     {
+        
+        if (docenteCurso.Cargo == 1) 
+        {
+            docenteCurso.Cargo = 1; 
+        }
+        else if (docenteCurso.Cargo == 2) 
+        {
+            docenteCurso.Cargo = 2; 
+        }
+
         DocenteCursoService docenteCursoService = new DocenteCursoService();
-        bool creada = docenteCursoService.Add(docenteCurso);
+        bool creada = docenteCursoService.Add(docenteCurso); 
+
         if (!creada)
         {
             return Results.Conflict("Docente ya asignado al curso");
@@ -497,12 +515,12 @@ app.MapPost("/docentecursos", (DocenteCurso docenteCurso) =>
     }
     catch (Exception ex)
     {
-
         Console.WriteLine(ex.ToString());
         return Results.Problem("Error inesperado en el servidor.");
     }
 }).WithName("AgregarDocenteCurso")
     .WithOpenApi();
+
 
 
 app.MapPut("/docentecurso", (DocenteCurso docenteCurso) =>

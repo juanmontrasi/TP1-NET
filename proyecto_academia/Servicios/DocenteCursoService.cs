@@ -14,22 +14,36 @@ namespace proyecto_academia.Servicios
         {
             using var context = new AcademiaDbContext();
 
-            if(context.DocenteCursos.Any(a => a.IdPersona == docenteCurso.IdPersona && a.IdCurso == docenteCurso.IdCurso && a.Cargo == docenteCurso.Cargo))
+            
+            if (docenteCurso.Cargo != 1 && docenteCurso.Cargo != 2)
             {
-                return false;
+                throw new ArgumentException("Cargo inválido. Debe ser 1 (Teoría) o 2 (Práctica).");
             }
 
-            if(context.Personas.Any(p => p.IdPersona == docenteCurso.IdPersona) && context.Cursos.Any(c => c.IdCurso == docenteCurso.IdCurso))
+            
+            if (context.DocenteCursos.Any(a => a.IdPersona == docenteCurso.IdPersona &&
+                                               a.IdCurso == docenteCurso.IdCurso &&
+                                               a.Cargo == docenteCurso.Cargo))
+            {
+                return false; 
+            }
+
+            
+            if (context.Personas.Any(p => p.IdPersona == docenteCurso.IdPersona) &&
+                context.Cursos.Any(c => c.IdCurso == docenteCurso.IdCurso))
             {
                 context.Add(docenteCurso);
-                context.SaveChanges();
-                return true;
+                context.SaveChanges(); 
+                return true; 
             }
             else
             {
-                throw new ArgumentException("IDs no válidos.");
+                throw new ArgumentException("IDs no válidos."); 
             }
         }
+
+
+
 
         public DocenteCurso Get(int id)
         {
