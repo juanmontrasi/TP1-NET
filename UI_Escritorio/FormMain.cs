@@ -87,7 +87,7 @@ namespace UI_Escritorio
 
         private void cursosDocenteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormCursosDocente formCursDoc = new FormCursosDocente();
+            FormDocenteCurso formCursDoc = new FormDocenteCurso(usuarioAutenticado);
             formCursDoc.FormBorderStyle = FormBorderStyle.None;
             formCursDoc.WindowState = FormWindowState.Maximized;
             formCursDoc.MdiParent = this;

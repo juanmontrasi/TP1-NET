@@ -25,7 +25,7 @@ namespace UI_Escritorio
         public static async Task<DocenteCurso> GetAsync(int id)
         {
             DocenteCurso docenteCurso = null;
-            HttpResponseMessage response = await _docenteCursos.GetAsync("docentecursos/"+id);
+            HttpResponseMessage response = await _docenteCursos.GetAsync("docentecursos/" + id);
             if (response.IsSuccessStatusCode)
             {
                 docenteCurso = await  response.Content.ReadAsAsync<DocenteCurso>();
@@ -77,7 +77,7 @@ namespace UI_Escritorio
         public static async Task<IEnumerable<DocenteCurso>> GetDocenteCursoByIdAsync(int id)
         {
             IEnumerable<DocenteCurso> docenteCursos = null; 
-            HttpResponseMessage response = await _docenteCursos.GetAsync("docentecursos/docente" + id);
+            HttpResponseMessage response = await _docenteCursos.GetAsync("docentecursos/docente/" + id);
             if (response.IsSuccessStatusCode)
             {
                 docenteCursos = await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCurso>>();

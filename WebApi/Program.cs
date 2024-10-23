@@ -475,14 +475,14 @@ app.MapGet("/especialidades", () =>
         .WithName("GetInscripcionesByAlumnoId")
         .WithOpenApi();
 
-app.MapGet("docentecurso/{id}", (int id) =>
+app.MapGet("docentecursos/{id}", (int id) =>
 {
     DocenteCursoService docenteCursoService = new DocenteCursoService();
     return docenteCursoService.Get(id);
 })
             .WithName("GetDocenteCurso")
             .WithOpenApi();
-app.MapGet("/docentecurso", () =>
+app.MapGet("/docentecursos", () =>
 {
     DocenteCursoService docenteCursoService = new DocenteCursoService();
     return docenteCursoService.GetAll();
@@ -523,7 +523,7 @@ app.MapPost("/docentecursos", (DocenteCurso docenteCurso) =>
 
 
 
-app.MapPut("/docentecurso", (DocenteCurso docenteCurso) =>
+app.MapPut("/docentecursos", (DocenteCurso docenteCurso) =>
 {
     DocenteCursoService docenteCursoService = new DocenteCursoService();
     bool actualizada = docenteCursoService.Update(docenteCurso);
@@ -544,7 +544,7 @@ app.MapDelete("/docentecursos/{id}", (int id) =>
     .WithName("DeleteDocenteCurso")
     .WithOpenApi();
 
-app.MapGet("/docentecurso/docente/{idPersona}", (int idPersona) =>
+app.MapGet("/docentecursos/docente/{idPersona}", (int idPersona) =>
 {
     DocenteCursoService docenteCursoService = new DocenteCursoService();
     var asignaciones = docenteCursoService.GetByDocenteId(idPersona);
