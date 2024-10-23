@@ -19,6 +19,8 @@ builder.Services.AddDbContext<AcademiaDbContextBlazor>(options =>
 builder.Services.AddScoped<DocenteCursosApi>();
 builder.Services.AddScoped<UsuariosApi>();
 builder.Services.AddScoped<UsuariosService>();
+builder.Services.AddSingleton<UsuarioState>();
+
 
 var app = builder.Build();
 

@@ -14,7 +14,7 @@
         <InputSelect id="idPersona" @bind-Value="docenteCurso.IdPersona">
             @foreach (var persona in personas)
             {
-                <option value="@persona.IdPersona">@persona.Nombre</option>
+                <option value="@persona.IdPersona">@persona.Nombre_Usuario</option>
             }
         </InputSelect>
     </div>
@@ -45,7 +45,7 @@
 @code {
     [Parameter] public int Id { get; set; }
     private DocenteCurso docenteCurso;
-    private IEnumerable<Persona> personas; 
+    private IEnumerable<Usuario> personas; 
     private IEnumerable<Curso> cursos; 
     private bool isCargoTeoria;
     private bool isCargoPractica;
