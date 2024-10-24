@@ -1,6 +1,7 @@
-﻿@page "/login"
+﻿@page "/"
 @inject NavigationManager NavigationManager
 @inject UsuariosService UsuariosService
+@inject UsuarioState UsuarioState
 @using BlazorWeb.Servicios
 @using BlazorWeb.Api
 @using Entidades;
@@ -40,23 +41,26 @@
 
     private async Task HandleLogin()
     {
-        loginUsuario.Nombre_Usuario = "biglina";
+        loginUsuario.Nombre_Usuario = "biglina"; 
         loginUsuario.Clave = "49623";
         Console.WriteLine($"Intentando iniciar sesión con Usuario: '{loginUsuario.Nombre_Usuario}', Clave: '{loginUsuario.Clave}'");
 
-        
         if (string.IsNullOrWhiteSpace(loginUsuario.Nombre_Usuario) || string.IsNullOrWhiteSpace(loginUsuario.Clave))
         {
             Console.WriteLine("Los campos no pueden estar vacíos.");
-            loginFailed = true; 
-            return; 
+            loginFailed = true;
+            return;
         }
 
         var usuario = await UsuariosService.AuthenticateAsync(loginUsuario.Nombre_Usuario, loginUsuario.Clave);
         if (usuario != null)
         {
             Console.WriteLine("Inicio de sesión exitoso");
-            NavigationManager.NavigateTo("/"); 
+
+            
+            UsuarioState.SetUsuario(usuario); 
+
+            NavigationManager.NavigateTo("/Home");
         }
         else
         {
@@ -64,4 +68,5 @@
             loginFailed = true;
         }
     }
+
 }

@@ -92,13 +92,13 @@ namespace BlazorWeb
             return docenteCursos;
         }
 
-        public static async Task<IEnumerable<Persona>> GetDocentesAsync()
+        public static async Task<IEnumerable<Usuario>> GetDocentesAsync()
         {
-            IEnumerable<Persona> docentes = null;
+            IEnumerable<Usuario> docentes = null;
             HttpResponseMessage response = await _docenteCursos.GetAsync("docentes");
             if (response.IsSuccessStatusCode)
             {
-                docentes = await response.Content.ReadFromJsonAsync<IEnumerable<Persona>>();
+                docentes = await response.Content.ReadFromJsonAsync<IEnumerable<Usuario>>();
             }
             return docentes;
         }
