@@ -16,10 +16,12 @@ namespace UI_Escritorio
     public partial class FormEspecialidades : Form
     {
         private Usuario usuario;
+        private ReportGenerator reportGenerator;
         public FormEspecialidades(Usuario usuario)
         {
             InitializeComponent();
             this.usuario = usuario;
+            this.reportGenerator = new ReportGenerator();
         }
 
         private void Especialidades_Load(object sender, EventArgs e)
@@ -35,7 +37,7 @@ namespace UI_Escritorio
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la especialidad?", "Eliminar especialidad", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-            if(result == DialogResult.OK)
+            if (result == DialogResult.OK)
             {
                 int id = this.SelectedItem().IdEspecialidad;
                 await EspecialidadesApi.DeleteAsync(id);
@@ -49,14 +51,14 @@ namespace UI_Escritorio
             {
                 return;
             }
-           
+
         }
 
         private async void btnEditar_Click(object sender, EventArgs e)
         {
             FormEspecialidadDetalle especialidadDetalle = new FormEspecialidadDetalle();
             int id = this.SelectedItem().IdEspecialidad;
-            Especialidad especialidad = await EspecialidadesApi.GetAsync(id);
+            Entidades.Especialidad especialidad = await EspecialidadesApi.GetAsync(id);
             especialidadDetalle.EditMode = true;
             especialidadDetalle.Especialidad = especialidad;
             especialidadDetalle.ShowDialog();
@@ -66,7 +68,7 @@ namespace UI_Escritorio
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             FormEspecialidadDetalle especialidadDetalle = new FormEspecialidadDetalle();
-            Especialidad especialidadNuevo = new Especialidad();
+            Entidades.Especialidad especialidadNuevo = new Entidades.Especialidad();
             especialidadDetalle.Especialidad = especialidadNuevo;
             especialidadDetalle.ShowDialog();
             this.GetAllAndLoad();
@@ -99,9 +101,25 @@ namespace UI_Escritorio
             }
         }
 
-        private Especialidad SelectedItem()
+        private Entidades.Especialidad SelectedItem()
         {
-            return (Especialidad)dgvEspecialidades.SelectedRows[0].DataBoundItem;
+            return (Entidades.Especialidad)dgvEspecialidades.SelectedRows[0].DataBoundItem;
         }
+
+        private async void btnGenerarReporte_Click(object sender, EventArgs e)
+        {
+            var especialidades = await EspecialidadesApi.GetAllAsync();
+            string filePath = "EspecialidadesReport.pdf";
+            reportGenerator.GenerateEspecialidadesReport(especialidades, filePath);
+            MessageBox.Show("Reporte generado con éxito en EspecialidadesReport.pdf", "Reporte Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = filePath,
+                UseShellExecute = true
+            });
+        }
+
     }
 }

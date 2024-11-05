@@ -14,9 +14,9 @@ namespace UI_Escritorio
 {
     public partial class FormEspecialidadDetalle : Form
     {
-        private Especialidad especialidad;
+        private Entidades.Especialidad especialidad;
 
-        public Especialidad Especialidad
+        public Entidades.Especialidad Especialidad
         {
             get { return especialidad; }
             set

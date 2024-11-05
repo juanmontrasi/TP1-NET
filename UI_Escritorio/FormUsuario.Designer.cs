@@ -36,6 +36,7 @@ namespace UI_Escritorio
             btnBorrar = new Button();
             btnEditar = new Button();
             btnNuevo = new Button();
+            btnGenerarReporte = new Button();
             tlUsuarios.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
             SuspendLayout();
@@ -53,6 +54,7 @@ namespace UI_Escritorio
             tlUsuarios.Controls.Add(btnBorrar, 2, 1);
             tlUsuarios.Controls.Add(btnEditar, 3, 1);
             tlUsuarios.Controls.Add(btnNuevo, 4, 1);
+            tlUsuarios.Controls.Add(btnGenerarReporte, 0, 1);
             tlUsuarios.Dock = DockStyle.Fill;
             tlUsuarios.Location = new Point(0, 0);
             tlUsuarios.Margin = new Padding(3, 2, 3, 2);
@@ -72,12 +74,12 @@ namespace UI_Escritorio
             dgvUsuarios.Margin = new Padding(3, 2, 3, 2);
             dgvUsuarios.Name = "dgvUsuarios";
             dgvUsuarios.RowHeadersWidth = 51;
-            dgvUsuarios.Size = new Size(694, 308);
+            dgvUsuarios.Size = new Size(694, 305);
             dgvUsuarios.TabIndex = 0;
             // 
             // btnListar
             // 
-            btnListar.Location = new Point(351, 314);
+            btnListar.Location = new Point(351, 311);
             btnListar.Margin = new Padding(3, 2, 3, 2);
             btnListar.Name = "btnListar";
             btnListar.Size = new Size(82, 22);
@@ -88,7 +90,7 @@ namespace UI_Escritorio
             // 
             // btnBorrar
             // 
-            btnBorrar.Location = new Point(439, 314);
+            btnBorrar.Location = new Point(439, 311);
             btnBorrar.Margin = new Padding(3, 2, 3, 2);
             btnBorrar.Name = "btnBorrar";
             btnBorrar.Size = new Size(82, 22);
@@ -99,7 +101,7 @@ namespace UI_Escritorio
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(527, 314);
+            btnEditar.Location = new Point(527, 311);
             btnEditar.Margin = new Padding(3, 2, 3, 2);
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(82, 22);
@@ -110,7 +112,7 @@ namespace UI_Escritorio
             // 
             // btnNuevo
             // 
-            btnNuevo.Location = new Point(615, 314);
+            btnNuevo.Location = new Point(615, 311);
             btnNuevo.Margin = new Padding(3, 2, 3, 2);
             btnNuevo.Name = "btnNuevo";
             btnNuevo.Size = new Size(82, 22);
@@ -118,6 +120,16 @@ namespace UI_Escritorio
             btnNuevo.Text = "Agregar";
             btnNuevo.UseVisualStyleBackColor = true;
             btnNuevo.Click += btnNuevo_Click;
+            // 
+            // btnGenerarReporte
+            // 
+            btnGenerarReporte.Location = new Point(3, 312);
+            btnGenerarReporte.Name = "btnGenerarReporte";
+            btnGenerarReporte.Size = new Size(138, 23);
+            btnGenerarReporte.TabIndex = 5;
+            btnGenerarReporte.Text = "Generar Reporte";
+            btnGenerarReporte.UseVisualStyleBackColor = true;
+            btnGenerarReporte.Click += btnGenerarReporte_Click;
             // 
             // FormUsuario
             // 
@@ -143,5 +155,6 @@ namespace UI_Escritorio
         private Button btnBorrar;
         private Button btnNuevo;
         private DataGridView dgvUsuarios;
+        private Button btnGenerarReporte;
     }
 }
