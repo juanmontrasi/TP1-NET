@@ -51,12 +51,23 @@ namespace proyecto_academia.Servicios
             return context.Cursos.Find(id);
         }
 
-        public IEnumerable<Curso> GetAll()
+        public IEnumerable<dynamic> GetAll()
         {
             using var context = new AcademiaDbContext();
-
-
-            return context.Cursos.ToList();
+            
+            var cursosConMateriaComision = (from c in context.Cursos
+                                            join m in context.Materias on c.IdMateria equals m.IdMateria
+                                            join co in context.Comisiones on c.IdComision equals co.IdComision
+                                            select new
+                                            {
+                                                c.IdCurso,
+                                                c.Nombre,
+                                                c.Cupo,
+                                                c.Anio_Calendario,
+                                                Nombre_Materia = m.Nombre_Materia,
+                                                Nombre_Comision = co.Nombre_Comision
+                                            }).ToList();
+            return cursosConMateriaComision;
         }
 
         public void Update(Curso curso)

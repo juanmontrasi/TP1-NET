@@ -57,7 +57,7 @@ namespace UI_Escritorio
             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar el curso?", "Eliminar curso", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.OK)
             {
-                int id = this.SelectedItem().IdCurso;
+                int id = this.SelectedItem().idCurso;
                 await CursosApi.DeleteAsync(id);
                 this.GetAllAndLoad();
 
@@ -75,7 +75,7 @@ namespace UI_Escritorio
         private async void btnEditar_Click(object sender, EventArgs e)
         {
             FormCursoDetalle cursoDetalle = new FormCursoDetalle();
-            int id = this.SelectedItem().IdCurso;
+            int id = this.SelectedItem().idCurso;
             Curso curso = await CursosApi.GetAsync(id);
             cursoDetalle.EditMode = true;
             cursoDetalle.Curso = curso;
@@ -92,9 +92,9 @@ namespace UI_Escritorio
             this.GetAllAndLoad();
         }
 
-        private Curso SelectedItem()
+        private dynamic SelectedItem()
         {
-            return (Curso)dgvCursos.SelectedRows[0].DataBoundItem;
+            return (dynamic)dgvCursos.SelectedRows[0].DataBoundItem;
         }
 
         private void FormCursos_load(object sender, EventArgs e)

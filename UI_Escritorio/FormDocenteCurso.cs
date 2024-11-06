@@ -103,7 +103,7 @@ namespace UI_Escritorio
             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la asignación del docente?", "Eliminar Asignación", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.OK)
             {
-                DocenteCurso docenteCursoSelected = this.SelectedItem();
+                dynamic docenteCursoSelected = this.SelectedItem();
                 if (docenteCursoSelected != null)
                 {
                     int id = docenteCursoSelected.IdDocenteCurso;
@@ -122,11 +122,11 @@ namespace UI_Escritorio
             }
         }
 
-        private DocenteCurso SelectedItem()
+        private dynamic SelectedItem()
         {
             if (dgvDocenteCursos.SelectedRows.Count > 0)
             {
-                return (DocenteCurso)dgvDocenteCursos.SelectedRows[0].DataBoundItem;
+                return (dynamic)dgvDocenteCursos.SelectedRows[0].DataBoundItem;
             }
             return null;
         }

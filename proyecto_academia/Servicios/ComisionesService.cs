@@ -51,11 +51,21 @@ namespace proyecto_academia.Servicios
             return context.Comisiones.Find(id);
         }
 
-        public IEnumerable<Comision> GetAll()
+        public IEnumerable<dynamic> GetAll()
         {
             using var context = new AcademiaDbContext();
 
-            return context.Comisiones.ToList();
+            var comisionesConPlan = (from c in context.Comisiones
+                                     join p in context.Planes on c.IdPlan equals p.IdPlan
+                                     select new
+                                     {
+                                         c.IdComision,
+                                         c.Nombre_Comision,
+                                         c.Anio_Especialidad,
+                                         Nombre_Plan = p.Nombre_Plan
+                                     }).ToList();
+
+            return comisionesConPlan;
         }
 
         public void Update(Comision comision)
