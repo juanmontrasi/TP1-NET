@@ -44,14 +44,17 @@ namespace proyecto_academia.Context
                 .HasForeignKey(u => u.IdPersona);
 
             modelBuilder.Entity<Persona>()
-                .HasMany(p => p.AlumnoInscripciones)
-                .WithOne(a => a.Persona)
-                .HasForeignKey(a => a.IdPersona);
+            .HasMany(p => p.AlumnoInscripciones)
+            .WithOne(a => a.Persona)
+            .HasForeignKey(a => a.IdPersona)
+            .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<Persona>()
                 .HasMany(p => p.DocenteCursos)
                 .WithOne(d => d.Persona)
-                .HasForeignKey(d => d.IdPersona);
+                .HasForeignKey(d => d.IdPersona)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Configuración de Usuario
             modelBuilder.Entity<Usuario>()
@@ -127,10 +130,6 @@ namespace proyecto_academia.Context
             modelBuilder.Entity<Plan>()
                  .HasKey(c => c.IdPlan);
 
-            modelBuilder.Entity<Plan>()
-                .HasMany(p => p.Personas)
-                .WithOne(pe => pe.Plan)
-                .HasForeignKey(pe => pe.IdPlan);
 
             modelBuilder.Entity<Plan>()
                 .HasMany(p => p.Materias)
@@ -149,7 +148,8 @@ namespace proyecto_academia.Context
             modelBuilder.Entity<Especialidad>()
                 .HasMany(e => e.Planes)
                 .WithOne(p => p.Especialidad)
-                .HasForeignKey(p => p.IdEspecialidad);
+                .HasForeignKey(p => p.IdEspecialidad)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Configuración de Comision
             modelBuilder.Entity<Comision>()
@@ -158,7 +158,8 @@ namespace proyecto_academia.Context
             modelBuilder.Entity<Comision>()
                 .HasMany(c => c.Cursos)
                 .WithOne(cu => cu.Comision)
-                .HasForeignKey(cu => cu.IdComision);
+                .HasForeignKey(cu => cu.IdComision)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

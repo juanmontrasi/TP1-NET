@@ -2,14 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-
 
 namespace UI_Escritorio
 {
@@ -24,47 +19,42 @@ namespace UI_Escritorio
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-
-        public static async Task<Especialidad> GetAsync(int id)
+        public static async Task<Entidades.Especialidad> GetAsync(int id)
         {
-            Especialidad especialidad = null;
+            Entidades.Especialidad especialidad = null;
             HttpResponseMessage response = await _especialidad.GetAsync("especialidades/" + id);
             if (response.IsSuccessStatusCode)
             {
-                especialidad = await response.Content.ReadAsAsync<Especialidad>();
+                especialidad = await response.Content.ReadAsAsync<Entidades.Especialidad>();
             }
             return especialidad;
         }
 
-        public static async Task<IEnumerable<Especialidad>> GetAllAsync()
+        public static async Task<IEnumerable<Entidades.Especialidad>> GetAllAsync()
         {
-            IEnumerable<Especialidad> especialidades = null;
+            IEnumerable<Entidades.Especialidad> especialidades = null;
             HttpResponseMessage response = await _especialidad.GetAsync("especialidades");
             if (response.IsSuccessStatusCode)
             {
-                especialidades = await response.Content.ReadAsAsync<IEnumerable<Especialidad>>();
+                especialidades = await response.Content.ReadAsAsync<IEnumerable<Entidades.Especialidad>>();
             }
             return especialidades;
         }
 
-        public async static Task<Especialidad> AddAsync(Especialidad especialidad)
+        public static async Task<bool> AddAsync(Entidades.Especialidad especialidad)
         {
             try
             {
                 HttpResponseMessage response = await _especialidad.PostAsJsonAsync("especialidades", especialidad);
-                response.EnsureSuccessStatusCode(); // Lanza una excepción si el estado no es exitoso
-
-                var createdEspecialidad = await response.Content.ReadFromJsonAsync<Especialidad>();
-
-                if (createdEspecialidad == null)
-                {
-                    throw new Exception("La respuesta del servidor no contiene un objeto Especialidad válido.");
-                }
-
-                return createdEspecialidad;
+                response.EnsureSuccessStatusCode();
+                return true;
             }
             catch (HttpRequestException ex)
             {
+                if (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
+                {
+                    return false;
+                }
                 throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
             }
             catch (Exception ex)
@@ -72,19 +62,27 @@ namespace UI_Escritorio
                 throw new Exception("Error al agregar la especialidad: " + ex.Message);
             }
         }
-
-
-
         public static async Task DeleteAsync(int id)
         {
             HttpResponseMessage response = await _especialidad.DeleteAsync("especialidades/" + id);
             response.EnsureSuccessStatusCode();
         }
 
-        public static async Task UpdateAsync(Especialidad especialidad)
+        public static async Task UpdateAsync(Entidades.Especialidad especialidad)
         {
             HttpResponseMessage response = await _especialidad.PutAsJsonAsync("especialidades", especialidad);
             response.EnsureSuccessStatusCode();
+        }
+
+        public static async Task<Entidades.Especialidad> GetEspecialidadCreada(string nombreEspecialidad)
+        {
+            Entidades.Especialidad especialidad = null;
+            HttpResponseMessage response = await _especialidad.GetAsync("especialidades/nombre/" + nombreEspecialidad);
+            if (response.IsSuccessStatusCode)
+            {
+                especialidad = await response.Content.ReadAsAsync<Entidades.Especialidad>();
+            }
+            return especialidad;
         }
     }
 }

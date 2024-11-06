@@ -15,9 +15,13 @@ namespace UI_Escritorio
 {
     public partial class FormEspecialidades : Form
     {
-        public FormEspecialidades()
+        private Usuario usuario;
+        private ReportGenerator reportGenerator;
+        public FormEspecialidades(Usuario usuario)
         {
             InitializeComponent();
+            this.usuario = usuario;
+            this.reportGenerator = new ReportGenerator();
         }
 
         private void Especialidades_Load(object sender, EventArgs e)
@@ -32,16 +36,29 @@ namespace UI_Escritorio
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            int id = this.SelectedItem().IdEspecialidad;
-            await EspecialidadesApi.DeleteAsync(id);
-            this.GetAllAndLoad();
+            DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la especialidad?", "Eliminar especialidad", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (result == DialogResult.OK)
+            {
+                int id = this.SelectedItem().IdEspecialidad;
+                await EspecialidadesApi.DeleteAsync(id);
+                this.GetAllAndLoad();
+                MessageBox.Show("Especialidad eliminada con éxito", "Especialidad eliminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
+
         }
 
         private async void btnEditar_Click(object sender, EventArgs e)
         {
             FormEspecialidadDetalle especialidadDetalle = new FormEspecialidadDetalle();
             int id = this.SelectedItem().IdEspecialidad;
-            Especialidad especialidad = await EspecialidadesApi.GetAsync(id);
+            Entidades.Especialidad especialidad = await EspecialidadesApi.GetAsync(id);
             especialidadDetalle.EditMode = true;
             especialidadDetalle.Especialidad = especialidad;
             especialidadDetalle.ShowDialog();
@@ -51,7 +68,7 @@ namespace UI_Escritorio
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             FormEspecialidadDetalle especialidadDetalle = new FormEspecialidadDetalle();
-            Especialidad especialidadNuevo = new Especialidad();
+            Entidades.Especialidad especialidadNuevo = new Entidades.Especialidad();
             especialidadDetalle.Especialidad = especialidadNuevo;
             especialidadDetalle.ShowDialog();
             this.GetAllAndLoad();
@@ -68,19 +85,41 @@ namespace UI_Escritorio
             if (this.dgvEspecialidades.Rows.Count > 0)
             {
                 this.dgvEspecialidades.Rows[0].Selected = true;
-                this.btnBorrar.Enabled = true;
-                this.btnEditar.Enabled = true;
+                this.btnBorrar.Visible = true;
+                this.btnEditar.Visible = true;
             }
             else
             {
-                this.btnBorrar.Enabled = false;
-                this.btnEditar.Enabled = false;
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+            }
+            if (usuario.Rol.Equals("Alumno") || usuario.Rol.Equals("Docente"))
+            {
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+                this.btnNuevo.Visible = false;
             }
         }
 
-        private Especialidad SelectedItem()
+        private Entidades.Especialidad SelectedItem()
         {
-            return (Especialidad)dgvEspecialidades.SelectedRows[0].DataBoundItem;
+            return (Entidades.Especialidad)dgvEspecialidades.SelectedRows[0].DataBoundItem;
         }
+
+        private async void btnGenerarReporte_Click(object sender, EventArgs e)
+        {
+            var especialidades = await EspecialidadesApi.GetAllAsync();
+            string filePath = "EspecialidadesReport.pdf";
+            reportGenerator.GenerateEspecialidadesReport(especialidades, filePath);
+            MessageBox.Show("Reporte generado con éxito en EspecialidadesReport.pdf", "Reporte Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = filePath,
+                UseShellExecute = true
+            });
+        }
+
     }
 }

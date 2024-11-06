@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
 
 namespace proyecto_academia
 {
@@ -6,7 +8,15 @@ namespace proyecto_academia
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Aplicación de consola para proyecto_academia.");
+            var host = CreateHostBuilder(args).Build();
+            
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureServices((context, services) =>
+                {
+                    // Register your DbContext here, if necessary.
+                });
     }
 }

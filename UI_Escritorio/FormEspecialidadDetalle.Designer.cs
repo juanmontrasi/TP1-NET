@@ -39,28 +39,28 @@
             // 
             // nombreTextBox
             // 
-            nombreTextBox.Location = new Point(176, 18);
+            nombreTextBox.Location = new Point(201, 24);
             nombreTextBox.Margin = new Padding(2, 1, 2, 1);
             nombreTextBox.Name = "nombreTextBox";
-            nombreTextBox.Size = new Size(110, 23);
+            nombreTextBox.Size = new Size(125, 27);
             nombreTextBox.TabIndex = 0;
             // 
             // nombreLabel
             // 
             nombreLabel.AutoSize = true;
-            nombreLabel.Location = new Point(24, 21);
+            nombreLabel.Location = new Point(27, 28);
             nombreLabel.Margin = new Padding(2, 0, 2, 0);
             nombreLabel.Name = "nombreLabel";
-            nombreLabel.Size = new Size(119, 15);
+            nombreLabel.Size = new Size(152, 20);
             nombreLabel.TabIndex = 1;
             nombreLabel.Text = "Nombre Especialidad";
             // 
             // aceptarButton
             // 
-            aceptarButton.Location = new Point(239, 172);
+            aceptarButton.Location = new Point(273, 229);
             aceptarButton.Margin = new Padding(2, 1, 2, 1);
             aceptarButton.Name = "aceptarButton";
-            aceptarButton.Size = new Size(81, 22);
+            aceptarButton.Size = new Size(93, 29);
             aceptarButton.TabIndex = 2;
             aceptarButton.Text = "Aceptar";
             aceptarButton.UseVisualStyleBackColor = true;
@@ -68,10 +68,10 @@
             // 
             // cancelarButton
             // 
-            cancelarButton.Location = new Point(331, 172);
+            cancelarButton.Location = new Point(378, 229);
             cancelarButton.Margin = new Padding(2, 1, 2, 1);
             cancelarButton.Name = "cancelarButton";
-            cancelarButton.Size = new Size(81, 22);
+            cancelarButton.Size = new Size(93, 29);
             cancelarButton.TabIndex = 3;
             cancelarButton.Text = "Cancelar";
             cancelarButton.UseVisualStyleBackColor = true;
@@ -83,9 +83,9 @@
             // 
             // FormEspecialidadDetalle
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(431, 211);
+            ClientSize = new Size(493, 281);
             Controls.Add(cancelarButton);
             Controls.Add(aceptarButton);
             Controls.Add(nombreLabel);
@@ -93,6 +93,7 @@
             Margin = new Padding(2, 1, 2, 1);
             Name = "FormEspecialidadDetalle";
             Text = "Especialidad";
+            Load += FormEspecialidadDetalle_Load;
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
             PerformLayout();

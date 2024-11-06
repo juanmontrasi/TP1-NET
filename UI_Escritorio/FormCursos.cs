@@ -13,9 +13,11 @@ namespace UI_Escritorio
 {
     public partial class FormCursos : Form
     {
-        public FormCursos()
+        private Usuario usuario;
+        public FormCursos(Usuario usuario)
         {
             InitializeComponent();
+            this.usuario = usuario;
         }
         private void btnListar_Click(object sender, EventArgs e)
         {
@@ -41,13 +43,33 @@ namespace UI_Escritorio
                 this.btnBorrar.Enabled = false;
                 this.btnEditar.Enabled = false;
             }
+            if (usuario.Rol.Equals("Alumno") || usuario.Rol.Equals("Docente"))
+            {
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+                this.btnNuevo.Visible = false;
+            }
         }
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            int id = this.SelectedItem().IdCurso;
-            await CursosApi.DeleteAsync(id);
-            this.GetAllAndLoad();
+            
+            DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar el curso?", "Eliminar curso", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (result == DialogResult.OK)
+            {
+                int id = this.SelectedItem().IdCurso;
+                await CursosApi.DeleteAsync(id);
+                this.GetAllAndLoad();
+
+                MessageBox.Show("Curso eliminado con éxito", "Curso Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
         }
 
         private async void btnEditar_Click(object sender, EventArgs e)
@@ -73,6 +95,11 @@ namespace UI_Escritorio
         private Curso SelectedItem()
         {
             return (Curso)dgvCursos.SelectedRows[0].DataBoundItem;
+        }
+
+        private void FormCursos_load(object sender, EventArgs e)
+        {
+            this.GetAllAndLoad();
         }
     }
 }

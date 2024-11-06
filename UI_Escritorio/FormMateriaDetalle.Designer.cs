@@ -131,7 +131,6 @@
             label4.Size = new Size(51, 20);
             label4.TabIndex = 10;
             label4.Text = "Planes";
-            label4.Click += label4_Click;
             // 
             // FormMateriaDetalle
             // 

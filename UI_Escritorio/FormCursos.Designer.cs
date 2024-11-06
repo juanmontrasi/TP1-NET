@@ -31,11 +31,11 @@
             components = new System.ComponentModel.Container();
             tlCursos = new TableLayoutPanel();
             dgvCursos = new DataGridView();
-            cursoBindingSource = new BindingSource(components);
             btnListar = new Button();
             btnBorrar = new Button();
             btnEditar = new Button();
             btnNuevo = new Button();
+            cursoBindingSource = new BindingSource(components);
             cursosApiBindingSource = new BindingSource(components);
             tlCursos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCursos).BeginInit();
@@ -75,10 +75,6 @@
             dgvCursos.RowHeadersWidth = 51;
             dgvCursos.Size = new Size(794, 410);
             dgvCursos.TabIndex = 0;
-            // 
-            // cursoBindingSource
-            // 
-            cursoBindingSource.DataSource = typeof(Entidades.Curso);
             // 
             // btnListar
             // 
@@ -120,6 +116,10 @@
             btnNuevo.UseVisualStyleBackColor = true;
             btnNuevo.Click += btnNuevo_Click;
             // 
+            // cursoBindingSource
+            // 
+            cursoBindingSource.DataSource = typeof(Entidades.Curso);
+            // 
             // cursosApiBindingSource
             // 
             cursosApiBindingSource.DataSource = typeof(CursosApi);
@@ -133,6 +133,7 @@
             Controls.Add(tlCursos);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FormCursos";
+            Load += FormCursos_load;
             tlCursos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvCursos).EndInit();
             ((System.ComponentModel.ISupportInitialize)cursoBindingSource).EndInit();

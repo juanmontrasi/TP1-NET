@@ -1,23 +1,29 @@
-﻿using Entidades;
-using MySqlX.XDevAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Entidades;
 using proyecto_academia.Context;
+
 namespace proyecto_academia.Servicios
 {
-    public  class EspecialidadesServicecs
+    public class EspecialidadesServicecs
     {
-        public Especialidad Add(Especialidad especialidad)
+        public bool Add(Especialidad especialidad)
         {
             using var context = new AcademiaDbContext();
 
+            if (context.Especialidades.Any(e => e.Nombre_Especialidad == especialidad.Nombre_Especialidad))
+            {
+                return false; 
+            }
+
             context.Especialidades.Add(especialidad);
             context.SaveChanges();
-            return especialidad;
+            return true; 
         }
+
+
+
         public void Delete(int id)
         {
             using var context = new AcademiaDbContext();
@@ -57,5 +63,12 @@ namespace proyecto_academia.Servicios
                 context.SaveChanges();
             }
         }
+
+        public async Task<Especialidad> GetByNombre(string nombreEspecialiad)
+        {
+            using var context = new AcademiaDbContext();
+            return context.Especialidades.FirstOrDefault(e => e.Nombre_Especialidad == nombreEspecialiad);
+        }
     }
 }
+

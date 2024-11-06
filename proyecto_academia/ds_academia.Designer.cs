@@ -58,8 +58,6 @@ namespace proyecto_academia {
         
         private global::System.Data.DataRelation relationdt_Especialidad_dt_Plan;
         
-        private global::System.Data.DataRelation relationdt_Plan_dt_Persona;
-        
         private global::System.Data.DataRelation relationdt_Plan_dt_Comisiones;
         
         private global::System.Data.DataRelation relationdt_Comisiones_dt_Curso;
@@ -79,6 +77,8 @@ namespace proyecto_academia {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+            " or extended by application code.", DiagnosticId="SYSLIB0051")]
         protected ds_academia(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
@@ -416,7 +416,6 @@ namespace proyecto_academia {
             this.relationdt_Materia_dt_Curso = this.Relations["dt_Materia_dt_Curso"];
             this.relationdt_Plan_dt_Materia = this.Relations["dt_Plan_dt_Materia"];
             this.relationdt_Especialidad_dt_Plan = this.Relations["dt_Especialidad_dt_Plan"];
-            this.relationdt_Plan_dt_Persona = this.Relations["dt_Plan_dt_Persona"];
             this.relationdt_Plan_dt_Comisiones = this.Relations["dt_Plan_dt_Comisiones"];
             this.relationdt_Comisiones_dt_Curso = this.Relations["dt_Comisiones_dt_Curso"];
         }
@@ -479,10 +478,6 @@ namespace proyecto_academia {
                         this.tabledt_Especialidad.id_especialidadColumn}, new global::System.Data.DataColumn[] {
                         this.tabledt_Plan.id_especialidadColumn}, false);
             this.Relations.Add(this.relationdt_Especialidad_dt_Plan);
-            this.relationdt_Plan_dt_Persona = new global::System.Data.DataRelation("dt_Plan_dt_Persona", new global::System.Data.DataColumn[] {
-                        this.tabledt_Plan.id_planColumn}, new global::System.Data.DataColumn[] {
-                        this.tabledt_Persona.id_planColumn}, false);
-            this.Relations.Add(this.relationdt_Plan_dt_Persona);
             this.relationdt_Plan_dt_Comisiones = new global::System.Data.DataRelation("dt_Plan_dt_Comisiones", new global::System.Data.DataColumn[] {
                         this.tabledt_Plan.id_planColumn}, new global::System.Data.DataColumn[] {
                         this.tabledt_Comisiones.id_planColumn}, false);
@@ -638,8 +633,6 @@ namespace proyecto_academia {
             
             private global::System.Data.DataColumn columnid_persona;
             
-            private global::System.Data.DataColumn columntipo_persona;
-            
             private global::System.Data.DataColumn columnnombre;
             
             private global::System.Data.DataColumn columnapellido;
@@ -648,13 +641,7 @@ namespace proyecto_academia {
             
             private global::System.Data.DataColumn columnmail;
             
-            private global::System.Data.DataColumn columntelefono;
-            
             private global::System.Data.DataColumn columnfecha_nacimiento;
-            
-            private global::System.Data.DataColumn columnlegajo;
-            
-            private global::System.Data.DataColumn columnid_plan;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -684,6 +671,8 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected dt_PersonaDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -694,14 +683,6 @@ namespace proyecto_academia {
             public global::System.Data.DataColumn id_personaColumn {
                 get {
                     return this.columnid_persona;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn tipo_personaColumn {
-                get {
-                    return this.columntipo_persona;
                 }
             }
             
@@ -739,33 +720,9 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn telefonoColumn {
-                get {
-                    return this.columntelefono;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn fecha_nacimientoColumn {
                 get {
                     return this.columnfecha_nacimiento;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn legajoColumn {
-                get {
-                    return this.columnlegajo;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn id_planColumn {
-                get {
-                    return this.columnid_plan;
                 }
             }
             
@@ -806,22 +763,15 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public dt_PersonaRow Adddt_PersonaRow(string tipo_persona, string nombre, string apellido, string direccion, string mail, string telefono, string fecha_nacimiento, int legajo, dt_PlanRow parentdt_PlanRowBydt_Plan_dt_Persona) {
+            public dt_PersonaRow Adddt_PersonaRow(string nombre, string apellido, string direccion, string mail, string fecha_nacimiento) {
                 dt_PersonaRow rowdt_PersonaRow = ((dt_PersonaRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
-                        tipo_persona,
                         nombre,
                         apellido,
                         direccion,
                         mail,
-                        telefono,
-                        fecha_nacimiento,
-                        legajo,
-                        null};
-                if ((parentdt_PlanRowBydt_Plan_dt_Persona != null)) {
-                    columnValuesArray[9] = parentdt_PlanRowBydt_Plan_dt_Persona[0];
-                }
+                        fecha_nacimiento};
                 rowdt_PersonaRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdt_PersonaRow);
                 return rowdt_PersonaRow;
@@ -852,15 +802,11 @@ namespace proyecto_academia {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             internal void InitVars() {
                 this.columnid_persona = base.Columns["id_persona"];
-                this.columntipo_persona = base.Columns["tipo_persona"];
                 this.columnnombre = base.Columns["nombre"];
                 this.columnapellido = base.Columns["apellido"];
                 this.columndireccion = base.Columns["direccion"];
                 this.columnmail = base.Columns["mail"];
-                this.columntelefono = base.Columns["telefono"];
                 this.columnfecha_nacimiento = base.Columns["fecha_nacimiento"];
-                this.columnlegajo = base.Columns["legajo"];
-                this.columnid_plan = base.Columns["id_plan"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -868,8 +814,6 @@ namespace proyecto_academia {
             private void InitClass() {
                 this.columnid_persona = new global::System.Data.DataColumn("id_persona", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnid_persona);
-                this.columntipo_persona = new global::System.Data.DataColumn("tipo_persona", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columntipo_persona);
                 this.columnnombre = new global::System.Data.DataColumn("nombre", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnnombre);
                 this.columnapellido = new global::System.Data.DataColumn("apellido", typeof(string), null, global::System.Data.MappingType.Element);
@@ -878,14 +822,8 @@ namespace proyecto_academia {
                 base.Columns.Add(this.columndireccion);
                 this.columnmail = new global::System.Data.DataColumn("mail", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnmail);
-                this.columntelefono = new global::System.Data.DataColumn("telefono", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columntelefono);
                 this.columnfecha_nacimiento = new global::System.Data.DataColumn("fecha_nacimiento", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnfecha_nacimiento);
-                this.columnlegajo = new global::System.Data.DataColumn("legajo", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnlegajo);
-                this.columnid_plan = new global::System.Data.DataColumn("id_plan", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnid_plan);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("dt_PersonaKey1", new global::System.Data.DataColumn[] {
                                 this.columnid_persona}, true));
                 this.columnid_persona.AutoIncrement = true;
@@ -1065,6 +1003,8 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected dt_UsuarioDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -1396,6 +1336,8 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected dt_CursoDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -1716,6 +1658,8 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected dt_Docente_CursoDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -2026,6 +1970,8 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected dt_Alumno_InscripcionesDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -2348,6 +2294,8 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected dt_MateriaDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -2663,6 +2611,8 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected dt_PlanDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -2952,6 +2902,8 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected dt_EspecialidadDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -3230,6 +3182,8 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
             protected dt_ComisionesDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
@@ -3519,22 +3473,6 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string tipo_persona {
-                get {
-                    try {
-                        return ((string)(this[this.tabledt_Persona.tipo_personaColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'tipo_persona\' de la tabla \'dt_Persona\' es DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tabledt_Persona.tipo_personaColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string nombre {
                 get {
                     try {
@@ -3599,22 +3537,6 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string telefono {
-                get {
-                    try {
-                        return ((string)(this[this.tabledt_Persona.telefonoColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'telefono\' de la tabla \'dt_Persona\' es DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tabledt_Persona.telefonoColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string fecha_nacimiento {
                 get {
                     try {
@@ -3627,61 +3549,6 @@ namespace proyecto_academia {
                 set {
                     this[this.tabledt_Persona.fecha_nacimientoColumn] = value;
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int legajo {
-                get {
-                    try {
-                        return ((int)(this[this.tabledt_Persona.legajoColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'legajo\' de la tabla \'dt_Persona\' es DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tabledt_Persona.legajoColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int id_plan {
-                get {
-                    try {
-                        return ((int)(this[this.tabledt_Persona.id_planColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'id_plan\' de la tabla \'dt_Persona\' es DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tabledt_Persona.id_planColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public dt_PlanRow dt_PlanRow {
-                get {
-                    return ((dt_PlanRow)(this.GetParentRow(this.Table.ParentRelations["dt_Plan_dt_Persona"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["dt_Plan_dt_Persona"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool Istipo_personaNull() {
-                return this.IsNull(this.tabledt_Persona.tipo_personaColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void Settipo_personaNull() {
-                this[this.tabledt_Persona.tipo_personaColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3734,18 +3601,6 @@ namespace proyecto_academia {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IstelefonoNull() {
-                return this.IsNull(this.tabledt_Persona.telefonoColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SettelefonoNull() {
-                this[this.tabledt_Persona.telefonoColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool Isfecha_nacimientoNull() {
                 return this.IsNull(this.tabledt_Persona.fecha_nacimientoColumn);
             }
@@ -3754,30 +3609,6 @@ namespace proyecto_academia {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void Setfecha_nacimientoNull() {
                 this[this.tabledt_Persona.fecha_nacimientoColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IslegajoNull() {
-                return this.IsNull(this.tabledt_Persona.legajoColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetlegajoNull() {
-                this[this.tabledt_Persona.legajoColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool Isid_planNull() {
-                return this.IsNull(this.tabledt_Persona.id_planColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void Setid_planNull() {
-                this[this.tabledt_Persona.id_planColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4728,17 +4559,6 @@ namespace proyecto_academia {
                 }
                 else {
                     return ((dt_MateriaRow[])(base.GetChildRows(this.Table.ChildRelations["dt_Plan_dt_Materia"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public dt_PersonaRow[] Getdt_PersonaRows() {
-                if ((this.Table.ChildRelations["dt_Plan_dt_Persona"] == null)) {
-                    return new dt_PersonaRow[0];
-                }
-                else {
-                    return ((dt_PersonaRow[])(base.GetChildRows(this.Table.ChildRelations["dt_Plan_dt_Persona"])));
                 }
             }
             

@@ -16,6 +16,8 @@ namespace UI_Escritorio
         public FormCursoDetalle()
         {
             InitializeComponent();
+            cbComisiones.Enabled = false;
+            cbComisiones.DataSource = null;
         }
         public Curso curso;
         public Curso Curso
@@ -35,7 +37,6 @@ namespace UI_Escritorio
         private void FormCursoDetalle_Load(object sender, EventArgs e)
         {
             this.CargarMaterias();
-            this.CargarComisiones();
         }
         private async Task CargarMaterias()
         {
@@ -66,34 +67,7 @@ namespace UI_Escritorio
             }
         }
 
-        private async Task CargarComisiones()
-        {
-            using (HttpClient client = new HttpClient())
-            {
-
-                string apiUrl = "https://localhost:7111/comisiones";
-
-                try
-                {
-                    HttpResponseMessage response = await client.GetAsync(apiUrl);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var comisiones = await response.Content.ReadAsAsync<List<Comision>>();
-                        cbComisiones.DataSource = comisiones;
-                        cbComisiones.DisplayMember = "Nombre_Comision";
-                        cbComisiones.ValueMember = "IdComision";
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error al cargar Comisiones: " + response.ReasonPhrase);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al conectar con el servidor: " + ex.Message);
-                }
-            }
-        }
+        
 
         private async void btnAceptar_Click_1(object sender, EventArgs e)
         {
@@ -107,17 +81,34 @@ namespace UI_Escritorio
                     this.Curso.IdMateria = (int)cbMateria.SelectedValue;
                     this.Curso.IdComision = (int)cbComisiones.SelectedValue;
 
-
-                    if (this.EditMode)
+                    try
                     {
-                        await CursosApi.UpdateAsync(this.Curso);
-                    }
-                    else
-                    {
-                        await CursosApi.AddAsync(this.Curso);
-                    }
+                        if (this.EditMode)
+                        {
+                            await CursosApi.UpdateAsync(this.Curso);
+                        }
+                        else
+                        {
+                            bool creada = await CursosApi.AddAsync(this.Curso);
 
-                    this.Close();
+                            if (creada)
+                            {
+                                MessageBox.Show("Curso creado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.DialogResult = DialogResult.OK;
+                                this.Close();
+                            }
+                            else
+                            {
+
+                                MessageBox.Show("Ya existe un curso con el mismo nombre, materia, cupo, comision, y año calendario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
@@ -167,6 +158,53 @@ namespace UI_Escritorio
             return isValid;
         }
 
+        private void cbMateria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbMateria.SelectedItem != null)
+            {
+                var materiaSeleccionada = (Materia)cbMateria.SelectedItem;
+                if (materiaSeleccionada != null)
+                {
+                    int planId = materiaSeleccionada.IdPlan;
+                    this.CargarComisiones(planId);
+                }
+            }
+        }
 
+        private async Task CargarComisiones(int idPlan)
+        {
+            cbComisiones.Enabled = false;
+            cbComisiones.DataSource = null;
+            using (HttpClient client = new HttpClient())
+            {
+
+                string apiUrl = "https://localhost:7111/comisiones";
+
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync(apiUrl);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var comisiones = await response.Content.ReadAsAsync<List<Comision>>();
+                        var comisionesPlan = comisiones.Where(c => c.IdPlan == idPlan).ToList();
+                        if (comisionesPlan.Any())
+                        {
+                            cbComisiones.Enabled = true; // Solo habilitar si hay comisiones
+                            cbComisiones.DataSource = comisionesPlan;
+                            cbComisiones.DisplayMember = "Nombre_Comision";
+                            cbComisiones.ValueMember = "IdComision";
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al cargar Comisiones: " + response.ReasonPhrase);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al conectar con el servidor: " + ex.Message);
+                }
+            }
+        }
     }
 }

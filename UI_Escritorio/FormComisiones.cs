@@ -13,9 +13,11 @@ namespace UI_Escritorio
 {
     public partial class FormComisiones : Form
     {
-        public FormComisiones()
+        private Usuario usuario;
+        public FormComisiones(Usuario usuario)
         {
             InitializeComponent();
+            this.usuario = usuario;
         }
         private void btnListar_Click(object sender, EventArgs e)
         {
@@ -33,21 +35,41 @@ namespace UI_Escritorio
             if (this.dgvComisiones.Rows.Count > 0)
             {
                 this.dgvComisiones.Rows[0].Selected = true;
-                this.btnBorrar.Enabled = true;
-                this.btnEditar.Enabled = true;
+                this.btnBorrar.Visible = true;
+                this.btnEditar.Visible = true;
             }
             else
             {
-                this.btnBorrar.Enabled = false;
-                this.btnEditar.Enabled = false;
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+            }
+            if (usuario.Rol.Equals("Alumno") || usuario.Rol.Equals("Docente"))
+            {
+                this.btnBorrar.Visible = false;
+                this.btnEditar.Visible = false;
+                this.btnNuevo.Visible = false;
             }
         }
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            int id = this.SelectedItem().IdComision;
-            await ComisionesApi.DeleteAsync(id);
-            this.GetAllAndLoad();
+            
+            DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la comision?", "Eliminar comision", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (result == DialogResult.OK)
+            {
+                int id = this.SelectedItem().IdComision;
+                await ComisionesApi.DeleteAsync(id);
+                this.GetAllAndLoad();
+
+                MessageBox.Show("Comision eliminada con éxito", "Comision Eliminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            else if (result == DialogResult.Cancel)
+            {
+                return;
+            }
         }
 
         private async void btnEditar_Click(object sender, EventArgs e)
@@ -73,6 +95,12 @@ namespace UI_Escritorio
         private Comision SelectedItem()
         {
             return (Comision)dgvComisiones.SelectedRows[0].DataBoundItem;
+        }
+
+        private void FormComisiones_Load(object sender, EventArgs e)
+        {
+            this.GetAllAndLoad();
+
         }
     }
 }

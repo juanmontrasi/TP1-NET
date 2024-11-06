@@ -1,33 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 
 namespace Entidades
 {
+    //ENUM TIPO PERSONA 
     public class Persona
     {
         public int IdPersona { get; set; }
         public string Nombre { get; set; }
-        public int IdPlan { get; set; }
         public string Apellido { get; set; }
         public string Mail { get; set; }
         public string Direccion { get; set; }
         public string FechaNacimiento { get; set; }
-        public string Tipo_Persona { get; set; }
-        public int Legajo { get; set; }
 
         // Relaciones
         public ICollection<Usuario> Usuarios { get; set; }
         public ICollection<DocenteCurso> DocenteCursos { get; set; }
         public ICollection<AlumnoInscripcion> AlumnoInscripciones { get; set; }
-        public Plan Plan { get; set; }
+
+
+        
+
+        
     }
 
     public class Usuario
     {
         public int IdUsuario { get; set; }
         public int IdPersona { get; set; }
-        public IEnumerable<string> Rol { get; set; } // Puede ser "Estudiante" o "Profesor"
+        public string Rol { get; set; } // Puede ser "Estudiante" o "Profesor"
         public string Nombre_Usuario { get; set; }
         public string Clave { get; set; }
         public int Habilitado { get; set; }
@@ -36,7 +39,10 @@ namespace Entidades
         public Persona Persona { get; set; }
         public ICollection<DocenteCurso> DocenteCursos { get; set; }
         public ICollection<AlumnoInscripcion> AlumnoInscripciones { get; set; }
-    }
+
+
+
+}
 
     public class Curso
     {
@@ -49,6 +55,8 @@ namespace Entidades
         // Relaciones
         public Materia Materia { get; set; }
         public Comision Comision { get; set; }
+        
+        [JsonIgnore] 
         public ICollection<AlumnoInscripcion> AlumnoInscripciones { get; set; }
         public ICollection<DocenteCurso> DocenteCursos { get; set; }
     }
@@ -70,7 +78,7 @@ namespace Entidades
         public int IdAlumnoInscripcion { get; set; }
         public int IdPersona { get; set; }
         public int IdCurso { get; set; }
-        public int Cupo { get; set; }
+        public int Nota { get; set; }
         public string Condicion { get; set; }
 
         // Relaciones
@@ -98,7 +106,6 @@ namespace Entidades
         public int IdEspecialidad { get; set; }
 
         // Relaciones
-        public ICollection<Persona> Personas { get; set; }
         public ICollection<Materia> Materias { get; set; }
         public Especialidad Especialidad { get; set; }
         public ICollection<Comision> Comisiones { get; set; }

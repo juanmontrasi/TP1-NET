@@ -113,17 +113,35 @@ namespace UI_Escritorio
                     this.Materia.Hs_Semanales = int.Parse(hsemTextBox.Text);
                     this.Materia.Hs_Totales = int.Parse(htotTextBox.Text);
                     this.Materia.IdPlan = (int)cbPlanes.SelectedValue;
-
-                    if (this.EditMode)
+                    try
                     {
-                        await MateriasApi.UpdateAsync(this.Materia);
-                    }
-                    else
-                    {
-                        await MateriasApi.AddAsync(this.Materia);
-                    }
+                        if (this.EditMode)
+                        {
+                            await MateriasApi.UpdateAsync(this.Materia);
+                        }
+                        else
+                        {
+                            bool creada = await MateriasApi.AddAsync(this.Materia);
 
-                    this.Close();
+                            if (creada)
+                            {
+                                MessageBox.Show("Materia creada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.DialogResult = DialogResult.OK;
+                                this.Close();
+                            }
+                            else
+                            {
+
+                                MessageBox.Show("Ya existe una materia con el mismo nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                        
                 }
                 else
                 {
@@ -137,9 +155,5 @@ namespace UI_Escritorio
             this.Close();
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

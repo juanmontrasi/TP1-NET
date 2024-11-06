@@ -14,7 +14,7 @@ namespace UI_Escritorio
     public partial class FormPlanesDetalle : Form
     {
         private Plan plan;
-        public int? IdEspecialidad { get; set; } // Puede ser null 
+        public int? IdEspecialidad { get; set; } 
         public Plan Plan
         {
             get { return plan; }
@@ -37,13 +37,17 @@ namespace UI_Escritorio
 
         private async void PlanesDetalle_Load(object sender, EventArgs e)
         {
-            await CargarEspecialidades();
+            
 
             if (IdEspecialidad.HasValue)
             {
-                comboBoxEspecialidades.SelectedValue = IdEspecialidad.Value;
+                Entidades.Especialidad especialidadCreada = await EspecialidadesApi.GetAsync(IdEspecialidad.Value);
+                comboBoxEspecialidades.DataSource = new List<Entidades.Especialidad> { especialidadCreada };
+                comboBoxEspecialidades.DisplayMember = "Nombre_Especialidad";
+                comboBoxEspecialidades.ValueMember = "IdEspecialidad";
                 comboBoxEspecialidades.Enabled = false;
             }
+            else if (IdEspecialidad == null) { await CargaEspecialidades(); }
         }
 
         private async void aceptarButton_Click(object sender, EventArgs e)
@@ -53,21 +57,32 @@ namespace UI_Escritorio
                 if (plan != null)
                 {
                     this.Plan.Nombre_Plan = nombreTextBox.Text;
-                    this.Plan.IdEspecialidad = (int)comboBoxEspecialidades.SelectedValue; // Asegúrate de que esto se asigna correctamente
+                    this.Plan.IdEspecialidad = (int)comboBoxEspecialidades.SelectedValue; 
 
                     try
                     {
+                        bool creado;
+
                         if (this.EditMode)
                         {
                             await PlanesApi.UpdateAsync(this.Plan);
+                            creado = true;
                         }
                         else
                         {
-                            await PlanesApi.AddAsync(this.Plan);
+                            creado = await PlanesApi.AddAsync(this.Plan);
                         }
 
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
+                        if (creado)
+                        {
+                            MessageBox.Show("Plan creado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.DialogResult = DialogResult.OK;
+                            this.Close(); 
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ya existe un plan con ese nombre y especialidad.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -80,6 +95,8 @@ namespace UI_Escritorio
                 }
             }
         }
+
+
 
         private void cancelarButton_Click(object sender, EventArgs e)
         {
@@ -109,7 +126,7 @@ namespace UI_Escritorio
             return isValid;
         }
 
-        private async Task CargarEspecialidades()
+       /* private async Task CargarEspecialidades()
         {
             using (HttpClient client = new HttpClient())
             {
@@ -140,6 +157,21 @@ namespace UI_Escritorio
                     MessageBox.Show("Error al conectar con el servidor: " + ex.Message);
                 }
             }
+        }*/
+
+        private async Task CargaEspecialidades()
+        {
+            try
+            {
+                var especialidades = await EspecialidadesApi.GetAllAsync();
+                comboBoxEspecialidades.DataSource = especialidades;
+                comboBoxEspecialidades.DisplayMember = "Nombre_Especialidad";
+                comboBoxEspecialidades.ValueMember = "IdEspecialidad";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar especialidades: " + ex.Message);
+            }
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -150,5 +182,7 @@ namespace UI_Escritorio
                 this.DialogResult = DialogResult.Cancel;
             }
         }
+
+        
     }
 }

@@ -42,10 +42,27 @@ namespace UI_Escritorio
             return materias;
         }
 
-        public async static Task AddAsync(Materia materia)
+        public async static Task<bool> AddAsync(Materia materia)
         {
-            HttpResponseMessage response = await _materias.PostAsJsonAsync("materias", materia);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                HttpResponseMessage response = await _materias.PostAsJsonAsync("materias", materia);
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
+                {
+                    return false;
+                }
+                throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar la especialidad: " + ex.Message);
+            }
+
         }
 
         public static async Task DeleteAsync(int id)

@@ -11,14 +11,20 @@ namespace proyecto_academia.Servicios
 {
     public class ComisionesService
     {
-        public void Add(Comision comision)
+        public bool Add(Comision comision)
         {
             using var context = new AcademiaDbContext();
+
+            if (context.Comisiones.Any(p => p.Nombre_Comision == comision.Nombre_Comision && p.Anio_Especialidad == comision.Anio_Especialidad && p.IdPlan==comision.IdPlan))
+            {
+                return false;
+            }
 
             if (context.Planes.Any(p => p.IdPlan == comision.IdPlan))
             {
                 context.Comisiones.Add(comision);
                 context.SaveChanges();
+                return true;
             }
             else
             {
@@ -62,6 +68,7 @@ namespace proyecto_academia.Servicios
             {
                 comisionToUpdate.Nombre_Comision = comision.Nombre_Comision;
                 comisionToUpdate.Anio_Especialidad = comision.Anio_Especialidad;
+                comisionToUpdate.IdPlan = comision.IdPlan;
                 context.SaveChanges();
             }
         }

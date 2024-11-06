@@ -11,14 +11,20 @@ namespace proyecto_academia.Servicios
 {
     public class CursosService
     {
-        public void Add(Curso curso)
+        public bool Add(Curso curso)
         {
             using var context = new AcademiaDbContext();
+
+            if (context.Cursos.Any(p => p.IdMateria == curso.IdMateria && p.IdComision== curso.IdComision && p.Nombre == curso.Nombre && p.Anio_Calendario == curso.Anio_Calendario))
+            {
+                return false;
+            }
 
             if (context.Comisiones.Any(c => c.IdComision == curso.IdComision) && context.Materias.Any(m => m.IdMateria== curso.IdMateria))
             {
                 context.Cursos.Add(curso);
                 context.SaveChanges();
+                return true;
             }
             else
             {
@@ -64,6 +70,8 @@ namespace proyecto_academia.Servicios
                 cursoToUpdate.Nombre = curso.Nombre;
                 cursoToUpdate.Cupo = curso.Cupo;
                 cursoToUpdate.Anio_Calendario = curso.Anio_Calendario;
+                cursoToUpdate.IdMateria = curso.IdMateria;
+                cursoToUpdate.IdComision = curso.IdComision;
                 context.SaveChanges();
             }
         }

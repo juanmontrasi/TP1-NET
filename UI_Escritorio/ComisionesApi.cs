@@ -42,10 +42,26 @@ namespace UI_Escritorio
             return comisiones;
         }
 
-        public async static Task AddAsync(Comision comision)
+        public async static Task<bool> AddAsync(Comision comision)
         {
-            HttpResponseMessage response = await _comisiones.PostAsJsonAsync("comisiones", comision);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                HttpResponseMessage response = await _comisiones.PostAsJsonAsync("comisiones", comision);
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
+                {
+                    return false;
+                }
+                throw new Exception("Error al realizar la solicitud HTTP: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar la especialidad: " + ex.Message);
+            }
         }
 
         public static async Task DeleteAsync(int id)
