@@ -31,13 +31,13 @@ namespace UI_Escritorio
             return curso;
         }
 
-        public static async Task<IEnumerable<Curso>> GetAllAsync()
+        public static async Task<IEnumerable<dynamic>> GetAllAsync()
         {
-            IEnumerable<Curso> cursos = null;
+            IEnumerable<dynamic> cursos = null;
             HttpResponseMessage response = await _cursos.GetAsync("cursos");
             if (response.IsSuccessStatusCode)
             {
-                cursos = await response.Content.ReadAsAsync<IEnumerable<Curso>>();
+                cursos = await response.Content.ReadAsAsync<IEnumerable<dynamic>>();
             }
             return cursos;
         }

@@ -80,6 +80,7 @@ namespace UI_Escritorio
                         if (this.EditMode)
                         {
                             await ComisionesApi.UpdateAsync(this.Comision);
+                            this.Close();
                         }
                         else
                         {

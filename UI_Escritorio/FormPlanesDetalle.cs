@@ -41,8 +41,8 @@ namespace UI_Escritorio
 
             if (IdEspecialidad.HasValue)
             {
-                Especialidad especialidadCreada = await EspecialidadesApi.GetAsync(IdEspecialidad.Value);
-                comboBoxEspecialidades.DataSource = new List<Especialidad> { especialidadCreada };
+                Entidades.Especialidad especialidadCreada = await EspecialidadesApi.GetAsync(IdEspecialidad.Value);
+                comboBoxEspecialidades.DataSource = new List<Entidades.Especialidad> { especialidadCreada };
                 comboBoxEspecialidades.DisplayMember = "Nombre_Especialidad";
                 comboBoxEspecialidades.ValueMember = "IdEspecialidad";
                 comboBoxEspecialidades.Enabled = false;

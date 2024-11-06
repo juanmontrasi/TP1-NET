@@ -86,6 +86,7 @@ namespace UI_Escritorio
                         if (this.EditMode)
                         {
                             await CursosApi.UpdateAsync(this.Curso);
+                            this.Close();
                         }
                         else
                         {

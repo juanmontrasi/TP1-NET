@@ -13,10 +13,12 @@ namespace UI_Escritorio
 {
     public partial class FormUsuario : Form
     {
+        private ReportGenerator reportGenerator;
 
         public FormUsuario()
         {
             InitializeComponent();
+            this.reportGenerator = new ReportGenerator();
         }
 
         private void btnListar_Click(object sender, EventArgs e)
@@ -99,5 +101,23 @@ namespace UI_Escritorio
         {
             this.GetAllAndLoad();
         }
+
+        
+        private async void btnGenerarReporte_Click(object sender, EventArgs e)
+            {
+                var usuarios = await UsuariosApi.GetAllAsync();
+                string filePath = "UsuariosReport.pdf";
+                reportGenerator.GenerateUsuariosReport(usuarios, filePath);
+                MessageBox.Show("Reporte generado con éxito en UsuariosReport.pdf", "Reporte Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = filePath,
+                    UseShellExecute = true
+                });
+            }
+
+        
     }
 }

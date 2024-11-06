@@ -57,7 +57,7 @@ namespace UI_Escritorio
             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la comision?", "Eliminar comision", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.OK)
             {
-                int id = this.SelectedItem().IdComision;
+                int id = this.SelectedItem().idComision;
                 await ComisionesApi.DeleteAsync(id);
                 this.GetAllAndLoad();
 
@@ -75,7 +75,7 @@ namespace UI_Escritorio
         private async void btnEditar_Click(object sender, EventArgs e)
         {
             FormComisionDetalle comisionDetalle = new FormComisionDetalle();
-            int id = this.SelectedItem().IdComision;
+            int id = this.SelectedItem().idComision;
             Comision comision = await ComisionesApi.GetAsync(id);
             comisionDetalle.EditMode = true;
             comisionDetalle.Comision = comision;
@@ -92,9 +92,9 @@ namespace UI_Escritorio
             this.GetAllAndLoad();
         }
 
-        private Comision SelectedItem()
+        private dynamic SelectedItem()
         {
-            return (Comision)dgvComisiones.SelectedRows[0].DataBoundItem;
+            return (dynamic)dgvComisiones.SelectedRows[0].DataBoundItem;
         }
 
         private void FormComisiones_Load(object sender, EventArgs e)

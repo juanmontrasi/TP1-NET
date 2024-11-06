@@ -19,29 +19,29 @@ namespace UI_Escritorio
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<Especialidad> GetAsync(int id)
+        public static async Task<Entidades.Especialidad> GetAsync(int id)
         {
-            Especialidad especialidad = null;
+            Entidades.Especialidad especialidad = null;
             HttpResponseMessage response = await _especialidad.GetAsync("especialidades/" + id);
             if (response.IsSuccessStatusCode)
             {
-                especialidad = await response.Content.ReadAsAsync<Especialidad>();
+                especialidad = await response.Content.ReadAsAsync<Entidades.Especialidad>();
             }
             return especialidad;
         }
 
-        public static async Task<IEnumerable<Especialidad>> GetAllAsync()
+        public static async Task<IEnumerable<Entidades.Especialidad>> GetAllAsync()
         {
-            IEnumerable<Especialidad> especialidades = null;
+            IEnumerable<Entidades.Especialidad> especialidades = null;
             HttpResponseMessage response = await _especialidad.GetAsync("especialidades");
             if (response.IsSuccessStatusCode)
             {
-                especialidades = await response.Content.ReadAsAsync<IEnumerable<Especialidad>>();
+                especialidades = await response.Content.ReadAsAsync<IEnumerable<Entidades.Especialidad>>();
             }
             return especialidades;
         }
 
-        public static async Task<bool> AddAsync(Especialidad especialidad)
+        public static async Task<bool> AddAsync(Entidades.Especialidad especialidad)
         {
             try
             {
@@ -68,19 +68,19 @@ namespace UI_Escritorio
             response.EnsureSuccessStatusCode();
         }
 
-        public static async Task UpdateAsync(Especialidad especialidad)
+        public static async Task UpdateAsync(Entidades.Especialidad especialidad)
         {
             HttpResponseMessage response = await _especialidad.PutAsJsonAsync("especialidades", especialidad);
             response.EnsureSuccessStatusCode();
         }
 
-        public static async Task<Especialidad> GetEspecialidadCreada(string nombreEspecialidad)
+        public static async Task<Entidades.Especialidad> GetEspecialidadCreada(string nombreEspecialidad)
         {
-            Especialidad especialidad = null;
+            Entidades.Especialidad especialidad = null;
             HttpResponseMessage response = await _especialidad.GetAsync("especialidades/nombre/" + nombreEspecialidad);
             if (response.IsSuccessStatusCode)
             {
-                especialidad = await response.Content.ReadAsAsync<Especialidad>();
+                especialidad = await response.Content.ReadAsAsync<Entidades.Especialidad>();
             }
             return especialidad;
         }

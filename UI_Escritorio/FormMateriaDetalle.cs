@@ -118,6 +118,7 @@ namespace UI_Escritorio
                         if (this.EditMode)
                         {
                             await MateriasApi.UpdateAsync(this.Materia);
+                            this.Close();
                         }
                         else
                         {

@@ -61,7 +61,7 @@ namespace UI_Escritorio
             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la materia?", "Eliminar materia", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.OK)
             {
-                int id = this.SelectedItem().IdMateria;
+                int id = this.SelectedItem().idMateria;
                 await MateriasApi.DeleteAsync(id);
                 this.GetAllAndLoad();
 
@@ -76,15 +76,15 @@ namespace UI_Escritorio
             }
         }
 
-        private Materia SelectedItem()
+        private dynamic SelectedItem()
         {
-            return (Materia)dgvMaterias.SelectedRows[0].DataBoundItem;
+            return (dynamic)dgvMaterias.SelectedRows[0].DataBoundItem;
         }
 
         private async void btnEditar_Click(object sender, EventArgs e)
         {
             FormMateriaDetalle materiaDetalle = new FormMateriaDetalle();
-            int id = this.SelectedItem().IdMateria;
+            int id = this.SelectedItem().idMateria;
             Materia materia = await MateriasApi.GetAsync(id);
             materiaDetalle.EditMode = true;
             materiaDetalle.Materia = materia;
