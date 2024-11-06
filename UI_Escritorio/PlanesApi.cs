@@ -29,13 +29,13 @@ namespace UI_Escritorio
             return plan;
         }
 
-        public static async Task<IEnumerable<Plan>> GetAllAsync()
+        public static async Task<IEnumerable<dynamic>> GetAllAsync()
         {
-            IEnumerable<Plan> planes = null;
+            IEnumerable<dynamic> planes = null;
             HttpResponseMessage response = await _planes.GetAsync("planes");
             if (response.IsSuccessStatusCode)
             {
-                planes = await response.Content.ReadAsAsync<IEnumerable<Plan>>();
+                planes = await response.Content.ReadAsAsync<IEnumerable<dynamic>>();
             }
             return planes;
         }

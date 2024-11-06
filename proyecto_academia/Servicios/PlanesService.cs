@@ -52,11 +52,20 @@ namespace proyecto_academia.Servicios
             return context.Planes.Find(id);
         }
 
-        public IEnumerable<Plan> GetAll()
+        public IEnumerable<dynamic> GetAll()
         {
             using var context = new AcademiaDbContext();
 
-            return context.Planes.ToList();
+            var planesConEspecialidad = (from p in context.Planes
+                                         join e in context.Especialidades on p.IdEspecialidad equals e.IdEspecialidad
+                                         select new
+                                         {
+                                             p.IdPlan,
+                                             p.Nombre_Plan,
+                                             Nombre_Especialidad = e.Nombre_Especialidad
+                                         }).ToList();
+            return planesConEspecialidad;
+            
         }
 
         public void Update(Plan plan)

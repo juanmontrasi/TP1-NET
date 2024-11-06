@@ -35,10 +35,10 @@ namespace UI_Escritorio
             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar el plan?", "Eliminar plan", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.OK)
             {
-                Plan planSelected = this.SelectedItem();
+                dynamic planSelected = this.SelectedItem();
                 if (planSelected != null)
                 {
-                    int id = planSelected.IdPlan;
+                    int id = planSelected.idPlan;
                     await PlanesApi.DeleteAsync(id);
                     this.GetAllAndLoad();
                 }
@@ -56,11 +56,11 @@ namespace UI_Escritorio
 
         private async void btnEditar_Click(object sender, EventArgs e)
         {
-            Plan planSelected = this.SelectedItem();
+            dynamic planSelected = this.SelectedItem();
             if (planSelected != null)
             {
                 FormPlanesDetalle planDetalle = new FormPlanesDetalle();
-                int id = planSelected.IdPlan;
+                int id = planSelected.idPlan;
                 Plan plan = await PlanesApi.GetAsync(id);
                 planDetalle.EditMode = true;
                 planDetalle.Plan = plan;
@@ -108,12 +108,12 @@ namespace UI_Escritorio
             }
         }
 
-        private Plan SelectedItem()
+        private dynamic SelectedItem()
         {
 
             if (dgvPlanes.SelectedRows.Count > 0)
             {
-                Plan plan = (Plan)dgvPlanes.SelectedRows[0].DataBoundItem;
+                dynamic plan = (dynamic)dgvPlanes.SelectedRows[0].DataBoundItem;
                 if (plan != null)
                 {
                     return plan;

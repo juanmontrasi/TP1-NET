@@ -85,6 +85,7 @@ namespace UI_Escritorio
                         if (this.EditMode)
                         {
                             await UsuariosApi.UpdateAsync(this.Usuario);
+                            this.Close();
                         }
                         else
                         {
