@@ -72,6 +72,7 @@ namespace UI_Escritorio
                         {
                             await PersonaApi.UpdateAsync(this.Persona);
                             MessageBox.Show("Persona actualizada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
                         }
                         else
                         {
