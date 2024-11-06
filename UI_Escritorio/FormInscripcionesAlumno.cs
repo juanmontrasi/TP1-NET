@@ -50,9 +50,10 @@ namespace UI_Escritorio
             {
                 this.btnBorrar.Visible = false;
                 this.btnEditar.Visible = false;
-                this.btnNuevo.Visible =false;
+                this.btnNuevo.Visible = false;
             }
         }
+
 
         private async void GetAllAndLoadAlumno()
         {
@@ -106,21 +107,28 @@ namespace UI_Escritorio
 
         private async void btnEditar_Click(object sender, EventArgs e)
         {
-            
             FormAlumnoInscripcionesDetalle formAlumnoInscripcionesDetalle = new FormAlumnoInscripcionesDetalle(usuario);
 
-            
-            int id = this.SelectedItem().IdAlumnoInscripcion;
-            AlumnoInscripcion alumnoInscripcion = await AlumnoInscripcionesApi.GetAsync(id);
+            AlumnoInscripcion selectedInscripcion = this.SelectedItem();
+            if (selectedInscripcion != null)
+            {
+                int id = selectedInscripcion.IdAlumnoInscripcion;
+                AlumnoInscripcion alumnoInscripcion = await AlumnoInscripcionesApi.GetAsync(id);
 
-            
-            formAlumnoInscripcionesDetalle.EditMode = true;
-            formAlumnoInscripcionesDetalle.AlumnoInscripcion = alumnoInscripcion;
+                formAlumnoInscripcionesDetalle.EditMode = true;
+                formAlumnoInscripcionesDetalle.AlumnoInscripcion = alumnoInscripcion;
 
-            
-            formAlumnoInscripcionesDetalle.ShowDialog();
-            this.GetAllAndLoad();
+                formAlumnoInscripcionesDetalle.ShowDialog();
+                this.GetAllAndLoad();
+            }
+            else
+            {
+                MessageBox.Show("No se ha seleccionado ninguna inscripción.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
+
+
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
@@ -138,10 +146,40 @@ namespace UI_Escritorio
         {
             if (dgvInscripcionesAlumno.SelectedRows.Count > 0)
             {
-                return (AlumnoInscripcion)dgvInscripcionesAlumno.SelectedRows[0].DataBoundItem;
+                dynamic selectedDynamic = dgvInscripcionesAlumno.SelectedRows[0].DataBoundItem;
+                var jObject = (Newtonsoft.Json.Linq.JObject)selectedDynamic;
+
+                
+                var alumnoInscripcion = new AlumnoInscripcion
+                {
+                    IdAlumnoInscripcion = jObject["idAlumnoInscripcion"]?.ToObject<int>() ?? 0,
+                    IdPersona = jObject["idPersona"]?.ToObject<int>() ?? 0,
+                    IdCurso = jObject["idCurso"]?.ToObject<int>() ?? 0,
+                    Nota = jObject["nota"]?.ToObject<int>() ?? 0,
+                    Condicion = jObject["condicion"]?.ToObject<string>() ?? string.Empty,
+                    Persona = new Persona
+                    {
+                        IdPersona = jObject["idPersona"]?.ToObject<int>() ?? 0,
+                        Nombre = jObject["personaNombre"]?.ToObject<string>() ?? string.Empty,
+                        Apellido = jObject["personaApellido"]?.ToObject<string>() ?? string.Empty
+                    },
+                    Curso = new Curso
+                    {
+                        IdCurso = jObject["idCurso"]?.ToObject<int>() ?? 0,
+                        Nombre = jObject["cursoNombre"]?.ToObject<string>() ?? string.Empty
+                    }
+                };
+
+                
+                return alumnoInscripcion;
             }
             return null;
         }
+
+
+
+
+
         private void FormInscripcionesAlumno_Load(object sender, EventArgs e)
         {
             if (usuario.Rol.Equals("Administrador"))

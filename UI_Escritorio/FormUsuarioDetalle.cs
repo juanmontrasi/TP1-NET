@@ -98,7 +98,7 @@ namespace UI_Escritorio
                             }
                             else
                             {
-                                MessageBox.Show("Ya existe un usuario con el mismo nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Ya existe un usuario con el mismo nombre o ya existe un usuario para la misma persona y el mismo Rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Entidades;
+using Microsoft.EntityFrameworkCore;
 using proyecto_academia.Context;
 
 
@@ -54,11 +55,34 @@ namespace proyecto_academia.Servicios
             return context.AlumnoInscripciones.Find(id);
         }
 
-        public IEnumerable<AlumnoInscripcion> GetAll()
+        /*public IEnumerable<AlumnoInscripcion> GetAll()
         {
             using var context = new AcademiaDbContext();
             return context.AlumnoInscripciones.ToList();
+        }*/
+
+        public IEnumerable<dynamic> GetAll()
+        {
+            using var context = new AcademiaDbContext();
+
+            var alumnoInscripcionesConDetalles = (from ai in context.AlumnoInscripciones
+                                                  join p in context.Personas on ai.IdPersona equals p.IdPersona
+                                                  join c in context.Cursos on ai.IdCurso equals c.IdCurso
+                                                  select new
+                                                  {
+                                                      ai.IdAlumnoInscripcion,
+                                                      ai.IdPersona,
+                                                      ai.IdCurso,
+                                                      ai.Nota,
+                                                      ai.Condicion,
+                                                      PersonaNombre = p.Nombre,
+                                                      PersonaApellido = p.Apellido,
+                                                      CursoNombre = c.Nombre
+                                                  }).ToList();
+            return alumnoInscripcionesConDetalles;
         }
+
+
 
         public bool Update(AlumnoInscripcion alumnoInscripcion)
         {

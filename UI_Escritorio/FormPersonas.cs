@@ -13,9 +13,11 @@ namespace UI_Escritorio
 {
     public partial class FormPersonas : Form
     {
+        private ReportGenerator reportGenerator;
         public FormPersonas()
         {
             InitializeComponent();
+            this.reportGenerator = new ReportGenerator();
         }
         private void Personas_Load(object sender, EventArgs e)
         {
@@ -50,7 +52,7 @@ namespace UI_Escritorio
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la persona?", "Eliminar persona", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la persona?", "Eliminar persona", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.OK)
             {
                 int id = this.SelectedItem().IdPersona;
@@ -95,6 +97,22 @@ namespace UI_Escritorio
         private void FormPersonas_Load(object sender, EventArgs e)
         {
             this.GetAllAndLoad();
+        }
+
+        private async void btnReporte_Click(object sender, EventArgs e)
+        {
+            var personas = await PersonaApi.GetAllAsync();
+            string filePath = "PersonasReport.pdf";
+            reportGenerator.GeneratePersonaReport(personas, filePath);
+            MessageBox.Show("Reporte generado con éxito en PersonaReport.pdf", "Reporte Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = filePath,
+                UseShellExecute = true
+            });
+
         }
     }
 }

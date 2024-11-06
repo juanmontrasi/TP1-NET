@@ -34,6 +34,7 @@
             btnBorrar = new Button();
             btnEditar = new Button();
             btnNuevo = new Button();
+            btnReporte = new Button();
             tlPersonas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPersonas).BeginInit();
             SuspendLayout();
@@ -51,6 +52,7 @@
             tlPersonas.Controls.Add(btnBorrar, 2, 1);
             tlPersonas.Controls.Add(btnEditar, 3, 1);
             tlPersonas.Controls.Add(btnNuevo, 4, 1);
+            tlPersonas.Controls.Add(btnReporte, 0, 1);
             tlPersonas.Dock = DockStyle.Fill;
             tlPersonas.Location = new Point(0, 0);
             tlPersonas.Margin = new Padding(3, 2, 3, 2);
@@ -70,12 +72,12 @@
             dgvPersonas.Margin = new Padding(3, 2, 3, 2);
             dgvPersonas.Name = "dgvPersonas";
             dgvPersonas.RowHeadersWidth = 51;
-            dgvPersonas.Size = new Size(694, 308);
+            dgvPersonas.Size = new Size(694, 305);
             dgvPersonas.TabIndex = 0;
             // 
             // btnListar
             // 
-            btnListar.Location = new Point(351, 314);
+            btnListar.Location = new Point(351, 311);
             btnListar.Margin = new Padding(3, 2, 3, 2);
             btnListar.Name = "btnListar";
             btnListar.Size = new Size(82, 22);
@@ -86,7 +88,7 @@
             // 
             // btnBorrar
             // 
-            btnBorrar.Location = new Point(439, 314);
+            btnBorrar.Location = new Point(439, 311);
             btnBorrar.Margin = new Padding(3, 2, 3, 2);
             btnBorrar.Name = "btnBorrar";
             btnBorrar.Size = new Size(82, 22);
@@ -97,7 +99,7 @@
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(527, 314);
+            btnEditar.Location = new Point(527, 311);
             btnEditar.Margin = new Padding(3, 2, 3, 2);
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(82, 22);
@@ -108,7 +110,7 @@
             // 
             // btnNuevo
             // 
-            btnNuevo.Location = new Point(615, 314);
+            btnNuevo.Location = new Point(615, 311);
             btnNuevo.Margin = new Padding(3, 2, 3, 2);
             btnNuevo.Name = "btnNuevo";
             btnNuevo.Size = new Size(82, 22);
@@ -116,6 +118,16 @@
             btnNuevo.Text = "Agregar";
             btnNuevo.UseVisualStyleBackColor = true;
             btnNuevo.Click += btnNuevo_Click;
+            // 
+            // btnReporte
+            // 
+            btnReporte.Location = new Point(3, 312);
+            btnReporte.Name = "btnReporte";
+            btnReporte.Size = new Size(133, 23);
+            btnReporte.TabIndex = 5;
+            btnReporte.Text = "Generar Reporte";
+            btnReporte.UseVisualStyleBackColor = true;
+            btnReporte.Click += btnReporte_Click;
             // 
             // FormPersonas
             // 
@@ -141,6 +153,6 @@
         private Button btnBorrar;
         private Button btnNuevo;
         private DataGridView dgvPersonas;
-
+        private Button btnReporte;
     }
 }

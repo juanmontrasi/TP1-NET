@@ -22,6 +22,11 @@ namespace proyecto_academia.Servicios
         public bool Add(Usuario usuario)
         {
             using var context = new AcademiaDbContext();
+            if ((usuario.Rol == "Administrador" || usuario.Rol == "Docente") &&
+                context.Usuarios.Any(p => p.IdPersona == usuario.IdPersona && p.Rol == usuario.Rol && p.Habilitado == 1))
+            {
+                return false;
+            }
 
             if (context.Usuarios.Any(p => p.Nombre_Usuario == usuario.Nombre_Usuario && p.Habilitado == 1))
             {

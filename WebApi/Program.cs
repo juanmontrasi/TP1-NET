@@ -107,6 +107,15 @@ app.MapGet("/especialidades", () =>
         .WithName("GetAllMaterias")
         .WithOpenApi();
 
+        app.MapGet("/materiasEnum", () =>
+        {
+            MateriasServices materiasServices = new MateriasServices();
+            return materiasServices.GetAllMaterias();
+        })
+        .WithName("GetAllMateriasEnum")
+        .WithOpenApi();
+
+
         app.MapPost("/materias", (Materia materia) =>
         {
             MateriasServices materiasServices = new MateriasServices();
