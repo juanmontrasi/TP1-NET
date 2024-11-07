@@ -53,35 +53,42 @@ namespace UI_Escritorio
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            
             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar el curso?", "Eliminar curso", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.OK)
             {
-                int id = this.SelectedItem().idCurso;
-                await CursosApi.DeleteAsync(id);
-                this.GetAllAndLoad();
+                Curso cursoSelected = this.SelectedItem();
+                if (cursoSelected != null)
+                {
+                    int id = cursoSelected.IdCurso;
+                    await CursosApi.DeleteAsync(id);
+                    this.GetAllAndLoad();
 
-                MessageBox.Show("Curso eliminado con éxito", "Curso Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                    MessageBox.Show("Curso eliminado con éxito", "Curso Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
             }
-
-
             else if (result == DialogResult.Cancel)
             {
                 return;
             }
         }
 
+
         private async void btnEditar_Click(object sender, EventArgs e)
         {
             FormCursoDetalle cursoDetalle = new FormCursoDetalle();
-            int id = this.SelectedItem().idCurso;
-            Curso curso = await CursosApi.GetAsync(id);
-            cursoDetalle.EditMode = true;
-            cursoDetalle.Curso = curso;
-            cursoDetalle.ShowDialog();
-            this.GetAllAndLoad();
+            Curso cursoSelected = this.SelectedItem();
+            if (cursoSelected != null)
+            {
+                int id = cursoSelected.IdCurso;
+                Curso curso = await CursosApi.GetAsync(id);
+                cursoDetalle.EditMode = true;
+                cursoDetalle.Curso = curso;
+                cursoDetalle.ShowDialog();
+                this.GetAllAndLoad();
+            }
         }
+
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
@@ -92,10 +99,40 @@ namespace UI_Escritorio
             this.GetAllAndLoad();
         }
 
-        private dynamic SelectedItem()
+        private Curso SelectedItem()
         {
-            return (dynamic)dgvCursos.SelectedRows[0].DataBoundItem;
+            if (dgvCursos.SelectedRows.Count > 0)
+            {
+                dynamic selectedDynamic = dgvCursos.SelectedRows[0].DataBoundItem;
+                var jObject = (Newtonsoft.Json.Linq.JObject)selectedDynamic;
+
+                
+                var curso = new Curso
+                {
+                    IdCurso = jObject["idCurso"]?.ToObject<int>() ?? 0,
+                    Nombre = jObject["nombre"]?.ToObject<string>() ?? string.Empty,
+                    IdComision = jObject["idComision"]?.ToObject<int>() ?? 0,
+                    IdMateria = jObject["idMateria"]?.ToObject<int>() ?? 0,
+                    Cupo = jObject["cupo"]?.ToObject<int>() ?? 0,
+                    Anio_Calendario = jObject["anioCalendario"]?.ToObject<int>() ?? 0,
+                    Materia = new Materia
+                    {
+                        IdMateria = jObject["idMateria"]?.ToObject<int>() ?? 0,
+                        Nombre_Materia = jObject["nombre_Materia"]?.ToObject<string>() ?? string.Empty
+                    },
+                    Comision = new Comision
+                    {
+                        IdComision = jObject["idComision"]?.ToObject<int>() ?? 0,
+                        Nombre_Comision = jObject["nombre_Comision"]?.ToObject<string>() ?? string.Empty
+                    }
+                };
+
+                
+                return curso;
+            }
+            return null;
         }
+
 
         private void FormCursos_load(object sender, EventArgs e)
         {

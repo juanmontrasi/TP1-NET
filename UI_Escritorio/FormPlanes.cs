@@ -31,14 +31,13 @@ namespace UI_Escritorio
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            
             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar el plan?", "Eliminar plan", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.OK)
             {
-                dynamic planSelected = this.SelectedItem();
+                Plan planSelected = this.SelectedItem();
                 if (planSelected != null)
                 {
-                    int id = planSelected.idPlan;
+                    int id = planSelected.IdPlan;
                     await PlanesApi.DeleteAsync(id);
                     this.GetAllAndLoad();
                 }
@@ -46,28 +45,29 @@ namespace UI_Escritorio
                 MessageBox.Show("Plan eliminado con éxito", "Plan Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-
-
             else if (result == DialogResult.Cancel)
             {
                 return;
             }
         }
 
+
         private async void btnEditar_Click(object sender, EventArgs e)
         {
-            dynamic planSelected = this.SelectedItem();
+            Plan planSelected = this.SelectedItem();
             if (planSelected != null)
             {
                 FormPlanesDetalle planDetalle = new FormPlanesDetalle();
-                int id = planSelected.idPlan;
+                int id = planSelected.IdPlan;
                 Plan plan = await PlanesApi.GetAsync(id);
                 planDetalle.EditMode = true;
                 planDetalle.Plan = plan;
+                planDetalle.IdEspecialidad = plan.IdEspecialidad;
                 planDetalle.ShowDialog();
                 this.GetAllAndLoad();
             }
         }
+
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
@@ -108,21 +108,32 @@ namespace UI_Escritorio
             }
         }
 
-        private dynamic SelectedItem()
+        private Plan SelectedItem()
         {
-
             if (dgvPlanes.SelectedRows.Count > 0)
             {
-                dynamic plan = (dynamic)dgvPlanes.SelectedRows[0].DataBoundItem;
-                if (plan != null)
-                {
-                    return plan;
-                }
-            }
+                dynamic selectedDynamic = dgvPlanes.SelectedRows[0].DataBoundItem;
+                var jObject = (Newtonsoft.Json.Linq.JObject)selectedDynamic;
 
-            MessageBox.Show("Debes listar y seleccionar un plan", "Planes", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                var plan = new Plan
+                {
+                    IdPlan = jObject["idPlan"]?.ToObject<int>() ?? 0,
+                    Nombre_Plan = jObject["nombre_Plan"]?.ToObject<string>() ?? string.Empty,
+                    IdEspecialidad = jObject["idEspecialidad"]?.ToObject<int>() ?? 0,
+                    Especialidad = new Especialidad
+                    {
+                        IdEspecialidad = jObject["idEspecialidad"]?.ToObject<int>() ?? 0,
+                        Nombre_Especialidad = jObject["nombre_Especialidad"]?.ToObject<string>() ?? string.Empty
+                    }
+                };
+
+                
+                return plan;
+            }
             return null;
         }
+
 
     }
 }

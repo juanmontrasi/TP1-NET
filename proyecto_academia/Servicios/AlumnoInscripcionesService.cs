@@ -119,10 +119,26 @@ namespace proyecto_academia.Servicios
             }
         }
 
-        public List<AlumnoInscripcion> GetByAlumnoId(int idPersona)
+        public IEnumerable<dynamic> GetByAlumnoId(int idPersona)
         {
             using var context = new AcademiaDbContext();
-            return context.AlumnoInscripciones.Where(inscripcion => inscripcion.IdPersona == idPersona).ToList();
+
+            var alumnoInscripcionesConDetalles = (from ai in context.AlumnoInscripciones
+                                                  join p in context.Personas on ai.IdPersona equals p.IdPersona
+                                                  join c in context.Cursos on ai.IdCurso equals c.IdCurso
+                                                  where ai.IdPersona == idPersona
+                                                  select new
+                                                  {
+                                                      ai.IdAlumnoInscripcion,
+                                                      ai.IdPersona,
+                                                      ai.IdCurso,
+                                                      ai.Nota,
+                                                      ai.Condicion,
+                                                      PersonaNombre = p.Nombre,
+                                                      PersonaApellido = p.Apellido,
+                                                      CursoNombre = c.Nombre
+                                                  }).ToList();
+            return alumnoInscripcionesConDetalles;
         }
     }
 }

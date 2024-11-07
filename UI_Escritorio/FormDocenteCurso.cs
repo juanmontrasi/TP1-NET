@@ -85,7 +85,7 @@ namespace UI_Escritorio
             if (this.dgvDocenteCursos.Rows.Count > 0)
             {
                 this.dgvDocenteCursos.Rows[0].Selected = true;
-                this.btnBorrar.Visible = false;
+                this.btnBorrar.Visible = true;
                 this.btnEditar.Visible = false;
                 this.btnNuevo.Visible = true;
                 this.btnListar.Visible = true;
@@ -108,7 +108,7 @@ namespace UI_Escritorio
                 {
                     int id = docenteCursoSelected.IdDocenteCurso;
                     await DocenteCursosApi.DeleteAsync(id);
-                    this.GetAllAndLoadDocente();
+                    this.GetAllAndLoad();
                 }
 
                 MessageBox.Show("Asignación eliminada con éxito", "Asignación Eliminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
