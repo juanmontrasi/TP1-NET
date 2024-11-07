@@ -31,13 +31,13 @@ namespace UI_Escritorio
             return comision;
         }
 
-        public static async Task<IEnumerable<Comision>> GetAllAsync()
+        public static async Task<IEnumerable<dynamic>> GetAllAsync()
         {
-            IEnumerable<Comision> comisiones = null;
+            IEnumerable<dynamic> comisiones = null;
             HttpResponseMessage response = await _comisiones.GetAsync("comisiones");
             if (response.IsSuccessStatusCode)
             {
-                comisiones = await response.Content.ReadAsAsync<IEnumerable<Comision>>();
+                comisiones = await response.Content.ReadAsAsync<IEnumerable<dynamic>>();
             }
             return comisiones;
         }

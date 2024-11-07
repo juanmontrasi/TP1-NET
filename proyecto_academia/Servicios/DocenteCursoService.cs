@@ -52,11 +52,23 @@ namespace proyecto_academia.Servicios
             return context.DocenteCursos.Find(id);
         }
 
-        public List<DocenteCurso> GetAll()
+        public IEnumerable<dynamic> GetAll()
         {
             using var context = new AcademiaDbContext();
 
-            return context.DocenteCursos.ToList();
+            var cursosDocente = (from dc in context.DocenteCursos
+                                 join c in context.Cursos on dc.IdCurso equals c.IdCurso
+                                 join p in context.Personas on dc.IdPersona equals p.IdPersona
+                                 select new
+                                 {
+                                     dc.IdDocenteCurso,
+                                     dc.Cargo,
+                                     Nombre_Persona = p.Nombre,
+                                     Apellido_Persona = p.Apellido,
+                                     Nombre_Curso = c.Nombre
+                                 }).ToList();
+
+            return cursosDocente;
         }
 
         public bool Update(DocenteCurso docenteCurso)
@@ -99,11 +111,24 @@ namespace proyecto_academia.Servicios
 
         }
 
-        public List<DocenteCurso> GetByDocenteId(int id)
+        public IEnumerable<dynamic> GetByDocenteId(int id)
         {
             using var context = new AcademiaDbContext();
 
-            return context.DocenteCursos.Where(d => d.IdPersona == id).ToList();
+            var cursosDocente = (from dc in context.DocenteCursos
+                                 join c in context.Cursos on dc.IdCurso equals c.IdCurso
+                                 join p in context.Personas on dc.IdPersona equals p.IdPersona
+                                 where dc.IdPersona == id
+                                 select new
+                                 {
+                                     dc.IdDocenteCurso,
+                                     dc.Cargo,
+                                     Nombre_Persona = p.Nombre,
+                                     Apellido_Persona = p.Apellido,
+                                     Nombre_Curso = c.Nombre
+                                 }).ToList();
+
+            return cursosDocente;
         }
 
     }

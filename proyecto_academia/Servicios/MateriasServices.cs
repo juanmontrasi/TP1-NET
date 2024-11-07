@@ -51,12 +51,31 @@ namespace proyecto_academia.Servicios
             return context.Materias.Find(id);
         }
 
-        public IEnumerable<Materia> GetAll()
+        public IEnumerable<dynamic> GetAll()
         {
             using var context = new AcademiaDbContext();
 
-            return context.Materias.ToList();
+            var materiasConPlan = (from m in context.Materias
+                                   join p in context.Planes on m.IdPlan equals p.IdPlan
+                                   select new
+                                   {
+                                       m.IdMateria,
+                                       m.Nombre_Materia,
+                                       m.Hs_Semanales,
+                                       m.Hs_Totales,
+                                       Nombre_Plan = p.Nombre_Plan
+                                   }).ToList();
+            return materiasConPlan;
         }
+
+        public IEnumerable<Materia> GetAllMaterias()
+        {
+            using var context = new AcademiaDbContext();
+
+            var materiasConPlan = context.Materias.ToList();
+            return materiasConPlan;
+        }
+
 
         public void Update(Materia materia)
         {

@@ -34,13 +34,13 @@ namespace UI_Escritorio
 
         }
 
-        public static async Task<IEnumerable<DocenteCurso>> GetAllAsync()
+        public static async Task<IEnumerable<dynamic>> GetAllAsync()
         {
-            IEnumerable<DocenteCurso> docenteCursos = null;
+            IEnumerable<dynamic> docenteCursos = null;
             HttpResponseMessage response = await _docenteCursos.GetAsync("docentecursos");
             if (response.IsSuccessStatusCode)
             {
-                docenteCursos = await response.Content.ReadAsAsync<IEnumerable<DocenteCurso>>();
+                docenteCursos = await response.Content.ReadAsAsync<IEnumerable<dynamic>>();
             }
             return docenteCursos;
         }
@@ -74,13 +74,13 @@ namespace UI_Escritorio
         }
 
         
-        public static async Task<IEnumerable<DocenteCurso>> GetDocenteCursoByIdAsync(int id)
+        public static async Task<IEnumerable<dynamic>> GetDocenteCursoByIdAsync(int id)
         {
-            IEnumerable<DocenteCurso> docenteCursos = null; 
+            IEnumerable<dynamic> docenteCursos = null; 
             HttpResponseMessage response = await _docenteCursos.GetAsync("docentecursos/docente/" + id);
             if (response.IsSuccessStatusCode)
             {
-                docenteCursos = await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCurso>>();
+                docenteCursos = await response.Content.ReadAsAsync<IEnumerable<dynamic>>();
             }
             return docenteCursos;
         }

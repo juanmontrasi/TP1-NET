@@ -22,6 +22,11 @@ namespace proyecto_academia.Servicios
         public bool Add(Usuario usuario)
         {
             using var context = new AcademiaDbContext();
+            if ((usuario.Rol == "Administrador" || usuario.Rol == "Docente") &&
+                context.Usuarios.Any(p => p.IdPersona == usuario.IdPersona && p.Rol == usuario.Rol && p.Habilitado == 1))
+            {
+                return false;
+            }
 
             if (context.Usuarios.Any(p => p.Nombre_Usuario == usuario.Nombre_Usuario && p.Habilitado == 1))
             {
@@ -52,9 +57,12 @@ namespace proyecto_academia.Servicios
         }
         public Usuario? Get(int id)
         {
-            using var context = new AcademiaDbContext();
-            return context.Usuarios.Find(id);
+            using (var context = new AcademiaDbContext())
+            {
+                return context.Usuarios.Find(id);
+            }
         }
+
 
         public IEnumerable<Usuario> GetAll()
         {
@@ -83,6 +91,13 @@ namespace proyecto_academia.Servicios
 
             IEnumerable<Usuario> docentes = context.Usuarios.Where(u => u.Rol == "Docente").ToList();
             return docentes;
+        }
+
+        public Usuario? GetAlumnoInscripcion(int idPersona)
+        {
+            using var context = new AcademiaDbContext();
+            var usuario = context.Usuarios.Where(u => u.IdPersona == idPersona).FirstOrDefault();
+            return usuario;
         }
     }
 }

@@ -13,11 +13,13 @@ namespace UI_Escritorio
 {
     public partial class FormMaterias : Form
     {
+        private ReportGenerator reportGenerator;
         private Usuario usuario;
         public FormMaterias(Usuario usuario)
         {
             InitializeComponent();
             this.usuario = usuario;
+            this.reportGenerator = new ReportGenerator();
         }
         private void Materias_Load(object sender, EventArgs e)
         {
@@ -52,16 +54,17 @@ namespace UI_Escritorio
                 this.btnBorrar.Visible = false;
                 this.btnEditar.Visible = false;
                 this.btnNuevo.Visible = false;
+                this.btnReporte.Visible = false;
             }
         }
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            
+
             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la materia?", "Eliminar materia", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.OK)
             {
-                int id = this.SelectedItem().IdMateria;
+                int id = this.SelectedItem().idMateria;
                 await MateriasApi.DeleteAsync(id);
                 this.GetAllAndLoad();
 
@@ -76,15 +79,15 @@ namespace UI_Escritorio
             }
         }
 
-        private Materia SelectedItem()
+        private dynamic SelectedItem()
         {
-            return (Materia)dgvMaterias.SelectedRows[0].DataBoundItem;
+            return (dynamic)dgvMaterias.SelectedRows[0].DataBoundItem;
         }
 
         private async void btnEditar_Click(object sender, EventArgs e)
         {
             FormMateriaDetalle materiaDetalle = new FormMateriaDetalle();
-            int id = this.SelectedItem().IdMateria;
+            int id = this.SelectedItem().idMateria;
             Materia materia = await MateriasApi.GetAsync(id);
             materiaDetalle.EditMode = true;
             materiaDetalle.Materia = materia;
@@ -104,6 +107,21 @@ namespace UI_Escritorio
         private void FormMaterias_Load(object sender, EventArgs e)
         {
             this.GetAllAndLoad();
+        }
+
+        private async void btnReporte_Click(object sender, EventArgs e)
+        {
+            var materias = await MateriasApi.GetAllAsyncEnum();
+            string filePath = "MateriasReport.pdf";
+            reportGenerator.GenerateMateriasReport(materias, filePath);
+            MessageBox.Show("Reporte generado con éxito en Materias.pdf", "Reporte Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = filePath,
+                UseShellExecute = true
+            });
         }
     }
 }

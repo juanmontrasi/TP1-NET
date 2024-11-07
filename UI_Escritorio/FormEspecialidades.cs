@@ -98,6 +98,7 @@ namespace UI_Escritorio
                 this.btnBorrar.Visible = false;
                 this.btnEditar.Visible = false;
                 this.btnNuevo.Visible = false;
+                this.btnGenerarReporte.Visible = false;
             }
         }
 
