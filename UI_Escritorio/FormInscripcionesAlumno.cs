@@ -130,6 +130,7 @@ namespace UI_Escritorio
 
 
 
+
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             
