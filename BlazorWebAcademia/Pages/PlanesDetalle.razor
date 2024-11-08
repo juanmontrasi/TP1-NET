@@ -1,0 +1,89 @@
+﻿@page "/planesdetalle/{IdEspecialidad:int}/{IdPlan:int?}"
+@inject PlanesApi PlanesApi
+@inject EspecialidadesApi EspecialidadesApi
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@using Entidades;
+@using BlazorWebAcademia_EspecialidadesApi;
+@using BlazorWebAcademia_PlanesApi;
+
+<h3>@(EditMode ? "Editar Plan" : "Nuevo Plan")</h3>
+
+<EditForm Model="plan" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Nombre del Plan:</label>
+        <InputText @bind-Value="plan.Nombre_Plan" />
+    </div>
+
+    <div>
+        <label>Especialidad:</label>
+        <InputSelect @bind-Value="plan.IdEspecialidad" disabled="@(DisableEspecialidadSelection)">
+            @foreach (var especialidad in especialidades)
+            {
+                <option value="@especialidad.IdEspecialidad">@especialidad.Nombre_Especialidad</option>
+            }
+        </InputSelect>
+    </div>
+
+    <button type="submit" class="btn btn-primary">@((EditMode) ? "Guardar" : "Crear")</button>
+    <button type="button" class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
+</EditForm>
+
+@code {
+    [Parameter] public int IdEspecialidad { get; set; }
+    [Parameter] public int? IdPlan { get; set; }
+    private Plan plan = new Plan();
+    private IEnumerable<Especialidad> especialidades;
+    private bool EditMode => IdPlan.HasValue;
+    private bool DisableEspecialidadSelection => EditMode || IdEspecialidad != 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        especialidades = await EspecialidadesApi.GetAllAsync();
+
+        if (EditMode)
+        {
+            plan = await PlanesApi.GetAsync(IdPlan.Value);
+        }
+        else
+        {
+            plan.IdEspecialidad = IdEspecialidad;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (EditMode)
+        {
+            await PlanesApi.UpdateAsync(plan);
+        }
+        else
+        {
+            bool creado = await PlanesApi.AddAsync(plan);
+            if (!creado)
+            {
+                await EspecialidadesApi.DeleteAsync(IdEspecialidad);
+                await JSRuntime.InvokeVoidAsync("alert", "Error al crear el plan. La especialidad ha sido eliminada.");
+                NavigationManager.NavigateTo("/especialidades");
+                return;
+            }
+        }
+        NavigationManager.NavigateTo("/planes");
+    }
+
+    private void Cancelar()
+    {
+        if (EditMode)
+        {
+            NavigationManager.NavigateTo("/planes");
+        }
+        else
+        {
+            EspecialidadesApi.DeleteAsync(IdEspecialidad);
+            NavigationManager.NavigateTo("/planes");
+        }
+    }
+}

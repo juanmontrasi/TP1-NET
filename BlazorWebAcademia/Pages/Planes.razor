@@ -1,0 +1,83 @@
+﻿@page "/planes"
+@inject PlanesApi PlanesApi
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@inject UsuarioState UsuarioState
+@using BlazorWebAcademia_PlanesApi;
+@using Entidades;
+@using BlazorWebAcademia.Servicios;
+
+<h3>Planes</h3>
+
+<button @onclick="Volver" class="btn btn-secondary">Volver</button>
+
+@if (planes == null)
+{
+    <p>Cargando planes...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Especialidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var plan in planes)
+            {
+                <tr>
+                    <td>@plan.Nombre_Plan</td>
+                    <td>@plan.IdEspecialidad</td>
+                    <td>
+                        @if (UsuarioState.GetRol() == "Administrador")
+                        {
+                            <button @onclick="() => EditarPlan(plan.IdPlan, plan.IdEspecialidad)">Editar</button>
+                            <button @onclick="() => BorrarPlan(plan.IdPlan)">Borrar</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (UsuarioState.GetRol() == "Administrador")
+    {
+        <button @onclick="AgregarPlan">Agregar Plan</button>
+    }
+}
+
+@code {
+    private IEnumerable<Plan> planes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        planes = await PlanesApi.GetAllAsync();
+    }
+
+    private void AgregarPlan()
+    {
+        NavigationManager.NavigateTo("/planesdetalle/0");
+    }
+
+    private void EditarPlan(int idPlan, int idEspecialidad)
+    {
+        NavigationManager.NavigateTo($"/planesdetalle/{idEspecialidad}/{idPlan}");
+    }
+
+    private async Task BorrarPlan(int id)
+    {
+        bool confirm = await JSRuntime.InvokeAsync<bool>("confirm", new object[] { "¿Está seguro que desea eliminar el plan?" });
+        if (confirm)
+        {
+            await PlanesApi.DeleteAsync(id);
+            planes = await PlanesApi.GetAllAsync();
+        }
+    }
+
+    private void Volver()
+    {
+        NavigationManager.NavigateTo("/opciones");
+    }
+}

@@ -1,0 +1,20 @@
+﻿@page "/opciones"
+
+<h3>Opciones</h3>
+
+<button @onclick="NavigateToEspecialidades" class="btn btn-primary">Ir a Especialidades</button>
+<button @onclick="NavigateToPlanes" class="btn btn-primary">Ir a Planes</button>
+
+@code {
+    [Inject] private NavigationManager NavigationManager { get; set; }
+
+    private void NavigateToEspecialidades()
+    {
+        NavigationManager.NavigateTo("/especialidades");
+    }
+
+    private void NavigateToPlanes()
+    {
+        NavigationManager.NavigateTo("/planes");
+    }
+}

@@ -112,7 +112,8 @@ namespace UI_Escritorio
             var especialidades = await EspecialidadesApi.GetAllAsync();
             string filePath = "EspecialidadesReport.pdf";
             reportGenerator.GenerateEspecialidadesReport(especialidades, filePath);
-            MessageBox.Show("Reporte generado con éxito en EspecialidadesReport.pdf", "Reporte Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Reporte generado con éxito en EspecialidadesReport.pdf", "Reporte Generado", 
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()

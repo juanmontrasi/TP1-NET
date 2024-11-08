@@ -1,0 +1,81 @@
+﻿@page "/especialidades"
+@inject EspecialidadesApi EspecialidadesApi
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@inject UsuarioState UsuarioState
+@using BlazorWebAcademia_EspecialidadesApi;
+@using Entidades;
+@using BlazorWebAcademia.Servicios;
+
+<h3>Especialidades</h3>
+
+<button @onclick="Volver" class="btn btn-secondary">Volver</button>
+
+@if (especialidades == null)
+{
+    <p>Cargando especialidades...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var especialidad in especialidades)
+            {
+                <tr>
+                    <td>@especialidad.Nombre_Especialidad</td>
+                    <td>
+                        @if (UsuarioState.GetRol() == "Administrador")
+                        {
+                            <button @onclick="() => EditarEspecialidad(especialidad.IdEspecialidad)">Editar</button>
+                            <button @onclick="() => BorrarEspecialidad(especialidad.IdEspecialidad)">Borrar</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (UsuarioState.GetRol() == "Administrador")
+    {
+        <button @onclick="AgregarEspecialidad">Agregar Especialidad</button>
+    }
+}
+
+@code {
+    private IEnumerable<Especialidad> especialidades;
+
+    protected override async Task OnInitializedAsync()
+    {
+        especialidades = await EspecialidadesApi.GetAllAsync();
+    }
+
+    private void AgregarEspecialidad()
+    {
+        NavigationManager.NavigateTo("/especialidaddetalle");
+    }
+
+    private void EditarEspecialidad(int id)
+    {
+        NavigationManager.NavigateTo($"/especialidaddetalle/{id}");
+    }
+
+    private async Task BorrarEspecialidad(int id)
+    {
+        bool confirm = await JSRuntime.InvokeAsync<bool>("confirm", new object[] { "¿Está seguro que desea eliminar la especialidad?" });
+        if (confirm)
+        {
+            await EspecialidadesApi.DeleteAsync(id);
+            especialidades = await EspecialidadesApi.GetAllAsync();
+        }
+    }
+
+    private void Volver()
+    {
+        NavigationManager.NavigateTo("/opciones");
+    }
+}
