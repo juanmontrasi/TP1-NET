@@ -16,12 +16,14 @@ public class ReportGenerator
         XFont titleFont = new XFont("Verdana", 16, XFontStyleEx.Bold);
         XFont font = new XFont("Verdana", 12);
 
-        gfx.DrawString("Reporte De Las Especialidades del Sistema Academia", titleFont, XBrushes.Black, new XRect(0, 20, page.Width.Point, page.Height.Point), XStringFormats.TopCenter);
+        gfx.DrawString("Reporte De Las Especialidades del Sistema Academia", titleFont,
+            XBrushes.Black, new XRect(0, 20, page.Width.Point, page.Height.Point), XStringFormats.TopCenter);
 
         int yPoint = 60;
         foreach (var especialidad in especialidades)
         {
-            gfx.DrawString($"ID: {especialidad.IdEspecialidad}, Descripción: {especialidad.Nombre_Especialidad}", font, XBrushes.Black, new XRect(40, yPoint, page.Width.Point, page.Height.Point), XStringFormats.TopLeft);
+            gfx.DrawString($"ID: {especialidad.IdEspecialidad}, Descripción: {especialidad.Nombre_Especialidad}",
+                font, XBrushes.Black, new XRect(40, yPoint, page.Width.Point, page.Height.Point), XStringFormats.TopLeft);
             yPoint += 40;
         }
 

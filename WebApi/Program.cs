@@ -7,11 +7,10 @@ using Entidades;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Otras configuraciones...
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpLogging(o => { });
-
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -20,17 +19,36 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.MaxDepth = 64;
     });
 
-        var app = builder.Build();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins("https://localhost:7013")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-            app.UseHttpLogging();
-        }
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.UseHttpLogging();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors("AllowSpecificOrigin"); 
+app.UseAuthorization();
+
+app.MapControllers();
 
 
-        app.MapGet("/especialidades/{id}", (int id) =>
+
+app.MapGet("/especialidades/{id}", (int id) =>
         {
             EspecialidadesServicecs especialidadesServicecs = new EspecialidadesServicecs();
 
@@ -258,6 +276,15 @@ app.MapGet("/especialidades", () =>
         })
         .WithName("GetPlan")
         .WithOpenApi();
+        app.MapGet("/planesInstancia", () =>
+        {
+            PlanesServices planService = new PlanesServices();
+
+            return planService.GetAllPlanes();
+        })
+        .WithName("GetAllPlanesInstancia")
+        .WithOpenApi();
+
         app.MapGet("/planes", () =>
         {
             PlanesServices planService = new PlanesServices();

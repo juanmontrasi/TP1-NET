@@ -1,0 +1,76 @@
+﻿@page "/"
+@using Contexto;
+@using Entidades;
+@using Servicios;
+
+@inject UsuarioState UsuarioState
+@inject UsuariosApi UsuariosApi
+@inject NavigationManager NavigationManager
+
+<h3>Login</h3>
+
+@if (!UsuarioState.IsAuthenticated())
+{
+    <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label>Nombre de Usuario:</label>
+            <InputText @bind-Value="loginModel.NombreUsuario" />
+        </div>
+
+        <div>
+            <label>Clave:</label>
+            <InputText @bind-Value="loginModel.Clave" type="password" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <p style="color:red">@errorMessage</p>
+    }
+}
+else
+{
+    NavigationManager.NavigateTo("/especialidades");
+}
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+    private string errorMessage;
+
+    private async Task HandleLogin()
+    {
+        Console.WriteLine($"Intentando autenticar usuario: {loginModel.NombreUsuario}");
+
+        var usuario = await UsuariosApi.AuthenticateAsync(loginModel.NombreUsuario, loginModel.Clave);
+        if (usuario != null)
+        {
+            Console.WriteLine($"Usuario autenticado correctamente: {usuario.Nombre_Usuario}");
+            UsuarioState.SetUsuario(usuario);
+            NavigationManager.NavigateTo("/opciones");
+        }
+        else
+        {
+            Console.WriteLine("Nombre de usuario o clave incorrectos.");
+            errorMessage = "Nombre de usuario o clave incorrectos.";
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (UsuarioState.IsAuthenticated())
+        {
+            NavigationManager.NavigateTo("/opciones");
+        }
+    }
+
+    private class LoginModel
+    {
+        public string NombreUsuario { get; set; }
+        public string Clave { get; set; }
+    }
+}
