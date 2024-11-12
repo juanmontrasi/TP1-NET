@@ -135,9 +135,10 @@ namespace UI_Escritorio
         {
             
             FormAlumnoInscripcionesDetalle formAlumnoInscripcionesDetalle = new FormAlumnoInscripcionesDetalle(usuario);
-            AlumnoInscripcion alumnoInscripcionNuevo = new AlumnoInscripcion();
+            
             formAlumnoInscripcionesDetalle.EditMode = false;
-            formAlumnoInscripcionesDetalle.AlumnoInscripcion = alumnoInscripcionNuevo; 
+            
+            
 
             formAlumnoInscripcionesDetalle.ShowDialog();
             this.GetAllAndLoadAlumno();
