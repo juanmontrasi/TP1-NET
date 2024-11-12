@@ -1,4 +1,5 @@
 ﻿using Entidades;
+using proyecto_academia.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace UI_Escritorio
     {
         private AlumnoInscripcion alumnoInscripcion;
         public int? IdCurso { get; set; }
+        
         public bool EditMode { get; internal set; } = false;
         private Usuario usuario;
         public IEnumerable<string> condiciones = new List<string>
@@ -47,11 +49,23 @@ namespace UI_Escritorio
         private async void FormAlumnoInscripcionesDetalle_Load(object sender, EventArgs e)
         {
             await cargarCursos();
+
             if (IdCurso.HasValue)
             {
                 cbCursos.SelectedValue = IdCurso.Value;
                 cbCursos.Visible = false;
             }
+            if(alumnoInscripcion != null)
+            {
+                UsuarioService usuarioService = new UsuarioService();
+                Usuario user = usuarioService.GetAlumnoInscripcion(alumnoInscripcion.IdPersona);
+                cbAlumnos.DataSource = new List<Usuario> { user };
+                cbAlumnos.DisplayMember = "Nombre_Usuario";
+                cbAlumnos.ValueMember = "IdPersona";
+                cbAlumnos.Enabled = false;
+
+            }
+            
         }
 
         public AlumnoInscripcion AlumnoInscripcion
@@ -73,7 +87,6 @@ namespace UI_Escritorio
 
             if (EditMode)
             {
-                cbAlumnos.DataSource = new List<Usuario> { await UsuariosApi.GetAsync(alumnoInscripcion.IdPersona) };
                 cbAlumnos.DisplayMember = "Nombre_Usuario";
                 cbAlumnos.ValueMember = "IdPersona";
                 cbAlumnos.SelectedValue = alumnoInscripcion.IdPersona;

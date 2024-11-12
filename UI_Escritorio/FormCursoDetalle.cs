@@ -1,11 +1,7 @@
 ﻿using Entidades;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,6 +15,7 @@ namespace UI_Escritorio
             cbComisiones.Enabled = false;
             cbComisiones.DataSource = null;
         }
+
         public Curso curso;
         public Curso Curso
         {
@@ -32,17 +29,18 @@ namespace UI_Escritorio
                 }
             }
         }
+
         public bool EditMode { get; internal set; } = false;
 
         private void FormCursoDetalle_Load(object sender, EventArgs e)
         {
             this.CargarMaterias();
         }
+
         private async Task CargarMaterias()
         {
             using (HttpClient client = new HttpClient())
             {
-
                 string apiUrl = "https://localhost:7111/materias";
 
                 try
@@ -54,6 +52,14 @@ namespace UI_Escritorio
                         cbMateria.DataSource = materias;
                         cbMateria.DisplayMember = "Nombre_Materia";
                         cbMateria.ValueMember = "IdMateria";
+
+                        
+                        if (this.EditMode && this.Curso != null)
+                        {
+                            cbMateria.SelectedValue = this.Curso.IdMateria;
+                            
+                            cbComisiones.SelectedValue = this.Curso.IdComision;
+                        }
                     }
                     else
                     {
@@ -66,8 +72,6 @@ namespace UI_Escritorio
                 }
             }
         }
-
-        
 
         private async void btnAceptar_Click_1(object sender, EventArgs e)
         {
@@ -100,10 +104,8 @@ namespace UI_Escritorio
                             }
                             else
                             {
-
                                 MessageBox.Show("Ya existe un curso con el mismo nombre, materia, cupo, comision, y año calendario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
-
                         }
                     }
                     catch (Exception ex)
@@ -130,6 +132,10 @@ namespace UI_Escritorio
                 nombreTextBox.Text = this.Curso.Nombre;
                 cupoTextBox.Text = this.Curso.Cupo.ToString();
                 anioTextBox.Text = this.Curso.Anio_Calendario.ToString();
+
+                
+                cbMateria.SelectedValue = this.Curso.IdMateria;
+                cbComisiones.SelectedValue = this.Curso.IdComision;
             }
         }
 
@@ -139,7 +145,6 @@ namespace UI_Escritorio
             errorProvider1.SetError(nombreTextBox, string.Empty);
             errorProvider1.SetError(cupoTextBox, string.Empty);
             errorProvider1.SetError(anioTextBox, string.Empty);
-
 
             if (this.nombreTextBox.Text == string.Empty)
             {
@@ -178,7 +183,6 @@ namespace UI_Escritorio
             cbComisiones.DataSource = null;
             using (HttpClient client = new HttpClient())
             {
-
                 string apiUrl = "https://localhost:7111/comisiones";
 
                 try
@@ -190,10 +194,16 @@ namespace UI_Escritorio
                         var comisionesPlan = comisiones.Where(c => c.IdPlan == idPlan).ToList();
                         if (comisionesPlan.Any())
                         {
-                            cbComisiones.Enabled = true; // Solo habilitar si hay comisiones
+                            cbComisiones.Enabled = true;
                             cbComisiones.DataSource = comisionesPlan;
                             cbComisiones.DisplayMember = "Nombre_Comision";
                             cbComisiones.ValueMember = "IdComision";
+
+                            // Seleccionar la comisión del curso si está en modo edición
+                            if (this.EditMode && this.Curso != null)
+                            {
+                                cbComisiones.SelectedValue = this.Curso.IdComision;
+                            }
                         }
                     }
                     else

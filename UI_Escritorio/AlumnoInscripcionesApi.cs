@@ -30,16 +30,19 @@ namespace UI_Escritorio
             return alumnoInscripcion;
         }
 
-        public static async Task<IEnumerable<AlumnoInscripcion>> GetAllAsync()
+        public static async Task<IEnumerable<dynamic>> GetAllAsync()
         {
-            IEnumerable<AlumnoInscripcion> alumnoInscripciones = null;
+            IEnumerable<dynamic> alumnoInscripciones = null;
             HttpResponseMessage response = await _alumnoInscripciones.GetAsync("alumnoinscripciones");
             if (response.IsSuccessStatusCode)
             {
-                alumnoInscripciones = await response.Content.ReadAsAsync<IEnumerable<AlumnoInscripcion>>();
+                alumnoInscripciones = await response.Content.ReadAsAsync<IEnumerable<dynamic>>();
             }
             return alumnoInscripciones;
         }
+
+
+
 
         public static async Task<bool> AddAsync(AlumnoInscripcion alumnoInscripcion)
         {
@@ -69,15 +72,16 @@ namespace UI_Escritorio
             response.EnsureSuccessStatusCode();
         }
 
-        public static async Task<IEnumerable<AlumnoInscripcion>> GetByAlumnoIdAsync(int idPersona)
+        public static async Task<IEnumerable<dynamic>> GetByAlumnoIdAsync(int idPersona)
         {
-            IEnumerable<AlumnoInscripcion> alumnoInscripciones = null;
+            IEnumerable<dynamic> alumnoInscripciones = null;
             HttpResponseMessage response = await _alumnoInscripciones.GetAsync($"alumnoinscripciones/alumno/{idPersona}");
             if (response.IsSuccessStatusCode)
             {
-                alumnoInscripciones = await response.Content.ReadAsAsync<IEnumerable<AlumnoInscripcion>>();
+                alumnoInscripciones = await response.Content.ReadAsAsync<IEnumerable<dynamic>>();
             }
             return alumnoInscripciones;
         }
+
     }
 }

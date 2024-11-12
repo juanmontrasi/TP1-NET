@@ -68,6 +68,13 @@ namespace proyecto_academia.Servicios
             
         }
 
+        public IEnumerable<Plan> GetAllPlanes()
+        {
+            using var context = new AcademiaDbContext();
+            IEnumerable<Plan> planes = context.Planes.ToList();
+            return planes;
+        }
+
         public void Update(Plan plan)
         {
             using var context = new AcademiaDbContext();

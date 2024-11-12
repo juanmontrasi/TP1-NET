@@ -42,6 +42,18 @@ namespace UI_Escritorio
             return materias;
         }
 
+        public static async Task<IEnumerable<Materia>> GetAllAsyncEnum()
+        {
+            IEnumerable<Materia> materias = null;
+            HttpResponseMessage response = await _materias.GetAsync("materiasEnum");
+            if (response.IsSuccessStatusCode)
+            {
+                materias = await response.Content.ReadAsAsync<IEnumerable<Materia>>();
+            }
+            return materias;
+        }
+
+
         public async static Task<bool> AddAsync(Materia materia)
         {
             try

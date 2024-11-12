@@ -65,7 +65,10 @@ namespace proyecto_academia.Servicios
                                                 c.Cupo,
                                                 c.Anio_Calendario,
                                                 Nombre_Materia = m.Nombre_Materia,
-                                                Nombre_Comision = co.Nombre_Comision
+                                                Nombre_Comision = co.Nombre_Comision,
+                                                c.IdComision,
+                                                c.IdMateria
+                                                
                                             }).ToList();
             return cursosConMateriaComision;
         }

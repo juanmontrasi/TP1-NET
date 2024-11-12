@@ -68,6 +68,15 @@ namespace proyecto_academia.Servicios
             return materiasConPlan;
         }
 
+        public IEnumerable<Materia> GetAllMaterias()
+        {
+            using var context = new AcademiaDbContext();
+
+            var materiasConPlan = context.Materias.ToList();
+            return materiasConPlan;
+        }
+
+
         public void Update(Materia materia)
         {
             using var context = new AcademiaDbContext();

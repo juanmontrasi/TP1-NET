@@ -92,7 +92,7 @@ namespace UI_Escritorio
             }
             else
             {
-                this.btnBorrar.Visible = true;
+                this.btnBorrar.Visible = false;
                 this.btnEditar.Visible = false;
                 this.btnNuevo.Visible = true;
             }
@@ -103,33 +103,57 @@ namespace UI_Escritorio
             DialogResult result = MessageBox.Show("¿Está seguro que desea eliminar la asignación del docente?", "Eliminar Asignación", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result == DialogResult.OK)
             {
-                dynamic docenteCursoSelected = this.SelectedItem();
+                DocenteCurso docenteCursoSelected = this.SelectedItem();
                 if (docenteCursoSelected != null)
                 {
                     int id = docenteCursoSelected.IdDocenteCurso;
                     await DocenteCursosApi.DeleteAsync(id);
-                    this.GetAllAndLoadDocente();
+                    this.GetAllAndLoad();
                 }
 
                 MessageBox.Show("Asignación eliminada con éxito", "Asignación Eliminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-
-
             else if (result == DialogResult.Cancel)
             {
                 return;
             }
         }
 
-        private dynamic SelectedItem()
+
+        private DocenteCurso SelectedItem()
         {
             if (dgvDocenteCursos.SelectedRows.Count > 0)
             {
-                return (dynamic)dgvDocenteCursos.SelectedRows[0].DataBoundItem;
+                dynamic selectedDynamic = dgvDocenteCursos.SelectedRows[0].DataBoundItem;
+                var jObject = (Newtonsoft.Json.Linq.JObject)selectedDynamic;
+
+                
+                var docenteCurso = new DocenteCurso
+                {
+                    IdDocenteCurso = jObject["idDocenteCurso"]?.ToObject<int>() ?? 0,
+                    IdPersona = jObject["idPersona"]?.ToObject<int>() ?? 0,
+                    IdCurso = jObject["idCurso"]?.ToObject<int>() ?? 0,
+                    Cargo = jObject["cargo"]?.ToObject<int>() ?? 0,
+                    Persona = new Persona
+                    {
+                        IdPersona = jObject["idPersona"]?.ToObject<int>() ?? 0,
+                        Nombre = jObject["personaNombre"]?.ToObject<string>() ?? string.Empty,
+                        Apellido = jObject["personaApellido"]?.ToObject<string>() ?? string.Empty
+                    },
+                    Curso = new Curso
+                    {
+                        IdCurso = jObject["idCurso"]?.ToObject<int>() ?? 0,
+                        Nombre = jObject["cursoNombre"]?.ToObject<string>() ?? string.Empty
+                    }
+                };
+
+                
+                return docenteCurso;
             }
             return null;
         }
+
         private void btnNuevo_Click_1(object sender, EventArgs e)
         {
             FormDocenteCursosDetalle formDocenteCursosDetalle = new FormDocenteCursosDetalle(usuario);

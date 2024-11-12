@@ -1,0 +1,64 @@
+﻿@page "/especialidaddetalle/{Id:int?}"
+@inject EspecialidadesApi EspecialidadesApi
+@inject PlanesApi PlanesApi
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@using Entidades;
+@using BlazorWebAcademia_EspecialidadesApi;
+@using BlazorWebAcademia_PlanesApi;
+
+<h3>@(EditMode ? "Editar Especialidad" : "Nueva Especialidad")</h3>
+
+<EditForm Model="especialidad" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Nombre de Especialidad:</label>
+        <InputText @bind-Value="especialidad.Nombre_Especialidad" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">@((EditMode) ? "Guardar" : "Crear")</button>
+    <button type="button" class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
+</EditForm>
+
+@code {
+    [Parameter] public int? Id { get; set; }
+    private Especialidad especialidad = new Especialidad();
+    private bool EditMode => Id.HasValue;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (EditMode)
+        {
+            especialidad = await EspecialidadesApi.GetAsync(Id.Value);
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (EditMode)
+        {
+            await EspecialidadesApi.UpdateAsync(especialidad);
+        }
+        else
+        {
+            bool creada = await EspecialidadesApi.AddAsync(especialidad);
+            if (creada)
+            {
+                var creadaEspecialidad = await EspecialidadesApi.GetEspecialidadCreada(especialidad.Nombre_Especialidad);
+                NavigationManager.NavigateTo($"/planesdetalle/{creadaEspecialidad.IdEspecialidad}");
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "Error al crear la especialidad.");
+                return;
+            }
+        }
+    }
+
+    private void Cancelar()
+    {
+        NavigationManager.NavigateTo("/especialidades");
+    }
+}
