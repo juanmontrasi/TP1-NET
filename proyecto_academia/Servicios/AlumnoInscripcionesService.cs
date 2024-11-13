@@ -19,12 +19,16 @@ namespace proyecto_academia.Servicios
                 return false;
             }
 
+
             var curso = context.Cursos.Find(alumnoInscripcion.IdCurso);
             if (curso == null || curso.Cupo <= 0)
-            {
+            { 
                 return false; 
             }
-
+            if(context.AlumnoInscripciones.Any(ai => ai.Curso.IdMateria == curso.IdMateria &&  ai.IdPersona == alumnoInscripcion.IdPersona))
+            {
+                return false;
+            }
             
             context.AlumnoInscripciones.Add(alumnoInscripcion);
 
@@ -55,11 +59,11 @@ namespace proyecto_academia.Servicios
             return context.AlumnoInscripciones.Find(id);
         }
 
-        /*public IEnumerable<AlumnoInscripcion> GetAll()
+        private IEnumerable<AlumnoInscripcion> GetAllPrivate()
         {
             using var context = new AcademiaDbContext();
             return context.AlumnoInscripciones.ToList();
-        }*/
+        }
 
         public IEnumerable<dynamic> GetAll()
         {

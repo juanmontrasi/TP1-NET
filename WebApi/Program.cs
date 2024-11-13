@@ -236,7 +236,16 @@ app.MapGet("/especialidades", () =>
         .WithName("GetAllComisiones")
         .WithOpenApi();
 
-        app.MapPost("/comisiones", (Comision comision) =>
+app.MapGet("/comisionesEnum", () =>
+{
+    ComisionesService comisionesService = new ComisionesService();
+
+    return comisionesService.GetAllComisiones();
+})
+.WithName("GetAllComisionesEnum")
+.WithOpenApi();
+
+app.MapPost("/comisiones", (Comision comision) =>
         {
             ComisionesService comisionesService = new ComisionesService();
 
@@ -467,7 +476,7 @@ app.MapGet("/especialidades", () =>
                 bool creada = alumnoInscripcionService.Add(alumnoInscripcion);
                 if (!creada)
                 {
-                    return Results.Conflict("Inscripcion ya creada de curso o No hay cupo en el curso");
+                    return Results.Conflict("Ya esta incripto a este curso o materia; o No hay cupo en el curso");
                 }
                 return Results.Ok(alumnoInscripcion);
             }
