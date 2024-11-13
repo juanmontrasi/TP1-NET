@@ -88,12 +88,20 @@ namespace UI_Escritorio
                 AlumnoInscripcion alumnoInscripcionSelected = this.SelectedItem();
                 if (alumnoInscripcionSelected != null)
                 {
-                    int id = alumnoInscripcionSelected.IdAlumnoInscripcion;
-                    await AlumnoInscripcionesApi.DeleteAsync(id);
-                    this.GetAllAndLoadAlumno();
+                    if (alumnoInscripcionSelected.Condicion == "Inscripto" || alumnoInscripcionSelected.Condicion == "Libre")
+                    {
+                        int id = alumnoInscripcionSelected.IdAlumnoInscripcion;
+                        await AlumnoInscripcionesApi.DeleteAsync(id);
+                        this.GetAllAndLoadAlumno();
+                        MessageBox.Show("Inscripcion eliminada con éxito", "Inscripcion Eliminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No puede eliminar su inscripcion si la misma es distinta de Incripto o Libre", "Condicion", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
 
-                MessageBox.Show("Inscripcion eliminada con éxito", "Inscripcion Eliminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
                 return;
             }
 

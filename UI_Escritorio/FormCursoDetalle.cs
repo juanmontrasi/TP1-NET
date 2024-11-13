@@ -41,7 +41,7 @@ namespace UI_Escritorio
         {
             using (HttpClient client = new HttpClient())
             {
-                string apiUrl = "https://localhost:7111/materias";
+                string apiUrl = "https://localhost:7111/materiasEnum";
 
                 try
                 {
@@ -179,11 +179,10 @@ namespace UI_Escritorio
 
         private async Task CargarComisiones(int idPlan)
         {
-            cbComisiones.Enabled = false;
             cbComisiones.DataSource = null;
             using (HttpClient client = new HttpClient())
             {
-                string apiUrl = "https://localhost:7111/comisiones";
+                string apiUrl = "https://localhost:7111/comisionesEnum";
 
                 try
                 {

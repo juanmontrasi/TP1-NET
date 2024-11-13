@@ -51,6 +51,13 @@ namespace proyecto_academia.Servicios
             return context.Comisiones.Find(id);
         }
 
+        public IEnumerable<Comision> GetAllComisiones()
+        {
+            using var context = new AcademiaDbContext();
+
+            return context.Comisiones.ToList();
+        }
+
         public IEnumerable<dynamic> GetAll()
         {
             using var context = new AcademiaDbContext();
